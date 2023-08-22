@@ -1,0 +1,85 @@
+/* Products.css */
+
+.products-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.product-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  margin: 10px;
+  display: inline-block;
+  width: calc(33.33% - 20px);
+  box-sizing: border-box;
+}
+
+.product-card img {
+  max-width: 100%;
+}
+
+.slider-container {
+  margin-top: 20px;
+}
+
+.categories-container {
+  margin-top: 20px;
+}
+
+.categories-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.categories-list li {
+  cursor: pointer;
+  padding: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.categories-list li:hover {
+  background-color: #f0f0f0;
+}
+
+.ratings-container {
+  margin-top: 20px;
+}
+
+.pagination-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.page-item {
+  margin: 0 5px;
+  display: inline-block;
+}
+
+.page-link {
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  text-decoration: none;
+  color: #333;
+}
+
+.page-link:hover {
+  background-color: #f0f0f0;
+}
+
+.pageItemActive .page-link {
+  background-color: #007bff;
+  border-color: #007bff;
+  color: #fff;
+}
+
+.pageLinkActive {
+  background-color: #007bff;
+  border-color: #007bff;
+  color: #fff;
+}
