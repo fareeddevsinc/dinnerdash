@@ -1,4 +1,4 @@
-import CheckoutSteps from "../Cart/CheckoutSteps";
+import CheckoutSteps from "./CheckoutSteps";
 import { useSelector } from "react-redux";
 import MetaData from "../layout/MetaData";
 import "../../styles/cart/ConfirmOrder.css";

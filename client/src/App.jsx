@@ -25,9 +25,14 @@ import ProductReviews from "./components/admin/ProductReviews.jsx";
 import UpdateProduct from "./components/admin/UpdateProduct.jsx";
 import UpdateUser from "./components/admin/UpdateUser.jsx";
 import UsersList from "./components/admin/UsersList.jsx";
+import Cart from "./components/cart/Cart.jsx";
+import Shipping from "./components/cart/Shipping.jsx";
+import MyOrder from "./components/order/MyOrder.jsx";
+import ConfirmOrder from "./components/cart/ConfirmOrder.jsx";
+import OrderDetails from "./components/order/OrderDetails.jsx";
 
 const App = () => {
-  const { user, isAuthenticated } = useSelector((state) => state.user);
+  const { user } = useSelector((state) => state.user);
   React.useEffect(() => {
     store.dispatch(loadUser());
   }, []);
@@ -68,7 +73,14 @@ const App = () => {
         <Route path="/password/forgot" element={<ForgotPassword />} />
         <Route path="/password/reset/:token" element={<ResetPassword />} />
 
-        <Route path="/admin/dashboard" element={<Dashboard />} />
+        <Route
+          path="/admin/dashboard"
+          element={
+            <ProtectedRoute isAdmin={true}>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
 
         <Route
           path="/admin/products"
@@ -141,6 +153,12 @@ const App = () => {
             </ProtectedRoute>
           }
         />
+
+        <Route path="/cart" element={<Cart />} />
+        {/* <Route path="/shipping" element={<Shipping/>}/> */}
+        <Route path="/orders" element={<MyOrder />} />
+        <Route path="/order/confirm" element={<ConfirmOrder />} />
+        <Route path="/order/:id" element={<OrderDetails />} />
       </Routes>
       {/* <Footer /> */}
     </Router>

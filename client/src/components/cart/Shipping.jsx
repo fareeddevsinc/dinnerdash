@@ -7,7 +7,7 @@ import HomeIcon from "@material-ui/icons/Home";
 import LocationCityIcon from "@material-ui/icons/LocationCity";
 import PhoneIcon from "@material-ui/icons/Phone";
 import { useAlert } from "react-alert";
-import CheckoutSteps from "../Cart/CheckoutSteps";
+import CheckoutSteps from "./CheckoutSteps";
 import { useNavigate } from "react-router-dom";
 
 const Shipping = () => {
