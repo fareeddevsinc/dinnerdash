@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import "../../styles/orderDetails.css";
+import "../../styles/order/orderDetails.css";
 import { useSelector, useDispatch } from "react-redux";
 import MetaData from "../layout/MetaData";
 import { Link, useParams } from "react-router-dom";
@@ -50,7 +50,7 @@ const OrderDetails = () => {
                   <p>Address:</p>
                   <span>
                     {order.shippingInfo &&
-                      `${order.shippingInfo.address}, ${order.shippingInfo.city}, ${order.shippingInfo.state}, ${order.shippingInfo.pinCode}, ${order.shippingInfo.country}`}
+                      `${order.shippingInfo.address}, ${order.shippingInfo.city}`}
                   </span>
                 </div>
               </div>
@@ -105,8 +105,8 @@ const OrderDetails = () => {
                         {item.name}
                       </Link>{" "}
                       <span>
-                        {item.quantity} X ₹{item.price} ={" "}
-                        <b>₹{item.price * item.quantity}</b>
+                        {item.quantity} X Rs.{item.price} ={" "}
+                        <b>Rs.{item.price * item.quantity}</b>
                       </span>
                     </div>
                   ))}

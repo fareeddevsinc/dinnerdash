@@ -1,4 +1,4 @@
-import "./CartItemCard.css";
+import "../../styles/cart/CartItemCard.css";
 import { Link } from "react-router-dom";
 
 const CartItemCard = ({ item, deleteCartItems }) => {

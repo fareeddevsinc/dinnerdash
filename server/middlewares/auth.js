@@ -30,6 +30,7 @@ const isAuthenticatedUserForPut = async (req, res, next) => {
     }
     jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
       if (err) {
+        console.log("Yes this is the problem");
         return res.sendStatus(403);
       }
 

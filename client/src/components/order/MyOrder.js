@@ -1,6 +1,6 @@
-import { Fragment, useEffect } from "react";
+import { useEffect } from "react";
 import { DataGrid } from "@material-ui/data-grid";
-import "../../styles/myOrders.css";
+import "../../styles/order/myOrders.css";
 import { useSelector, useDispatch } from "react-redux";
 import { clearErrors, myOrders } from "../../actions/orderAction";
 import { Link } from "react-router-dom";
@@ -66,7 +66,7 @@ const MyOrders = () => {
   const rows = [];
 
   orders &&
-    orders.forEach((item, index) => {
+    orders.forEach((item) => {
       rows.push({
         itemsQty: item.orderItems.length,
         id: item._id,
@@ -85,7 +85,7 @@ const MyOrders = () => {
   }, [dispatch, alert, error]);
 
   return (
-    <Fragment>
+    <>
       <MetaData title={`${user.name} - Orders`} />
 
       {loading ? (
@@ -104,7 +104,7 @@ const MyOrders = () => {
           <Typography id="myOrdersHeading">{user.name}'s Orders</Typography>
         </div>
       )}
-    </Fragment>
+    </>
   );
 };
 
