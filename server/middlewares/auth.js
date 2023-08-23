@@ -30,7 +30,6 @@ const isAuthenticatedUserForPut = async (req, res, next) => {
     }
     jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
       if (err) {
-        console.log("Yes this is the problem");
         return res.sendStatus(403);
       }
 
@@ -44,7 +43,6 @@ const isAuthenticatedUserForPut = async (req, res, next) => {
 
 const authorizeRoles = (...roles) => {
   return (req, res, next) => {
-    console.log(`This is the role : ${req.query.role}`);
     if (!roles.includes(req.query.role)) {
       return next(
         new ErrorHandler(

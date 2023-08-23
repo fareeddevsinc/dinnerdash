@@ -86,7 +86,7 @@ const MyOrders = () => {
 
   return (
     <>
-      <MetaData title={`${user.name} - Orders`} />
+      <MetaData title={`${user?.name} - Orders`} />
 
       {loading ? (
         <p>Loading...</p>
@@ -101,7 +101,7 @@ const MyOrders = () => {
             autoHeight
           />
 
-          <Typography id="myOrdersHeading">{user.name}'s Orders</Typography>
+          <Typography id="myOrdersHeading">{user?.name}'s Orders</Typography>
         </div>
       )}
     </>

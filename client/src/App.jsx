@@ -13,7 +13,7 @@ import UpdateProfile from "./components/user/UpdateProfile";
 import UpdatePassword from "./components/user/UpdatePassword";
 import ForgotPassword from "./components/user/ForgotPassword";
 import ResetPassword from "./components/user/ResetPassword";
-import ProtectedRoute from "./components/route/ProtectedRoute";
+import ProtectedRoute from "./components/route/ProtectedRoute.jsx";
 import React from "react";
 import { useSelector } from "react-redux";
 import Dashboard from "./components/admin/Dashboard.jsx";
@@ -30,9 +30,11 @@ import Shipping from "./components/cart/Shipping.jsx";
 import MyOrder from "./components/order/MyOrder.jsx";
 import ConfirmOrder from "./components/cart/ConfirmOrder.jsx";
 import OrderDetails from "./components/order/OrderDetails.jsx";
+import AdminProtectedRoute from "./components/route/AdminProtectedRoute.jsx";
+import NotFound from "./components/error/NotFound.jsx";
 
 const App = () => {
-  const { user } = useSelector((state) => state.user);
+  const { user, isAuthenticated } = useSelector((state) => state.user);
   React.useEffect(() => {
     store.dispatch(loadUser());
   }, []);
@@ -49,7 +51,7 @@ const App = () => {
         <Route
           path="/account"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute isAuthenticated={isAuthenticated}>
               <Account />
             </ProtectedRoute>
           }
@@ -76,89 +78,125 @@ const App = () => {
         <Route
           path="/admin/dashboard"
           element={
-            <ProtectedRoute isAdmin={true}>
+            <AdminProtectedRoute role={user?.role}>
               <Dashboard />
-            </ProtectedRoute>
+            </AdminProtectedRoute>
           }
         />
 
         <Route
           path="/admin/products"
           element={
-            <ProtectedRoute isAdmin={true}>
+            <AdminProtectedRoute role={user?.role}>
               <ProductList />
-            </ProtectedRoute>
+            </AdminProtectedRoute>
           }
         />
 
         <Route
           path="/admin/product"
           element={
-            <ProtectedRoute isAdmin={true}>
+            <AdminProtectedRoute role={user?.role}>
               <NewProduct />
-            </ProtectedRoute>
+            </AdminProtectedRoute>
           }
         />
 
         <Route
           path="/admin/product/:id"
           element={
-            <ProtectedRoute isAdmin={true}>
+            <AdminProtectedRoute role={user?.role}>
               <UpdateProduct />
-            </ProtectedRoute>
+            </AdminProtectedRoute>
           }
         />
 
         <Route
           path="/admin/orders"
           element={
-            <ProtectedRoute isAdmin={true}>
+            <AdminProtectedRoute role={user?.role}>
               <OrderList />
-            </ProtectedRoute>
+            </AdminProtectedRoute>
           }
         />
 
         <Route
           path="/admin/order/:id"
           element={
-            <ProtectedRoute isAdmin={true}>
+            <AdminProtectedRoute role={user?.role}>
               <ProcessOrder />
-            </ProtectedRoute>
+            </AdminProtectedRoute>
           }
         />
 
         <Route
           path="/admin/users"
           element={
-            <ProtectedRoute isAdmin={true}>
+            <AdminProtectedRoute role={user?.role}>
               <UsersList />
-            </ProtectedRoute>
+            </AdminProtectedRoute>
           }
         />
 
         <Route
           path="/admin/user/:id"
           element={
-            <ProtectedRoute isAdmin={true}>
+            <AdminProtectedRoute role={user?.role}>
               <UpdateUser />
-            </ProtectedRoute>
+            </AdminProtectedRoute>
           }
         />
 
         <Route
           path="/admin/reviews"
           element={
-            <ProtectedRoute isAdmin={true}>
+            <AdminProtectedRoute role={user?.role}>
               <ProductReviews />
-            </ProtectedRoute>
+            </AdminProtectedRoute>
           }
         />
 
-        <Route path="/cart" element={<Cart />} />
-        {/* <Route path="/shipping" element={<Shipping/>}/> */}
-        <Route path="/orders" element={<MyOrder />} />
-        <Route path="/order/confirm" element={<ConfirmOrder />} />
-        <Route path="/order/:id" element={<OrderDetails />} />
+        <Route
+          path="/cart"
+          element={
+            <ProtectedRoute isAuthenticated={isAuthenticated}>
+              <Cart />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/shipping"
+          element={
+            <ProtectedRoute>
+              <Shipping />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/orders"
+          element={
+            <ProtectedRoute>
+              <MyOrder />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/order/confirm"
+          element={
+            <ProtectedRoute>
+              <ConfirmOrder />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/order/:id"
+          element={
+            <ProtectedRoute>
+              <OrderDetails />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="*" element={<NotFound />} />
       </Routes>
       {/* <Footer /> */}
     </Router>

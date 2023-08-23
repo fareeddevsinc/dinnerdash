@@ -47,11 +47,11 @@ const ConfirmOrder = () => {
             <div className="confirmshippingAreaBox">
               <div>
                 <p>Name:</p>
-                <span>{user.name}</span>
+                <span>{user?.name}</span>
               </div>
               <div>
                 <p>Phone:</p>
-                <span>{shippingInfo.phoneNo}</span>
+                <span>{shippingInfo?.phoneNo}</span>
               </div>
               <div>
                 <p>Address:</p>
@@ -71,7 +71,7 @@ const ConfirmOrder = () => {
                     </Link>{" "}
                     <span>
                       {item.quantity} X Rs.{item.price} ={" "}
-                      <b>₹{item.price * item.quantity}</b>
+                      <b>Rs.{item.price * item.quantity}</b>
                     </span>
                   </div>
                 ))}
@@ -104,7 +104,7 @@ const ConfirmOrder = () => {
               <span>Rs. {totalPrice}</span>
             </div>
 
-            <button onClick={proceedToPayment}>Proceed To Payment</button>
+            <button onClick={proceedToPayment}>Confirm Order</button>
           </div>
         </div>
       </div>
