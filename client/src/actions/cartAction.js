@@ -1,45 +1,72 @@
-import { addItemsToCartApi } from "../api/cart/cartApi";
 import {
-  ADD_TO_CART,
-  REMOVE_CART_ITEM,
-  SAVE_SHIPPING_INFO,
+  addItemsToCartApi,
+  removeItemsFromCartApi,
+  saveShippingInfoApi,
+} from "../api/cart/cartApi";
+import {
+  ADD_CART_ITEM_REQUEST,
+  ADD_CART_ITEM_FAIL,
+  ADD_CART_ITEM_SUCCESS,
+  DELETE_CART_ITEM_REQUEST,
+  DELETE_CART_ITEM_SUCCESS,
+  DELETE_CART_ITEM_FAIL,
+  SHIPPING_INFO_REQUEST,
+  SHIPPING_INFO_SUCCESS,
+  SHIPPING_INFO_FAIL,
 } from "../constants/cartConstants";
 
-// Add to Cart
-export const addItemsToCart = (id, quantity) => async (dispatch, getState) => {
-  const { data } = await addItemsToCartApi(id, quantity);
+import requestHeader from "../helpers/requestHeaders";
 
-  dispatch({
-    type: ADD_TO_CART,
-    payload: {
-      product: data.product._id,
-      name: data.product.name,
-      price: data.product.price,
-      image: data.product.images[0].url,
-      stock: data.product.Stock,
-      quantity,
-    },
-  });
+export const addItemsToCart = (id, quantity) => async (dispatch) => {
+  try {
+    dispatch({ type: ADD_CART_ITEM_REQUEST });
 
-  localStorage.setItem("cartItems", JSON.stringify(getState().cart.cartItems));
+    const config = requestHeader();
+
+    const { data } = await addItemsToCartApi(id, quantity, config);
+
+    dispatch({
+      type: ADD_CART_ITEM_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ADD_CART_ITEM_FAIL,
+      payload: error.response.data.message,
+    });
+  }
 };
+export const removeItemsFromCart = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: DELETE_CART_ITEM_REQUEST });
 
-// REMOVE FROM CART
-export const removeItemsFromCart = (id) => async (dispatch, getState) => {
-  dispatch({
-    type: REMOVE_CART_ITEM,
-    payload: id,
-  });
+    const { data } = await removeItemsFromCartApi(id);
 
-  localStorage.setItem("cartItems", JSON.stringify(getState().cart.cartItems));
+    dispatch({
+      type: DELETE_CART_ITEM_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: DELETE_CART_ITEM_FAIL,
+      payload: error.response.data.message,
+    });
+  }
 };
+export const saveShippingInfo = (shippingData) => async (dispatch) => {
+  try {
+    dispatch({ type: SHIPPING_INFO_REQUEST });
+    const config = requestHeader();
+    const { data } = await saveShippingInfoApi(shippingData, config);
 
-// SAVE SHIPPING INFO
-export const saveShippingInfo = (data) => async (dispatch) => {
-  dispatch({
-    type: SAVE_SHIPPING_INFO,
-    payload: data,
-  });
-
-  localStorage.setItem("shippingInfo", JSON.stringify(data));
+    dispatch({
+      type: SHIPPING_INFO_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: SHIPPING_INFO_FAIL,
+      payload: error.response.data.message,
+    });
+  }
 };

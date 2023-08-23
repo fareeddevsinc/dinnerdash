@@ -1,14 +1,20 @@
 import axios from "axios";
 import { BASE_URL } from "../baseUrl";
 
-export const addItemsToCartApi = async (id, quantity) => {
-  const { data } = await axios.get(`${BASE_URL}/product/${id}`, quantity);
+export const addItemsToCartApi = async (id, quantity, config) => {
+  const { data } = await axios.post(
+    `${BASE_URL}/product/${id}`,
+    quantity,
+    config
+  );
 
   return { data };
 };
 
 export const removeItemsFromCartApi = async (id) => {
-  const { data } = await axios.delete(`${BASE_URL}/product/${id}`);
+  const { data } = await axios.delete(`${BASE_URL}/product/${id}`, {
+    withCredentials: true,
+  });
 
   return { data };
 };
