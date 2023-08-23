@@ -1,4 +1,5 @@
 import axios from "axios";
+import requestHeader from "../helpers/requestHeaders";
 
 import {
   ALL_PRODUCT_FAIL,
@@ -30,6 +31,16 @@ import {
   DELETE_REVIEW_FAIL,
   CLEAR_ERRORS,
 } from "../constants/productConstants";
+import {
+  createProductApi,
+  deleteProductApi,
+  deleteReviewsApi,
+  getAdminProductApi,
+  getAllReviewsApi,
+  getProductDetailsApi,
+  newReviewApi,
+  updateProductApi,
+} from "../api/product/productApi";
 
 // Get All Products
 export const getProduct =
@@ -60,12 +71,7 @@ export const getAdminProduct = () => async (dispatch) => {
   try {
     dispatch({ type: ADMIN_PRODUCT_REQUEST });
 
-    const { data } = await axios.get(
-      "http://localhost:8000/api/v1/admin/products?role=admin",
-      {
-        withCredentials: true,
-      }
-    );
+    const { data } = await getAdminProductApi();
 
     dispatch({
       type: ADMIN_PRODUCT_SUCCESS,
@@ -84,15 +90,9 @@ export const createProduct = (productData) => async (dispatch) => {
   try {
     dispatch({ type: NEW_PRODUCT_REQUEST });
 
-    const config = {
-      headers: { "Content-Type": "application/json" },
-    };
+    const config = requestHeader();
 
-    const { data } = await axios.post(
-      `http://localhost:8000/api/v1/admin/product/new`,
-      productData,
-      config
-    );
+    const { data } = await createProductApi(productData, config);
 
     dispatch({
       type: NEW_PRODUCT_SUCCESS,
@@ -111,15 +111,9 @@ export const updateProduct = (id, productData) => async (dispatch) => {
   try {
     dispatch({ type: UPDATE_PRODUCT_REQUEST });
 
-    const config = {
-      headers: { "Content-Type": "application/json" },
-    };
+    const config = requestHeader();
 
-    const { data } = await axios.put(
-      `http://localhost:8000/api/v1/admin/product/${id}`,
-      productData,
-      config
-    );
+    const { data } = await updateProductApi(id, productData, config);
 
     dispatch({
       type: UPDATE_PRODUCT_SUCCESS,
@@ -138,9 +132,7 @@ export const deleteProduct = (id) => async (dispatch) => {
   try {
     dispatch({ type: DELETE_PRODUCT_REQUEST });
 
-    const { data } = await axios.delete(
-      `http://localhost:8000/api/v1/admin/product/${id}`
-    );
+    const { data } = await deleteProductApi(id);
 
     dispatch({
       type: DELETE_PRODUCT_SUCCESS,
@@ -159,9 +151,7 @@ export const getProductDetails = (id) => async (dispatch) => {
   try {
     dispatch({ type: PRODUCT_DETAILS_REQUEST });
 
-    const { data } = await axios.get(
-      `http://localhost:8000/api/v1/product/${id}`
-    );
+    const { data } = await getProductDetailsApi(id);
 
     dispatch({
       type: PRODUCT_DETAILS_SUCCESS,
@@ -180,15 +170,9 @@ export const newReview = (reviewData) => async (dispatch) => {
   try {
     dispatch({ type: NEW_REVIEW_REQUEST });
 
-    const config = {
-      headers: { "Content-Type": "application/json" },
-    };
+    const config = requestHeader();
 
-    const { data } = await axios.put(
-      `http://localhost:8000/api/v1/review`,
-      reviewData,
-      config
-    );
+    const { data } = await newReviewApi(reviewData, config);
 
     dispatch({
       type: NEW_REVIEW_SUCCESS,
@@ -207,9 +191,7 @@ export const getAllReviews = (id) => async (dispatch) => {
   try {
     dispatch({ type: ALL_REVIEW_REQUEST });
 
-    const { data } = await axios.get(
-      `http://localhost:8000/api/v1/reviews?id=${id}`
-    );
+    const { data } = await getAllReviewsApi(id);
 
     dispatch({
       type: ALL_REVIEW_SUCCESS,
@@ -228,9 +210,7 @@ export const deleteReviews = (reviewId, productId) => async (dispatch) => {
   try {
     dispatch({ type: DELETE_REVIEW_REQUEST });
 
-    const { data } = await axios.delete(
-      `http://localhost:8000/api/v1/reviews?id=${reviewId}&productId=${productId}`
-    );
+    const { data } = await deleteReviewsApi(reviewId, productId);
 
     dispatch({
       type: DELETE_REVIEW_SUCCESS,

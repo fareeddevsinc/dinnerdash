@@ -20,7 +20,14 @@ import {
   CLEAR_ERRORS,
 } from "../constants/orderConstants";
 
-import axios from "axios";
+import {
+  createOrderApi,
+  deleteOrderApi,
+  getAllOrdersApi,
+  getOrderDetailsApi,
+  myOrdersApi,
+  updateOrderApi,
+} from "../api/order/orderApi";
 import requestHeader from "../helpers/requestHeaders";
 
 // Create Order
@@ -29,11 +36,7 @@ export const createOrder = (order) => async (dispatch) => {
     dispatch({ type: CREATE_ORDER_REQUEST });
 
     const config = requestHeader();
-    const { data } = await axios.post(
-      "http://localhost:8000/api/v1/order/new",
-      order,
-      config
-    );
+    const { data } = await createOrderApi(order, config);
 
     dispatch({ type: CREATE_ORDER_SUCCESS, payload: data });
   } catch (error) {
@@ -49,9 +52,7 @@ export const myOrders = () => async (dispatch) => {
   try {
     dispatch({ type: MY_ORDERS_REQUEST });
 
-    const { data } = await axios.get("http://localhost:8000/api/v1/orders/me", {
-      withCredentials: true,
-    });
+    const { data } = await myOrdersApi();
 
     dispatch({ type: MY_ORDERS_SUCCESS, payload: data.orders });
   } catch (error) {
@@ -67,10 +68,7 @@ export const getAllOrders = () => async (dispatch) => {
   try {
     dispatch({ type: ALL_ORDERS_REQUEST });
 
-    const { data } = await axios.get(
-      "http://localhost:8000/api/v1/admin/orders?role=admin",
-      { withCredentials: true }
-    );
+    const { data } = await getAllOrdersApi();
 
     dispatch({ type: ALL_ORDERS_SUCCESS, payload: data.orders });
   } catch (error) {
@@ -88,11 +86,7 @@ export const updateOrder = (id, order) => async (dispatch) => {
 
     const config = requestHeader();
 
-    const { data } = await axios.put(
-      `http://localhost:8000/api/v1/admin/order/${id}?role=admin`,
-      order,
-      config
-    );
+    const { data } = await updateOrderApi(id, order, config);
 
     dispatch({ type: UPDATE_ORDER_SUCCESS, payload: data.success });
   } catch (error) {
@@ -108,10 +102,7 @@ export const deleteOrder = (id) => async (dispatch) => {
   try {
     dispatch({ type: DELETE_ORDER_REQUEST });
 
-    const { data } = await axios.delete(
-      `http://localhost:8000/api/v1/admin/order/${id}?role=admin`,
-      { withCredentials: true }
-    );
+    const { data } = await deleteOrderApi(id);
 
     dispatch({ type: DELETE_ORDER_SUCCESS, payload: data.success });
   } catch (error) {
@@ -127,10 +118,7 @@ export const getOrderDetails = (id) => async (dispatch) => {
   try {
     dispatch({ type: ORDER_DETAILS_REQUEST });
 
-    const { data } = await axios.get(
-      `http://localhost:8000/api/v1/order/${id}`,
-      { withCredentials: true }
-    );
+    const { data } = await getOrderDetailsApi(id);
 
     dispatch({ type: ORDER_DETAILS_SUCCESS, payload: data.order });
   } catch (error) {
