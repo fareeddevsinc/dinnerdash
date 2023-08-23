@@ -1,9 +1,13 @@
 import {
   addItemsToCartApi,
+  getAllCartItemsApi,
   removeItemsFromCartApi,
   saveShippingInfoApi,
 } from "../api/cart/cartApi";
 import {
+  GET_CART_REQUEST,
+  GET_CART_SUCCESS,
+  GET_CART_FAIL,
   ADD_CART_ITEM_REQUEST,
   ADD_CART_ITEM_FAIL,
   ADD_CART_ITEM_SUCCESS,
@@ -16,6 +20,24 @@ import {
 } from "../constants/cartConstants";
 
 import requestHeader from "../helpers/requestHeaders";
+
+export const getProduct = () => async (dispatch) => {
+  try {
+    dispatch({ type: GET_CART_REQUEST });
+
+    const { data } = await getAllCartItemsApi();
+
+    dispatch({
+      type: GET_CART_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_CART_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
 
 export const addItemsToCart = (id, quantity) => async (dispatch) => {
   try {

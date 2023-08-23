@@ -1,6 +1,9 @@
 const express = require("express");
 
-const { isAuthenticatedUser } = require("../middlewares/auth");
+const {
+  isAuthenticatedUser,
+  isAuthenticatedUserForPut,
+} = require("../middlewares/auth");
 
 const {
   getAllCartItems,
@@ -13,10 +16,12 @@ const router = express.Router();
 
 router.route("/cart").get(isAuthenticatedUser, getAllCartItems);
 
-router.route("/cart").delete(isAuthenticatedUser, deleteCartItem);
+router.route("/cart/:id").delete(isAuthenticatedUser, deleteCartItem);
 
-router.route("/delete-cart").delete(isAuthenticatedUser, deleteAllCartItems);
+router.route("/cart").delete(isAuthenticatedUser, deleteAllCartItems);
 
-router.route("/cart").post(isAuthenticatedUser, createOrUpdateCart);
+router
+  .route("/product/:id")
+  .post(isAuthenticatedUserForPut, createOrUpdateCart);
 
 module.exports = router;

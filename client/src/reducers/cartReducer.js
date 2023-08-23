@@ -1,4 +1,7 @@
 import {
+  GET_CART_REQUEST,
+  GET_CART_SUCCESS,
+  GET_CART_FAIL,
   ADD_CART_ITEM_REQUEST,
   ADD_CART_ITEM_FAIL,
   ADD_CART_ITEM_SUCCESS,
@@ -16,6 +19,7 @@ export const cartReducer = (
   action
 ) => {
   switch (action.type) {
+    case GET_CART_REQUEST:
     case DELETE_CART_ITEM_REQUEST:
     case ADD_CART_ITEM_REQUEST:
     case SHIPPING_INFO_REQUEST:
@@ -23,12 +27,20 @@ export const cartReducer = (
         ...state,
         loading: true,
       };
+    case GET_CART_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        cartItems: action.payload.cartItems,
+        shippingInfo: action.payload.shippingInfo,
+      };
     case ADD_CART_ITEM_SUCCESS:
       return {
         ...state,
         loading: false,
         cartItems: action.payload,
       };
+    case GET_CART_FAIL:
     case ADD_CART_ITEM_FAIL:
       return {
         loading: false,
