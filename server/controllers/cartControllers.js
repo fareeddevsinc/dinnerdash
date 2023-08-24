@@ -38,13 +38,7 @@ const removeItemFromCart = async (req, res) => {
     );
 
     if (productIndex !== -1) {
-      // If the product is found in the cart, update its quantity
-      cart.products[productIndex].quantity -= req.body.quantity;
-
-      // If the quantity is less than or equal to 0, remove the product from the cart
-      if (cart.products[productIndex].quantity <= 0) {
-        cart.products.splice(productIndex, 1);
-      }
+      cart.products.splice(productIndex, 1);
     } else {
       // If the product is not found in the cart, return an error
       return res.status(404).json({
@@ -66,6 +60,7 @@ const removeItemFromCart = async (req, res) => {
 
 const createOrUpdateCart = async (req, res) => {
   try {
+    console.log("hello");
     let cart = await Cart.findOne({ user: req.user.id });
 
     if (!cart) {
@@ -86,7 +81,7 @@ const createOrUpdateCart = async (req, res) => {
       );
 
       if (productIndex !== -1) {
-        cart.products[productIndex].quantity += req.body.quantity;
+        cart.products[productIndex].quantity = req.body.quantity;
       } else {
         cart.products.push({
           product: req.params.id,

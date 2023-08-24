@@ -11,10 +11,13 @@ import RemoveShoppingCartIcon from "@material-ui/icons/RemoveShoppingCart";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { clearErrors } from "../../actions/userAction";
+import { useAlert } from "react-alert";
 
 const Cart = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { error, cartItems } = useSelector((state) => state.cart);
+  const alert = useAlert();
 
   useEffect(() => {
     if (error) {
@@ -23,8 +26,6 @@ const Cart = () => {
     }
     dispatch(getCart());
   }, [dispatch]);
-
-  const { error, cartItems } = useSelector((state) => state.cart);
 
   const increaseQuantity = (id, quantity, stock) => {
     const newQty = quantity + 1;
@@ -46,14 +47,17 @@ const Cart = () => {
     dispatch(removeItemsFromCart(id));
   };
 
+  const deleteCart = () => {
+    dispatch(deleteCart());
+  };
+
   const checkoutHandler = () => {
     navigate("/login?redirect=shipping");
   };
 
   return (
     <>
-      {cartItems.cart[0].user.name}
-      {cartItems.cart[0].products.length === 0 ? (
+      {cartItems.cart[0]?.products[0]?.length === 0 ? (
         <div className="emptyCart">
           <RemoveShoppingCartIcon />
 
@@ -70,23 +74,23 @@ const Cart = () => {
             </div>
 
             {cartItems &&
-              cartItems.cart[0].products.map((item) => (
-                <div className="cartContainer" key={item.product}>
+              cartItems.cart[0]?.products.map((item) => (
+                <div className="cartContainer" key={item.product._id}>
                   <CartItemCard item={item} deleteCartItems={deleteCartItems} />
                   <div className="cartInput">
                     <button
                       onClick={() =>
-                        decreaseQuantity(item.product, item.quantity)
+                        decreaseQuantity(item.product._id, item.quantity)
                       }
                     >
                       -
                     </button>
                     {item.quantity}
-                    {/* <input type="text" value={item.quantity} readOnly /> */}
+                    <input type="text" value={item.quantity} readOnly />
                     <button
                       onClick={() =>
                         increaseQuantity(
-                          item.product,
+                          item.product._id,
                           item.quantity,
                           item.product.stock
                         )
@@ -105,7 +109,7 @@ const Cart = () => {
               <div></div>
               <div className="cartGrossProfitBox">
                 <p>Gross Total</p>
-                <p>{`Rs.${cartItems.cart[0].products?.reduce(
+                <p>{`Rs.${cartItems.cart[0]?.products.reduce(
                   (acc, item) => acc + item?.quantity * item.product?.price,
                   0
                 )}`}</p>
@@ -118,6 +122,7 @@ const Cart = () => {
           </div>
         </>
       )}
+      <button onClick={deleteCart}>Delete Cart</button>
     </>
   );
 };

@@ -7,9 +7,7 @@ const {
 
 const {
   getAllCartItems,
-  deleteCartItem,
   createOrUpdateCart,
-  deleteAllCartItems,
   removeItemFromCart,
   clearCart,
 } = require("../controllers/cartControllers");
@@ -22,6 +20,6 @@ router.route("/cart/:id").delete(isAuthenticatedUser, removeItemFromCart);
 
 router.route("/cart").delete(isAuthenticatedUser, clearCart);
 
-router.route("/cart/:id").post(isAuthenticatedUser, createOrUpdateCart);
+router.route("/cart/:id").post(isAuthenticatedUserForPut, createOrUpdateCart);
 
 module.exports = router;

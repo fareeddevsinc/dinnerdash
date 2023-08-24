@@ -19,7 +19,7 @@ const UpdateProfile = () => {
   const [fullName, setFullName] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [avatar, setAvatar] = useState();
+  const [avatar, setAvatar] = useState(null);
   const [avatarPreview, setAvatarPreview] = useState(user.avatar.url);
 
   const updateProfileSubmit = (e) => {

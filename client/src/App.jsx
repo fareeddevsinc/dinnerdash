@@ -37,8 +37,7 @@ import NotFound from "./components/error/NotFound.jsx";
 const App = () => {
   const { user, isAuthenticated } = useSelector((state) => state.user);
   useEffect(() => {
-    console.log(isAuthenticated);
-    isAuthenticated && store.dispatch(loadUser());
+    store.dispatch(loadUser());
   }, []);
   return (
     <Router>

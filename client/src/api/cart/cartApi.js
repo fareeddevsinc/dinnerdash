@@ -5,14 +5,28 @@ export const getAllCartItemsApi = async () => {
   const { data } = await axios.get(`${BASE_URL}/cart`, {
     withCredentials: true,
   });
-  console.log(data.cart);
 
   return { data };
 };
 
 export const addItemsToCartApi = async (id, quantity, config) => {
-  const { data } = await axios.post(
-    `${BASE_URL}/product/${id}`,
+  try {
+    const { data } = await axios.post(
+      `${BASE_URL}/cart/${id}`,
+      { quantity },
+      config
+    );
+    console.log(data);
+
+    return { data };
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+export const removeItemsFromCartApi = async (id, quantity, config) => {
+  const { data } = await axios.delete(
+    `${BASE_URL}/cart/${id}`,
     quantity,
     config
   );
@@ -20,8 +34,8 @@ export const addItemsToCartApi = async (id, quantity, config) => {
   return { data };
 };
 
-export const removeItemsFromCartApi = async (id) => {
-  const { data } = await axios.delete(`${BASE_URL}/cart/${id}`, {
+export const deleteCartApi = async () => {
+  const { data } = await axios.delete(`${BASE_URL}/cart`, {
     withCredentials: true,
   });
 

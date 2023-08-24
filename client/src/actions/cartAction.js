@@ -2,6 +2,7 @@ import {
   addItemsToCartApi,
   getAllCartItemsApi,
   removeItemsFromCartApi,
+  deleteCartApi,
   saveShippingInfoApi,
 } from "../api/cart/cartApi";
 import {
@@ -14,6 +15,9 @@ import {
   DELETE_CART_ITEM_REQUEST,
   DELETE_CART_ITEM_SUCCESS,
   DELETE_CART_ITEM_FAIL,
+  DELETE_CART_REQUEST,
+  DELETE_CART_SUCCESS,
+  DELETE_CART_FAIL,
   SHIPPING_INFO_REQUEST,
   SHIPPING_INFO_SUCCESS,
   SHIPPING_INFO_FAIL,
@@ -26,6 +30,8 @@ export const getCart = () => async (dispatch) => {
     dispatch({ type: GET_CART_REQUEST });
 
     const { data } = await getAllCartItemsApi();
+
+    // console.log(data.cart[0].products[0].product.name);
 
     dispatch({
       type: GET_CART_SUCCESS,
@@ -58,11 +64,13 @@ export const addItemsToCart = (id, quantity) => async (dispatch) => {
     });
   }
 };
-export const removeItemsFromCart = (id) => async (dispatch) => {
+export const removeItemsFromCart = (id, quantity) => async (dispatch) => {
   try {
     dispatch({ type: DELETE_CART_ITEM_REQUEST });
 
-    const { data } = await removeItemsFromCartApi(id);
+    const config = requestHeader();
+
+    const { data } = await removeItemsFromCartApi(id, quantity, config);
 
     dispatch({
       type: DELETE_CART_ITEM_SUCCESS,
@@ -75,6 +83,25 @@ export const removeItemsFromCart = (id) => async (dispatch) => {
     });
   }
 };
+
+export const deleteCart = () => async (dispatch) => {
+  try {
+    dispatch({ type: DELETE_CART_REQUEST });
+
+    const { data } = await deleteCartApi();
+
+    dispatch({
+      type: DELETE_CART_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: DELETE_CART_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
 export const saveShippingInfo = (shippingData) => async (dispatch) => {
   try {
     dispatch({ type: SHIPPING_INFO_REQUEST });
