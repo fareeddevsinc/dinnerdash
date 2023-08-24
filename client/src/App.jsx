@@ -36,9 +36,9 @@ import NotFound from "./components/error/NotFound.jsx";
 
 const App = () => {
   const { user, isAuthenticated } = useSelector((state) => state.user);
-  useEffect(() => {
-    store.dispatch(loadUser());
-  }, []);
+  // useEffect(() => {
+  //   store.dispatch(loadUser());
+  // }, []);
   return (
     <Router>
       <Header user={user} />
@@ -60,7 +60,7 @@ const App = () => {
         <Route
           path="/update"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute isAuthenticated={isAuthenticated}>
               <UpdateProfile />
             </ProtectedRoute>
           }
@@ -68,7 +68,7 @@ const App = () => {
         <Route
           path="/password/update"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute isAuthenticated={isAuthenticated}>
               <UpdatePassword />
             </ProtectedRoute>
           }
