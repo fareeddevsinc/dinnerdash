@@ -5,6 +5,7 @@ export const getAllCartItemsApi = async () => {
   const { data } = await axios.get(`${BASE_URL}/cart`, {
     withCredentials: true,
   });
+  console.log(data.cart);
 
   return { data };
 };

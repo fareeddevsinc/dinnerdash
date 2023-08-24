@@ -3,7 +3,11 @@ const Cart = require("../models/cartModel");
 
 const getAllCartItems = async (req, res) => {
   try {
-    const cart = await Cart.find({ user: req.user.id });
+    const cart = await Cart.find({ user: req.user.id })
+      .populate("user")
+      .populate("products.product");
+
+    console.log(cart);
 
     if (cart) {
       res.status(200).json({

@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import Home from "./components/home/Home.jsx";
 import Footer from "./components/layout/Footer/Footer.jsx";
 import Header from "./components/layout/Header/Header.jsx";
@@ -35,8 +36,9 @@ import NotFound from "./components/error/NotFound.jsx";
 
 const App = () => {
   const { user, isAuthenticated } = useSelector((state) => state.user);
-  React.useEffect(() => {
-    store.dispatch(loadUser());
+  useEffect(() => {
+    console.log(isAuthenticated);
+    isAuthenticated && store.dispatch(loadUser());
   }, []);
   return (
     <Router>

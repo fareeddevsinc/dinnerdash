@@ -185,7 +185,7 @@ export const resetPassword = (token, passwords) => async (dispatch) => {
   }
 };
 
-// get All Users
+// get All Users (Admin)
 export const getAllUsers = () => async (dispatch) => {
   try {
     dispatch({ type: ALL_USERS_REQUEST });
@@ -197,7 +197,7 @@ export const getAllUsers = () => async (dispatch) => {
   }
 };
 
-// get  User Details
+// get  User Details (Admin)
 export const getUserDetails = (id) => async (dispatch) => {
   try {
     dispatch({ type: USER_DETAILS_REQUEST });
@@ -209,7 +209,7 @@ export const getUserDetails = (id) => async (dispatch) => {
   }
 };
 
-// Update User
+// Update User (Admin)
 export const updateUser = (id, userData) => async (dispatch) => {
   try {
     dispatch({ type: UPDATE_USER_REQUEST });
@@ -227,7 +227,7 @@ export const updateUser = (id, userData) => async (dispatch) => {
   }
 };
 
-// Delete User
+// Delete User (Admin)
 export const deleteUser = (id) => async (dispatch) => {
   try {
     dispatch({ type: DELETE_USER_REQUEST });

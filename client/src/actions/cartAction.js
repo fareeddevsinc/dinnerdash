@@ -21,7 +21,7 @@ import {
 
 import requestHeader from "../helpers/requestHeaders";
 
-export const getProduct = () => async (dispatch) => {
+export const getCart = () => async (dispatch) => {
   try {
     dispatch({ type: GET_CART_REQUEST });
 

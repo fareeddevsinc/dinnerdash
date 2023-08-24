@@ -31,8 +31,8 @@ export const cartReducer = (
       return {
         ...state,
         loading: false,
-        cartItems: action.payload.cartItems,
-        shippingInfo: action.payload.shippingInfo,
+        cartItems: action.payload,
+        shippingInfo: action.payload,
       };
     case ADD_CART_ITEM_SUCCESS:
       return {
