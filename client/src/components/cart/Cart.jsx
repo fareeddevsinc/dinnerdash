@@ -5,6 +5,7 @@ import {
   addItemsToCart,
   getCart,
   removeItemsFromCart,
+  deleteCart,
 } from "../../actions/cartAction";
 import { Typography } from "@material-ui/core";
 import RemoveShoppingCartIcon from "@material-ui/icons/RemoveShoppingCart";
@@ -25,7 +26,7 @@ const Cart = () => {
       dispatch(clearErrors());
     }
     dispatch(getCart());
-  }, [dispatch]);
+  }, [dispatch, alert, error]);
 
   const increaseQuantity = (id, quantity, stock) => {
     const newQty = quantity + 1;
@@ -45,10 +46,12 @@ const Cart = () => {
 
   const deleteCartItems = (id) => {
     dispatch(removeItemsFromCart(id));
+    alert.success("Item Deleted Successfully");
   };
 
-  const deleteCart = () => {
+  const removeCart = () => {
     dispatch(deleteCart());
+    alert.success("Cart Deleted Cart Deleted Successfully");
   };
 
   const checkoutHandler = () => {
@@ -122,7 +125,7 @@ const Cart = () => {
           </div>
         </>
       )}
-      <button onClick={deleteCart}>Delete Cart</button>
+      <button onClick={removeCart}>Delete Cart</button>
     </>
   );
 };

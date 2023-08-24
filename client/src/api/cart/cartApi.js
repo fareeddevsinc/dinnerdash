@@ -24,14 +24,14 @@ export const addItemsToCartApi = async (id, quantity, config) => {
   }
 };
 
-export const removeItemsFromCartApi = async (id, quantity, config) => {
-  const { data } = await axios.delete(
-    `${BASE_URL}/cart/${id}`,
-    quantity,
-    config
-  );
+export const removeItemsFromCartApi = async (id, config) => {
+  try {
+    const { data } = await axios.delete(`${BASE_URL}/cart/${id}`, config);
 
-  return { data };
+    return { data };
+  } catch (error) {
+    console.log(error.message);
+  }
 };
 
 export const deleteCartApi = async () => {

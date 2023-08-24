@@ -64,13 +64,13 @@ export const addItemsToCart = (id, quantity) => async (dispatch) => {
     });
   }
 };
-export const removeItemsFromCart = (id, quantity) => async (dispatch) => {
+export const removeItemsFromCart = (id) => async (dispatch) => {
   try {
     dispatch({ type: DELETE_CART_ITEM_REQUEST });
 
     const config = requestHeader();
 
-    const { data } = await removeItemsFromCartApi(id, quantity, config);
+    const { data } = await removeItemsFromCartApi(id, config);
 
     dispatch({
       type: DELETE_CART_ITEM_SUCCESS,

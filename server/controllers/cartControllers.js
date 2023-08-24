@@ -60,7 +60,6 @@ const removeItemFromCart = async (req, res) => {
 
 const createOrUpdateCart = async (req, res) => {
   try {
-    console.log("hello");
     let cart = await Cart.findOne({ user: req.user.id });
 
     if (!cart) {
