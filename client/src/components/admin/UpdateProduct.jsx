@@ -35,7 +35,7 @@ const UpdateProduct = () => {
   const [price, setPrice] = useState(0);
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
-  const [Stock, setStock] = useState(0);
+  const [stock, setStock] = useState(0);
   const [images, setImages] = useState([]);
   const [oldImages, setOldImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState([]);
@@ -60,7 +60,7 @@ const UpdateProduct = () => {
       setDescription(product.description);
       setPrice(product.price);
       setCategory(product.category);
-      setStock(product.Stock);
+      setStock(product.stock);
       setOldImages(product.images);
     }
     if (error) {
@@ -98,12 +98,13 @@ const UpdateProduct = () => {
     myForm.set("price", price);
     myForm.set("description", description);
     myForm.set("category", category);
-    myForm.set("Stock", Stock);
+    myForm.set("stock", stock);
 
     images.forEach((image) => {
       myForm.append("images", image);
     });
     dispatch(updateProduct(productId, myForm));
+    alert.success("Product Updated Successfully");
   };
 
   const updateProductImagesChange = (e) => {
@@ -138,7 +139,7 @@ const UpdateProduct = () => {
             encType="multipart/form-data"
             onSubmit={updateProductSubmitHandler}
           >
-            <h1>Create Product</h1>
+            <h1>Update Product</h1>
 
             <div>
               <SpellcheckIcon />
@@ -192,10 +193,10 @@ const UpdateProduct = () => {
               <StorageIcon />
               <input
                 type="number"
-                placeholder="Stock"
+                placeholder="stock"
                 required
                 onChange={(e) => setStock(e.target.value)}
-                value={Stock}
+                value={stock}
               />
             </div>
 
@@ -225,9 +226,9 @@ const UpdateProduct = () => {
             <Button
               id="createProductBtn"
               type="submit"
-              disabled={loading ? true : false}
+              // disabled={loading ? true : false}
             >
-              Create
+              Update
             </Button>
           </form>
         </div>

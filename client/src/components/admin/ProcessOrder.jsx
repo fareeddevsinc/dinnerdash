@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import MetaData from "../layout/MetaData";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Typography } from "@material-ui/core";
@@ -53,7 +53,7 @@ const ProcessOrder = () => {
   }, [dispatch, alert, error, id, isUpdated, updateError]);
 
   return (
-    <Fragment>
+    <>
       <MetaData title="Process Order" />
       <div className="dashboard">
         <SideBar />
@@ -189,7 +189,7 @@ const ProcessOrder = () => {
           )}
         </div>
       </div>
-    </Fragment>
+    </>
   );
 };
 

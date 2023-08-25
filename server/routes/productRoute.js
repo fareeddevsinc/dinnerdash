@@ -22,7 +22,7 @@ router.route("/products").get(getAllProducts);
 
 router
   .route("/admin/products")
-  .get(isAuthenticatedUser, authorizeRoles("admin"), getAdminProducts);
+  .get(isAuthenticatedUserForPut, authorizeRoles("admin"), getAdminProducts);
 
 router
   .route("/admin/product/new")

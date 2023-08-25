@@ -71,7 +71,9 @@ export const getAdminProduct = () => async (dispatch) => {
   try {
     dispatch({ type: ADMIN_PRODUCT_REQUEST });
 
-    const { data } = await getAdminProductApi();
+    const config = requestHeader();
+
+    const { data } = await getAdminProductApi(config);
 
     dispatch({
       type: ADMIN_PRODUCT_SUCCESS,
@@ -90,7 +92,7 @@ export const createProduct = (productData) => async (dispatch) => {
   try {
     dispatch({ type: NEW_PRODUCT_REQUEST });
 
-    const config = requestHeader();
+    const config = requestHeader("multipart/form-data");
 
     const { data } = await createProductApi(productData, config);
 
@@ -111,9 +113,11 @@ export const updateProduct = (id, productData) => async (dispatch) => {
   try {
     dispatch({ type: UPDATE_PRODUCT_REQUEST });
 
-    const config = requestHeader();
+    const config = requestHeader("multipart/form-data");
 
     const { data } = await updateProductApi(id, productData, config);
+
+    console.log(data);
 
     dispatch({
       type: UPDATE_PRODUCT_SUCCESS,

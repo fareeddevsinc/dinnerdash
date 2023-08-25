@@ -1,18 +1,33 @@
 const ErrorHandler = require("../utils/errorHandler");
 const Product = require("../models/productModel");
 const ApiFeatures = require("../utils/apiFeatures");
+const cloudinary = require("cloudinary");
 
 //create product --admin
-const createProduct = async (req, res) => {
+const createProduct = async (req, res, next) => {
   try {
-    req.body.user = req.user.id;
-    const product = await Product.create(req.body);
-    res.status(201).json({
-      success: true,
-      product,
+    const myCloud = await cloudinary.v2.uploader.upload(req.body.images, {
+      folder: "avatars",
+      width: 150,
+      crop: "scale",
+    });
+
+    const { name, price, description, category, stock } = req.body;
+    const user = await Product.create({
+      name,
+      price,
+      description,
+      category,
+      stock,
+      images: {
+        public_id: myCloud.public_id,
+        url: myCloud.secure_url,
+      },
+      user: req.user.id,
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    console.log(error.message);
+    return next(new ErrorHandler(error.message, 500));
   }
 };
 
@@ -47,19 +62,46 @@ const getAllProducts = async (req, res) => {
 
 const updateProduct = async (req, res, next) => {
   try {
-    let product = await Product.findById(req.params.id);
+    const product = await Product.findById(req.params.id);
     if (!product) {
-      return next(new ErrorHandler("Internal Server Error", 500));
+      return next(new ErrorHandler("Product ID Not Found", 404));
     }
-    product = await Product.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true,
-      useFindAndModify: false,
+    const myCloud = await cloudinary.v2.uploader.upload(req.body.images, {
+      folder: "avatars",
+      width: 150,
+      crop: "scale",
     });
 
-    return res.status(200).json({ success: true, product });
+    const newProductData = {
+      name: req.body.name,
+      price: req.body.price,
+      description: req.body.description,
+      category: req.body.description,
+      stock: req.body.stock,
+      user: req.user.id,
+    };
+    newProductData.images = {
+      public_id: myCloud.public_id,
+      url: myCloud.secure_url,
+    };
+
+    const updateProduct = await Product.findByIdAndUpdate(
+      req.params.id,
+      newProductData,
+      {
+        new: true,
+        runValidators: true,
+        useFindAndModify: false,
+      }
+    );
+
+    res.status(200).json({
+      success: true,
+      updateProduct,
+    });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    console.log(error.message);
+    return next(new ErrorHandler(error.message, 500));
   }
 };
 

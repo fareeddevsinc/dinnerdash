@@ -1,4 +1,4 @@
-import { Fragment, useEffect } from "react";
+import { useEffect } from "react";
 import { DataGrid } from "@material-ui/data-grid";
 import "../../styles/admin/productList.css";
 import { useSelector, useDispatch } from "react-redux";
@@ -58,14 +58,20 @@ const ProductList = () => {
     {
       field: "name",
       headerName: "Name",
-      minWidth: 350,
-      flex: 1,
+      minWidth: 200,
+      flex: 0.5,
     },
     {
       field: "stock",
       headerName: "Stock",
       type: "number",
       minWidth: 150,
+      flex: 0.3,
+    },
+    {
+      field: "category",
+      headerName: "Category",
+      minWidth: 200,
       flex: 0.3,
     },
 
@@ -86,7 +92,7 @@ const ProductList = () => {
       sortable: false,
       renderCell: (params) => {
         return (
-          <Fragment>
+          <>
             <Link to={`/admin/product/${params.getValue(params.id, "id")}`}>
               <EditIcon />
             </Link>
@@ -98,7 +104,7 @@ const ProductList = () => {
             >
               <DeleteIcon />
             </Button>
-          </Fragment>
+          </>
         );
       },
     },
@@ -111,13 +117,14 @@ const ProductList = () => {
       rows.push({
         id: item._id,
         stock: item.stock,
+        category: item.category,
         price: item.price,
         name: item.name,
       });
     });
 
   return (
-    <Fragment>
+    <>
       <MetaData title={`ALL PRODUCTS -- Admin`} />
 
       <div className="dashboard">
@@ -135,7 +142,7 @@ const ProductList = () => {
           />
         </div>
       </div>
-    </Fragment>
+    </>
   );
 };
 

@@ -137,11 +137,14 @@ const updateUserRole = async (req, res, next) => {
       role: req.body.role,
     };
 
-    const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
-      new: true,
-      runValidators: true,
-      useFindAndModify: false,
-    });
+    const user = await User.findOneAndUpdate(
+      { email: req.body.email },
+      newUserData,
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
 
     if (!user) {
       return next(new ErrorHandler("User Does not Exist with this id ", 404));
@@ -152,6 +155,7 @@ const updateUserRole = async (req, res, next) => {
       user,
     });
   } catch (err) {
+    console.log(err.message);
     return next(new ErrorHandler(err.message, 500));
   }
 };

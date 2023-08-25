@@ -72,7 +72,7 @@ export const getAllUsersApi = async () => {
 };
 
 export const getUserDetailsApi = async (id) => {
-  const { data } = await axios.get(`${BASE_URL}/admin/user/${id}`, {
+  const { data } = await axios.get(`${BASE_URL}/admin/user/${id}?role=admin`, {
     withCredentials: true,
   });
 
@@ -81,7 +81,7 @@ export const getUserDetailsApi = async (id) => {
 
 export const updateUserApi = async (id, userData, config) => {
   const { data } = await axios.put(
-    `${BASE_URL}/admin/user/${id}`,
+    `${BASE_URL}/admin/user/${id}?role=admin`,
     userData,
     config
   );
@@ -89,10 +89,11 @@ export const updateUserApi = async (id, userData, config) => {
   return { data };
 };
 
-export const deleteUserApi = async (id) => {
-  const { data } = await axios.delete(`${BASE_URL}/admin/user/${id}`, {
-    withCredentials: true,
-  });
+export const deleteUserApi = async (id, config) => {
+  const { data } = await axios.delete(
+    `${BASE_URL}/admin/user/${id}?role=admin`,
+    config
+  );
 
   return { data };
 };

@@ -214,7 +214,7 @@ export const updateUser = (id, userData) => async (dispatch) => {
   try {
     dispatch({ type: UPDATE_USER_REQUEST });
 
-    const config = requestHeader("multipart/form-data");
+    const config = requestHeader();
 
     const { data } = await updateUserApi(id, userData, config);
 
@@ -232,7 +232,9 @@ export const deleteUser = (id) => async (dispatch) => {
   try {
     dispatch({ type: DELETE_USER_REQUEST });
 
-    const { data } = await deleteUserApi(id);
+    const config = requestHeader();
+
+    const { data } = await deleteUserApi(id, config);
 
     dispatch({ type: DELETE_USER_SUCCESS, payload: data });
   } catch (error) {

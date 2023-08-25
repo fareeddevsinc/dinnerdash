@@ -50,6 +50,6 @@ router
 
 router
   .route("/admin/user/:id")
-  .delete(isAuthenticatedUser, authorizeRoles("admin"), deleteUser);
+  .delete(isAuthenticatedUserForPut, authorizeRoles("admin"), deleteUser);
 
 module.exports = router;
