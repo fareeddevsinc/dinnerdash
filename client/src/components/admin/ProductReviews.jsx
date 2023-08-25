@@ -15,6 +15,7 @@ import Star from "@material-ui/icons/Star";
 import SideBar from "./Sidebar";
 import { DELETE_REVIEW_RESET } from "../../constants/productConstants";
 import { useNavigate } from "react-router-dom";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 const ProductReviews = () => {
   const dispatch = useDispatch();
@@ -108,7 +109,7 @@ const ProductReviews = () => {
                 deleteReviewHandler(params.getValue(params.id, "id"))
               }
             >
-              Delete
+              <DeleteIcon />
             </Button>
           </>
         );

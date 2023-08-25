@@ -58,18 +58,16 @@ export const newReviewApi = async (reviewData, config) => {
   return { data };
 };
 
-export const getAllReviewsApi = async (id) => {
-  const { data } = await axios.get(`${BASE_URL}/reviews?id=${id}`, {
-    withCredentials: true,
-  });
+export const getAllReviewsApi = async (id, config) => {
+  const { data } = await axios.get(`${BASE_URL}/reviews?id=${id}`, config);
 
   return { data };
 };
 
-export const deleteReviewsApi = async (reviewId, productId) => {
+export const deleteReviewsApi = async (reviewId, productId, config) => {
   const { data } = await axios.delete(
     `${BASE_URL}/reviews?id=${reviewId}&productId=${productId}`,
-    { withCredentials: true }
+    config
   );
 
   return { data };

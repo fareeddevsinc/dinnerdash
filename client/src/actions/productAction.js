@@ -195,7 +195,9 @@ export const getAllReviews = (id) => async (dispatch) => {
   try {
     dispatch({ type: ALL_REVIEW_REQUEST });
 
-    const { data } = await getAllReviewsApi(id);
+    const config = requestHeader();
+
+    const { data } = await getAllReviewsApi(id, config);
 
     dispatch({
       type: ALL_REVIEW_SUCCESS,
@@ -214,7 +216,9 @@ export const deleteReviews = (reviewId, productId) => async (dispatch) => {
   try {
     dispatch({ type: DELETE_REVIEW_REQUEST });
 
-    const { data } = await deleteReviewsApi(reviewId, productId);
+    const config = requestHeader();
+
+    const { data } = await deleteReviewsApi(reviewId, productId, config);
 
     dispatch({
       type: DELETE_REVIEW_SUCCESS,

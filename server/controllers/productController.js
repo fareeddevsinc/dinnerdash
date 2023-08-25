@@ -181,7 +181,7 @@ const getProductReviews = async (req, res, next) => {
     }
     res.status(200).json({ success: true, reviews: product.reviews });
   } catch (error) {
-    return next(new ErrorHandler(error.message, 500));
+    return next(new ErrorHandler("Invalid ID", 500));
   }
 };
 

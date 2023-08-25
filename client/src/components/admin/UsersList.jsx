@@ -20,7 +20,7 @@ const UsersList = () => {
   const alert = useAlert();
 
   const { error, users } = useSelector((state) => state.allUsers);
-  const { user } = useSelector((state) => state.user);
+  // const { user } = useSelector((state) => state.user);
 
   const {
     error: deleteError,
