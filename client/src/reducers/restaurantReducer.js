@@ -9,6 +9,7 @@ import {
   RESTAURANT_DETAILS_SUCCESS,
   RESTAURANT_DETAILS_FAIL,
   CLEAR_ERRORS,
+  ADD_RESTAURANT_RESET,
 } from "../constants/restaurantConstants";
 
 export const restaurantsReducer = (state = { restaurants: [] }, action) => {
@@ -88,6 +89,11 @@ export const addRestaurantReducer = (state = { restaurant: {} }, action) => {
         ...state,
         loading: false,
         error: action.payload,
+      };
+    case ADD_RESTAURANT_RESET:
+      return {
+        ...state,
+        success: false,
       };
     case CLEAR_ERRORS:
       return {
