@@ -9,23 +9,12 @@ const restaurant = new mongoose.Schema({
   location: {
     type: String,
     required: [true, "Please Enter the restaurant location"],
+    unique: true,
   },
   branch: {
     type: String,
     required: [true, "Please Enter the restaurant branch"],
   },
-  images: [
-    {
-      public_id: {
-        type: String,
-        required: true,
-      },
-      url: {
-        type: String,
-        required: true,
-      },
-    },
-  ],
 });
 
 const Restaurant = mongoose.model("Restaurant", restaurant);

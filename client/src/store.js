@@ -26,6 +26,12 @@ import {
   orderReducer,
 } from "./reducers/orderReducer";
 
+import {
+  restaurantDetailsReducer,
+  addRestaurantReducer,
+  restaurantsReducer,
+} from "./reducers/restaurantReducer";
+
 import { cartReducer } from "./reducers/cartReducer";
 
 // Import persistStore and persistReducer from redux-persist
@@ -52,6 +58,9 @@ const reducer = combineReducers({
   userDetails: userDetailsReducer,
   productReviews: productReviewsReducer,
   review: reviewReducer,
+  restaurants: restaurantsReducer,
+  restaurant: restaurantDetailsReducer,
+  addRestaurant: addRestaurantReducer,
 });
 
 // Create a persistConfig object with a key of 'root' and the storage engine set to local storage

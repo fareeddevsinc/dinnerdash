@@ -9,6 +9,7 @@ import {
   RESTAURANT_DETAILS_REQUEST,
   RESTAURANT_DETAILS_SUCCESS,
   RESTAURANT_DETAILS_FAIL,
+  CLEAR_ERRORS,
 } from "../constants/restaurantConstants";
 
 import {
@@ -22,6 +23,8 @@ export const getAllRestaurants = () => async (dispatch) => {
     dispatch({ type: ALL_RESTAURANT_REQUEST });
 
     const { data } = await getAllRestaurantsApi();
+
+    console.log(data);
 
     dispatch({
       type: ALL_RESTAURANT_SUCCESS,
@@ -61,6 +64,8 @@ export const addRestaurant = (restaurantData) => async (dispatch) => {
 
     const { data } = await addRestaurantApi(restaurantData, config);
 
+    console.log(data);
+
     dispatch({
       type: ADD_RESTAURANT_SUCCESS,
       payload: data,
@@ -71,4 +76,8 @@ export const addRestaurant = (restaurantData) => async (dispatch) => {
       payload: error.response.data.message,
     });
   }
+};
+
+export const clearErrors = () => async (dispatch) => {
+  dispatch({ type: CLEAR_ERRORS });
 };

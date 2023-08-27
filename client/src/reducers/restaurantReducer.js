@@ -54,6 +54,7 @@ export const restaurantDetailsReducer = (
       return {
         loading: false,
         product: action.payload,
+        restaurant: action.payload,
       };
     case RESTAURANT_DETAILS_FAIL:
       return {
@@ -82,7 +83,7 @@ export const addRestaurantReducer = (state = { restaurant: {} }, action) => {
       return {
         loading: false,
         success: action.payload.success,
-        product: action.payload.product,
+        restaurant: action.payload,
       };
     case ADD_RESTAURANT_FAIL:
       return {

@@ -24,11 +24,10 @@ export const getRestaurantDetailsApi = async (id) => {
 export const addRestaurantApi = async (restaurantData, config) => {
   try {
     const { data } = await axios.post(
-      `${BASE_URL}/restaurant/new`,
+      `${BASE_URL}/restaurant/new?role=admin`,
       restaurantData,
       config
     );
-
     return { data };
   } catch (error) {
     console.log(error.message);

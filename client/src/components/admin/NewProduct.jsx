@@ -16,10 +16,13 @@ const NewProduct = () => {
 
   const { loading, error, success } = useSelector((state) => state.newProduct);
 
-  const [name, setName] = useState("");
+  const { restaurants } = useSelector((state) => state.restaurants);
+
+  const [name, setName] = useState(null);
   const [price, setPrice] = useState(0);
-  const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("");
+  const [description, setDescription] = useState(null);
+  const [category, setCategory] = useState(null);
+  const [restaurant, setRestaurant] = useState(null);
   const [stock, setStock] = useState(0);
   const [images, setImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState([]);
@@ -56,6 +59,7 @@ const NewProduct = () => {
     myForm.set("price", price);
     myForm.set("description", description);
     myForm.set("category", category);
+    myForm.set("restaurant", restaurant);
     myForm.set("stock", stock);
 
     images.forEach((image) => {
@@ -132,6 +136,17 @@ const NewProduct = () => {
                 {categories.map((cate) => (
                   <option key={cate} value={cate}>
                     {cate}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <select onChange={(e) => setRestaurant(e.target.value)}>
+                <option value="">Choose Restaurant</option>
+                {restaurants.restaurants.map((cate) => (
+                  <option key={cate._id} value={cate.name}>
+                    {cate.name}
                   </option>
                 ))}
               </select>

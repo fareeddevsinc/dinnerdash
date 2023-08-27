@@ -2,20 +2,18 @@ import { useEffect } from "react";
 import { DataGrid } from "@material-ui/data-grid";
 import "../../styles/admin/productList.css";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  clearErrors,
-  getAdminProduct,
-  deleteProduct,
-} from "../../actions/productAction";
 import { useNavigate } from "react-router-dom";
 import { useAlert } from "react-alert";
 import { Button } from "@material-ui/core";
 import MetaData from "../layout/MetaData";
 import DeleteIcon from "@material-ui/icons/Delete";
 import SideBar from "./Sidebar";
-import { DELETE_PRODUCT_RESET } from "../../constants/productConstants";
+import {
+  getRestaurantDetails,
+  clearErrors,
+} from "../../actions/restaurantAction";
 
-const ProductList = () => {
+const RestaurantsList = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -23,33 +21,14 @@ const ProductList = () => {
 
   const { error, restaurants } = useSelector((state) => state.restaurants);
 
-  const { error: deleteError, isDeleted } = useSelector(
-    (state) => state.product
-  );
-
-  const deleteProductHandler = (id) => {
-    dispatch(deleteProduct(id));
-  };
-
   useEffect(() => {
     if (error) {
       alert.error(error);
       dispatch(clearErrors());
     }
 
-    if (deleteError) {
-      alert.error(deleteError);
-      dispatch(clearErrors());
-    }
-
-    if (isDeleted) {
-      alert.success("Product Deleted Successfully");
-      navigate("/admin/dashboard");
-      dispatch({ type: DELETE_PRODUCT_RESET });
-    }
-
-    dispatch(getAdminProduct());
-  }, [dispatch, alert, error, deleteError, navigate, isDeleted]);
+    dispatch(getRestaurantDetails());
+  }, [dispatch, alert, error, navigate]);
 
   const columns = [
     { field: "id", headerName: "Restaurant ID", minWidth: 200, flex: 0.5 },
@@ -72,33 +51,12 @@ const ProductList = () => {
       minWidth: 200,
       flex: 0.5,
     },
-    {
-      field: "actions",
-      flex: 0.3,
-      headerName: "Actions",
-      minWidth: 150,
-      type: "number",
-      sortable: false,
-      renderCell: (params) => {
-        return (
-          <>
-            <Button
-              onClick={() =>
-                deleteProductHandler(params.getValue(params.id, "id"))
-              }
-            >
-              <DeleteIcon />
-            </Button>
-          </>
-        );
-      },
-    },
   ];
 
   const rows = [];
 
   restaurants &&
-    restaurants.forEach((item) => {
+    restaurants.restaurants.forEach((item) => {
       rows.push({
         id: item._id,
         name: item.name,
@@ -130,4 +88,4 @@ const ProductList = () => {
   );
 };
 
-export default ProductList;
+export default RestaurantsList;

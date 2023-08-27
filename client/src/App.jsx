@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import Home from "./components/home/Home.jsx";
 import Footer from "./components/layout/Footer/Footer.jsx";
 import Header from "./components/layout/Header/Header.jsx";
@@ -7,15 +6,12 @@ import Products from "./components/product/Products.jsx";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Search from "./components/product/Search.jsx";
 import LoginSignup from "./components/user/LoginSignup.jsx";
-import { store } from "./store.js";
-import { loadUser } from "./actions/userAction";
 import Account from "./components/user/Account";
 import UpdateProfile from "./components/user/UpdateProfile";
 import UpdatePassword from "./components/user/UpdatePassword";
 import ForgotPassword from "./components/user/ForgotPassword";
 import ResetPassword from "./components/user/ResetPassword";
 import ProtectedRoute from "./components/route/ProtectedRoute.jsx";
-import React from "react";
 import { useSelector } from "react-redux";
 import Dashboard from "./components/admin/Dashboard.jsx";
 import NewProduct from "./components/admin/NewProduct.jsx";
@@ -26,6 +22,8 @@ import ProductReviews from "./components/admin/ProductReviews.jsx";
 import UpdateProduct from "./components/admin/UpdateProduct.jsx";
 import UpdateUser from "./components/admin/UpdateUser.jsx";
 import UsersList from "./components/admin/UsersList.jsx";
+import RestaurantsList from "./components/admin/RestaurantsList.jsx";
+import NewRestaurant from "./components/admin/NewRestaurant.jsx";
 import Cart from "./components/cart/Cart.jsx";
 import Shipping from "./components/cart/Shipping.jsx";
 import MyOrder from "./components/order/MyOrder.jsx";
@@ -33,6 +31,8 @@ import ConfirmOrder from "./components/cart/ConfirmOrder.jsx";
 import OrderDetails from "./components/order/OrderDetails.jsx";
 import AdminProtectedRoute from "./components/route/AdminProtectedRoute.jsx";
 import NotFound from "./components/error/NotFound.jsx";
+import Restaurants from "./components/restaurant/Restaurants.jsx";
+import RestaurantDetails from "./components/restaurant/RestaurantDetails.jsx";
 
 const App = () => {
   const { user, isAuthenticated } = useSelector((state) => state.user);
@@ -158,6 +158,24 @@ const App = () => {
         />
 
         <Route
+          path="/admin/restaurants"
+          element={
+            <AdminProtectedRoute role={user?.role}>
+              <RestaurantsList />
+            </AdminProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/restaurant"
+          element={
+            <AdminProtectedRoute role={user?.role}>
+              <NewRestaurant />
+            </AdminProtectedRoute>
+          }
+        />
+
+        <Route
           path="/cart"
           element={
             <ProtectedRoute isAuthenticated={isAuthenticated}>
@@ -197,6 +215,10 @@ const App = () => {
             </ProtectedRoute>
           }
         />
+        <Route path="/restaurants" element={<Restaurants />} />
+
+        <Route path="/restaurant/:id" element={<RestaurantDetails />} />
+
         <Route path="*" element={<NotFound />} />
       </Routes>
       {/* <Footer /> */}

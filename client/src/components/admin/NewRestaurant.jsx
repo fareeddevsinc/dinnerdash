@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "../../styles/admin/newProduct.css";
 import { useSelector, useDispatch } from "react-redux";
-import { clearErrors, createProduct } from "../../actions/productAction";
+import { clearErrors, addRestaurant } from "../../actions/restaurantAction";
 import { useAlert } from "react-alert";
 import { Button } from "@material-ui/core";
 import MetaData from "../layout/MetaData";
@@ -19,8 +19,6 @@ const NewRestaurant = () => {
   const [name, setName] = useState(null);
   const [location, setLocation] = useState(null);
   const [branch, setBranch] = useState(null);
-  const [images, setImages] = useState([]);
-  const [imagesPreview, setImagesPreview] = useState([]);
 
   useEffect(() => {
     if (error) {
@@ -44,30 +42,7 @@ const NewRestaurant = () => {
     myForm.set("location", location);
     myForm.set("branch", branch);
 
-    images.forEach((image) => {
-      myForm.append("images", image);
-    });
-    dispatch(createProduct(myForm));
-  };
-
-  const createProductImagesChange = (e) => {
-    const files = Array.from(e.target.files);
-
-    setImages([]);
-    setImagesPreview([]);
-
-    files.forEach((file) => {
-      const reader = new FileReader();
-
-      reader.onload = () => {
-        if (reader.readyState === 2) {
-          setImagesPreview((old) => [...old, reader.result]);
-          setImages((old) => [...old, reader.result]);
-        }
-      };
-
-      reader.readAsDataURL(file);
-    });
+    dispatch(addRestaurant(myForm));
   };
 
   return (
@@ -110,22 +85,6 @@ const NewRestaurant = () => {
                 cols="30"
                 rows="1"
               ></textarea>
-            </div>
-
-            <div id="createProductFormFile">
-              <input
-                type="file"
-                name="avatar"
-                accept="image/*"
-                onChange={createProductImagesChange}
-                multiple
-              />
-            </div>
-
-            <div id="createProductFormImage">
-              {imagesPreview.map((image, index) => (
-                <img key={index} src={image} alt="Product Preview" />
-              ))}
             </div>
 
             <Button

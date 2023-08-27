@@ -17,6 +17,7 @@ import {
   PointElement,
   LineElement,
 } from "chart.js";
+import { getAllRestaurants } from "../../actions/restaurantAction";
 
 Chart.register(
   CategoryScale,
@@ -35,6 +36,8 @@ const Dashboard = () => {
 
   const { users } = useSelector((state) => state.allUsers);
 
+  const { restaurants } = useSelector((state) => state.restaurants);
+
   let outOfStock = 0;
 
   products &&
@@ -48,6 +51,7 @@ const Dashboard = () => {
     dispatch(getAdminProduct());
     dispatch(getAllOrders());
     dispatch(getAllUsers());
+    dispatch(getAllRestaurants());
   }, [dispatch]);
 
   let totalAmount = 0;
@@ -105,6 +109,10 @@ const Dashboard = () => {
             <Link to="/admin/users">
               <p>Users</p>
               <p>{users && users.length}</p>
+            </Link>
+            <Link to="/admin/restaurants">
+              <p>Restaurants</p>
+              <p>{restaurants && restaurants.restaurants.length}</p>
             </Link>
           </div>
         </div>
