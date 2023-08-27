@@ -75,7 +75,9 @@ export const getAllOrders = () => async (dispatch) => {
 
     const { data } = await getAllOrdersApi(config);
 
-    dispatch({ type: ALL_ORDERS_SUCCESS, payload: data.orders });
+    console.log(data);
+
+    dispatch({ type: ALL_ORDERS_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
       type: ALL_ORDERS_FAIL,

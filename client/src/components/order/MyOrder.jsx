@@ -48,7 +48,7 @@ const MyOrders = () => {
 
     {
       field: "amount",
-      headerName: "Total Amount",
+      headerName: "Total Price",
       type: "number",
       minWidth: 270,
       flex: 0.5,
@@ -73,13 +73,13 @@ const MyOrders = () => {
   const rows = [];
 
   orders &&
-    orders.order[0].orderItems?.forEach((item) => {
+    orders.order.forEach((item) => {
       rows.push({
-        id: orders.order[0]._id,
+        id: item._id,
         itemsQty: item.quantity,
         name: item.name,
-        status: orders.order[0].orderStatus,
-        amount: item.price,
+        status: item.orderStatus,
+        amount: item.totalPrice,
       });
     });
 

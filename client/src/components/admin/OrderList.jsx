@@ -8,6 +8,8 @@ import { useAlert } from "react-alert";
 import { Button } from "@material-ui/core";
 import MetaData from "../layout/MetaData";
 import SideBar from "./Sidebar";
+import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from "@material-ui/icons/Delete";
 import {
   deleteOrder,
   getAllOrders,
@@ -90,7 +92,7 @@ const OrderList = () => {
         return (
           <>
             <Link to={`/admin/order/${params.getValue(params.id, "id")}`}>
-              Edit
+              <EditIcon />
             </Link>
 
             <Button
@@ -98,7 +100,7 @@ const OrderList = () => {
                 deleteOrderHandler(params.getValue(params.id, "id"))
               }
             >
-              Delete
+              <DeleteIcon />
             </Button>
           </>
         );
@@ -109,10 +111,10 @@ const OrderList = () => {
   const rows = [];
 
   orders &&
-    orders.forEach((item) => {
+    orders.order.forEach((item) => {
       rows.push({
         id: item._id,
-        itemsQty: item.orderItems.length,
+        itemsQty: item.quantity,
         amount: item.totalPrice,
         status: item.orderStatus,
       });
