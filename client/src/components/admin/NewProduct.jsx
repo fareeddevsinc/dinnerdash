@@ -8,6 +8,7 @@ import MetaData from "../layout/MetaData";
 import SideBar from "./Sidebar";
 import { useNavigate } from "react-router-dom";
 import { NEW_PRODUCT_RESET } from "../../constants/productConstants";
+import Select from "react-select";
 
 const NewProduct = () => {
   const dispatch = useDispatch();
@@ -21,13 +22,13 @@ const NewProduct = () => {
   const [name, setName] = useState(null);
   const [price, setPrice] = useState(0);
   const [description, setDescription] = useState(null);
-  const [category, setCategory] = useState(null);
-  const [restaurant, setRestaurant] = useState(null);
+  const [categories, setCategories] = useState([]);
+  const [restaurant, setRestaurant] = useState([]);
   const [stock, setStock] = useState(0);
   const [images, setImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState([]);
 
-  const categories = [
+  const all_categories = [
     "Laptop",
     "Footwear",
     "Bottom",
@@ -36,6 +37,24 @@ const NewProduct = () => {
     "Camera",
     "SmartPhones",
   ];
+
+  const categoryOptions = all_categories.map((cate) => ({
+    value: cate,
+    label: cate,
+  }));
+
+  const restaurantOptions = restaurants.restaurants.map((cate) => ({
+    value: cate.name,
+    label: cate.name,
+  }));
+
+  const handleCategoryChange = (selectedOptions) => {
+    setCategories(selectedOptions);
+  };
+
+  const handleRestaurantChange = (selectedOptions) => {
+    setRestaurant(selectedOptions);
+  };
 
   useEffect(() => {
     if (error) {
@@ -58,7 +77,7 @@ const NewProduct = () => {
     myForm.set("name", name);
     myForm.set("price", price);
     myForm.set("description", description);
-    myForm.set("category", category);
+    myForm.set("category", categories);
     myForm.set("restaurant", restaurant);
     myForm.set("stock", stock);
 
@@ -131,25 +150,23 @@ const NewProduct = () => {
             </div>
 
             <div>
-              <select onChange={(e) => setCategory(e.target.value)}>
-                <option value="">Choose Category</option>
-                {categories.map((cate) => (
-                  <option key={cate} value={cate}>
-                    {cate}
-                  </option>
-                ))}
-              </select>
+              <Select
+                isMulti
+                value={categories}
+                options={categoryOptions}
+                onChange={handleCategoryChange}
+                placeholder="Select Categories"
+              />
             </div>
 
             <div>
-              <select onChange={(e) => setRestaurant(e.target.value)}>
-                <option value="">Choose Restaurant</option>
-                {restaurants.restaurants.map((cate) => (
-                  <option key={cate._id} value={cate.name}>
-                    {cate.name}
-                  </option>
-                ))}
-              </select>
+              <Select
+                isMulti
+                value={restaurant}
+                options={restaurantOptions}
+                onChange={handleRestaurantChange}
+                placeholder="Select Restaurants"
+              />
             </div>
 
             <div>
