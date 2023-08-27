@@ -1,7 +1,6 @@
 import { useState } from "react";
 import "../../styles/cart/Shipping.css";
 import { useSelector, useDispatch } from "react-redux";
-import { saveShippingInfo } from "../../actions/cartAction";
 import MetaData from "../layout/MetaData";
 import HomeIcon from "@material-ui/icons/Home";
 import LocationCityIcon from "@material-ui/icons/LocationCity";
@@ -27,7 +26,13 @@ const Shipping = () => {
       alert.error("Phone Number should be 10 digits Long");
       return;
     }
-    dispatch(saveShippingInfo({ address, city, phoneNo }));
+    const shippingInfo = {
+      address,
+      city,
+      phoneNo,
+    };
+    localStorage.setItem("shippingInfo", JSON.stringify(shippingInfo));
+    // dispatch(saveShippingInfo({ address, city, phoneNo }));
     navigate("/order/confirm");
   };
 

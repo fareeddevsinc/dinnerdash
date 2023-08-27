@@ -18,6 +18,7 @@ const Cart = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { error, cartItems } = useSelector((state) => state.cart);
+  const { user } = useSelector((state) => state.user);
   const alert = useAlert();
 
   useEffect(() => {
@@ -26,6 +27,7 @@ const Cart = () => {
       dispatch(clearErrors());
     }
     dispatch(getCart());
+    console.log(cartItems.cart[0].products);
   }, [dispatch, alert, error]);
 
   const increaseQuantity = (id, quantity, stock) => {
@@ -55,7 +57,12 @@ const Cart = () => {
   };
 
   const checkoutHandler = () => {
-    navigate("/login?redirect=shipping");
+    if (user.role !== undefined) {
+      navigate("/shipping");
+    } else {
+      navigate("/login");
+      alert.error("Please Login to Check Out");
+    }
   };
 
   return (

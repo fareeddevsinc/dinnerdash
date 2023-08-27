@@ -29,6 +29,7 @@ import Shipping from "./components/cart/Shipping.jsx";
 import MyOrder from "./components/order/MyOrder.jsx";
 import ConfirmOrder from "./components/cart/ConfirmOrder.jsx";
 import OrderDetails from "./components/order/OrderDetails.jsx";
+import OrderSuccess from "./components/cart/OrderSuccess.jsx";
 import AdminProtectedRoute from "./components/route/AdminProtectedRoute.jsx";
 import NotFound from "./components/error/NotFound.jsx";
 import Restaurants from "./components/restaurant/Restaurants.jsx";
@@ -186,7 +187,7 @@ const App = () => {
         <Route
           path="/shipping"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute isAuthenticated={isAuthenticated}>
               <Shipping />
             </ProtectedRoute>
           }
@@ -194,7 +195,7 @@ const App = () => {
         <Route
           path="/orders"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute isAuthenticated={isAuthenticated}>
               <MyOrder />
             </ProtectedRoute>
           }
@@ -202,7 +203,7 @@ const App = () => {
         <Route
           path="/order/confirm"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute isAuthenticated={isAuthenticated}>
               <ConfirmOrder />
             </ProtectedRoute>
           }
@@ -210,8 +211,16 @@ const App = () => {
         <Route
           path="/order/:id"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute isAuthenticated={isAuthenticated}>
               <OrderDetails />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/success"
+          element={
+            <ProtectedRoute isAuthenticated={isAuthenticated}>
+              <OrderSuccess />
             </ProtectedRoute>
           }
         />

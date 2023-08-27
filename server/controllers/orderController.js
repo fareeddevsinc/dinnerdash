@@ -7,7 +7,6 @@ const newOrder = async (req, res, next) => {
     const {
       shippingInfo,
       orderItems,
-      paymentInfo,
       itemsPrice,
       taxPrice,
       shippingPrice,
@@ -17,19 +16,18 @@ const newOrder = async (req, res, next) => {
     const order = await Order.create({
       shippingInfo,
       orderItems,
-      paymentInfo,
       itemsPrice,
       taxPrice,
       shippingPrice,
       totalPrice,
-      paidAt: Date.now(),
-      user: req.user._id,
+      user: req.user.id,
     });
     res.status(201).json({
       success: true,
       order,
     });
   } catch (error) {
+    console.log(error.message);
     return next(new ErrorHandler(error.message, 500));
   }
 };
@@ -56,7 +54,7 @@ const getSingleOrder = async (req, res, next) => {
 //get logged in user orders
 const myOrders = async (req, res, next) => {
   try {
-    const order = await Order.find({ user: req.user._id });
+    const order = await Order.find({ user: req.user.id });
 
     res.status(200).json({
       success: true,

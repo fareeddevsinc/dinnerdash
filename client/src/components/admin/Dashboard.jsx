@@ -56,8 +56,8 @@ const Dashboard = () => {
 
   let totalAmount = 0;
   orders &&
-    orders.forEach((item) => {
-      totalAmount += item.totalPrice;
+    orders.order[0].orderItems.forEach((item) => {
+      totalAmount += item.price;
     });
 
   const lineState = {
@@ -104,7 +104,7 @@ const Dashboard = () => {
             </Link>
             <Link to="/admin/orders">
               <p>Orders</p>
-              <p>{orders && orders.length}</p>
+              <p>{orders && orders.order[0].orderItems.length}</p>
             </Link>
             <Link to="/admin/users">
               <p>Users</p>

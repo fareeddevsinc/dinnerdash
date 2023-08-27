@@ -1,17 +1,22 @@
 import CheckoutSteps from "./CheckoutSteps";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import MetaData from "../layout/MetaData";
 import "../../styles/cart/ConfirmOrder.css";
 import { Link, useNavigate } from "react-router-dom";
 import { Typography } from "@material-ui/core";
+import { createOrder } from "../../actions/orderAction";
 
 const ConfirmOrder = () => {
-  const { shippingInfo, cartItems } = useSelector((state) => state.cart);
+  const { cartItems } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.user);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const subtotal = cartItems.reduce(
-    (acc, item) => acc + item.quantity * item.price,
+  const shippingInfo = JSON.parse(localStorage.getItem("shippingInfo"));
+  console.log(shippingInfo);
+
+  const subtotal = cartItems.cart[0]?.products.reduce(
+    (acc, item) => acc + item.quantity * item.product.price,
     0
   );
 
@@ -21,17 +26,23 @@ const ConfirmOrder = () => {
 
   const totalPrice = subtotal + tax + shippingCharges;
 
-  const address = `${shippingInfo.address}, ${shippingInfo.city}`;
-
   const confirmOrder = () => {
-    const data = {
-      subtotal,
-      shippingCharges,
-      tax,
-      totalPrice,
+    const order = {
+      shippingInfo,
+      orderItems: cartItems.cart[0]?.products.map((item) => ({
+        name: item.product.name,
+        quantity: item.quantity,
+        price: item.product.price,
+        images: item.product.images,
+        product: item.product._id,
+      })),
+      itemsPrice: subtotal,
+      taxPrice: tax,
+      shippingPrice: shippingCharges,
+      totalPrice: totalPrice,
     };
 
-    sessionStorage.setItem("orderInfo", JSON.stringify(data));
+    dispatch(createOrder(order));
 
     navigate("/success");
   };
@@ -55,7 +66,7 @@ const ConfirmOrder = () => {
               </div>
               <div>
                 <p>Address:</p>
-                <span>{address}</span>
+                <span>{`${shippingInfo?.address}, ${shippingInfo?.city}`}</span>
               </div>
             </div>
           </div>
@@ -63,15 +74,15 @@ const ConfirmOrder = () => {
             <Typography>Your Cart Items:</Typography>
             <div className="confirmCartItemsContainer">
               {cartItems &&
-                cartItems.map((item) => (
-                  <div key={item.product}>
-                    <img src={item.image} alt="Product" />
-                    <Link to={`/product/${item.product}`}>
-                      {item.name}
+                cartItems.cart[0]?.products.map((item) => (
+                  <div key={item.product._id}>
+                    <img src={item.product.images} alt="Product" />
+                    <Link to={`/product/${item.product._id}`}>
+                      {item.product.name}
                     </Link>{" "}
                     <span>
-                      {item.quantity} X Rs.{item.price} ={" "}
-                      <b>Rs.{item.price * item.quantity}</b>
+                      {item.quantity} X Rs.{item.product.price} ={" "}
+                      <b>Rs.{item.product.price * item.quantity}</b>
                     </span>
                   </div>
                 ))}

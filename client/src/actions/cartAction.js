@@ -102,20 +102,20 @@ export const deleteCart = () => async (dispatch) => {
   }
 };
 
-export const saveShippingInfo = (shippingData) => async (dispatch) => {
-  try {
-    dispatch({ type: SHIPPING_INFO_REQUEST });
-    const config = requestHeader();
-    const { data } = await saveShippingInfoApi(shippingData, config);
+// export const saveShippingInfo = (shippingData) => async (dispatch) => {
+//   try {
+//     dispatch({ type: SHIPPING_INFO_REQUEST });
+//     const config = requestHeader();
+//     const { data } = await saveShippingInfoApi(shippingData, config);
 
-    dispatch({
-      type: SHIPPING_INFO_SUCCESS,
-      payload: data,
-    });
-  } catch (error) {
-    dispatch({
-      type: SHIPPING_INFO_FAIL,
-      payload: error.response.data.message,
-    });
-  }
-};
+//     dispatch({
+//       type: SHIPPING_INFO_SUCCESS,
+//       payload: data,
+//     });
+//   } catch (error) {
+//     dispatch({
+//       type: SHIPPING_INFO_FAIL,
+//       payload: error.response.data.message,
+//     });
+//   }
+// };

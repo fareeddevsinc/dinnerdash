@@ -2,11 +2,15 @@ import axios from "axios";
 import { BASE_URL } from "../baseUrl";
 
 export const getAllCartItemsApi = async () => {
-  const { data } = await axios.get(`${BASE_URL}/cart`, {
-    withCredentials: true,
-  });
+  try {
+    const { data } = await axios.get(`${BASE_URL}/cart`, {
+      withCredentials: true,
+    });
 
-  return { data };
+    return { data };
+  } catch (error) {
+    console.log(error.message);
+  }
 };
 
 export const addItemsToCartApi = async (id, quantity, config) => {
@@ -35,15 +39,23 @@ export const removeItemsFromCartApi = async (id, config) => {
 };
 
 export const deleteCartApi = async () => {
-  const { data } = await axios.delete(`${BASE_URL}/cart`, {
-    withCredentials: true,
-  });
+  try {
+    const { data } = await axios.delete(`${BASE_URL}/cart`, {
+      withCredentials: true,
+    });
 
-  return { data };
+    return { data };
+  } catch (error) {
+    console.log(error.message);
+  }
 };
 
-export const saveShippingInfoApi = async (id, userData) => {
-  const { data } = await axios.post(`${BASE_URL}/shipping/${id}`, userData);
+export const saveShippingInfoApi = async (userData, config) => {
+  try {
+    const { data } = await axios.post(`${BASE_URL}/shipping`, userData, config);
 
-  return { data };
+    return { data };
+  } catch (error) {
+    console.log(error.message);
+  }
 };

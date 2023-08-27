@@ -19,9 +19,9 @@ const NewProduct = () => {
 
   const { restaurants } = useSelector((state) => state.restaurants);
 
-  const [name, setName] = useState(null);
+  const [name, setName] = useState("");
   const [price, setPrice] = useState(0);
-  const [description, setDescription] = useState(null);
+  const [description, setDescription] = useState("");
   const [categories, setCategories] = useState([]);
   const [restaurant, setRestaurant] = useState([]);
   const [stock, setStock] = useState(0);

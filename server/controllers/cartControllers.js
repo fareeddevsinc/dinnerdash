@@ -7,8 +7,6 @@ const getAllCartItems = async (req, res) => {
       .populate("user")
       .populate("products.product");
 
-    console.log(cart);
-
     if (cart) {
       res.status(200).json({
         success: true,

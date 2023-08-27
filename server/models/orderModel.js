@@ -30,10 +30,12 @@ const orderSchema = new mongoose.Schema({
         type: Number,
         required: true,
       },
-      image: {
-        type: String,
-        required: true,
-      },
+      images: [
+        {
+          type: String,
+          required: true,
+        },
+      ],
       product: {
         type: mongoose.Schema.ObjectId,
         ref: "Product",
@@ -44,20 +46,6 @@ const orderSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.ObjectId,
     ref: "User",
-    required: true,
-  },
-  paymentInfo: {
-    id: {
-      type: String,
-      required: true,
-    },
-    status: {
-      type: String,
-      required: true,
-    },
-  },
-  paidAt: {
-    type: Date,
     required: true,
   },
   itemPrice: {
@@ -84,9 +72,6 @@ const orderSchema = new mongoose.Schema({
     type: String,
     required: true,
     default: "Processing",
-  },
-  deliveredAt: {
-    type: Date,
   },
   createdAt: {
     type: Date,

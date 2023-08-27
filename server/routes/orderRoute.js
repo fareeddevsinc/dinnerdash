@@ -1,6 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const { isAuthenticatedUser, authorizeRoles } = require("../middlewares/auth");
+const {
+  isAuthenticatedUser,
+  authorizeRoles,
+  isAuthenticatedUserForPut,
+} = require("../middlewares/auth");
 const {
   newOrder,
   getSingleOrder,
@@ -10,22 +14,22 @@ const {
   deleteOrder,
 } = require("../controllers/orderController");
 
-router.route("/order/new").post(isAuthenticatedUser, newOrder);
+router.route("/order/new").post(isAuthenticatedUserForPut, newOrder);
 
-router.route("/order/:id").get(isAuthenticatedUser, getSingleOrder);
+router.route("/order/:id").get(isAuthenticatedUserForPut, getSingleOrder);
 
-router.route("/orders/me").get(isAuthenticatedUser, myOrders);
+router.route("/orders/me").get(isAuthenticatedUserForPut, myOrders);
 
 router
   .route("/admin/orders")
-  .get(isAuthenticatedUser, authorizeRoles("admin"), getAllOrders);
+  .get(isAuthenticatedUserForPut, authorizeRoles("admin"), getAllOrders);
 
 router
   .route("/admin/order/:id")
-  .put(isAuthenticatedUser, authorizeRoles("admin"), updateOrder);
+  .put(isAuthenticatedUserForPut, authorizeRoles("admin"), updateOrder);
 
 router
   .route("/admin/order/:id")
-  .delete(isAuthenticatedUser, authorizeRoles("admin"), deleteOrder);
+  .delete(isAuthenticatedUserForPut, authorizeRoles("admin"), deleteOrder);
 
 module.exports = router;
