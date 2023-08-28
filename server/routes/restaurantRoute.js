@@ -8,15 +8,15 @@ const {
 
 const {
   viewRestaurant,
-  viewAllRestaurants,
   deleteRestaurant,
   createRestaurant,
   updateRestaurant,
+  getAllRestaurants,
 } = require("../controllers/restaurantController");
 
 const router = express.Router();
 
-router.route("/restaurants").get(viewAllRestaurants);
+router.route("/restaurants").get(getAllRestaurants);
 
 router.route("/restaurant/:id").get(viewRestaurant);
 

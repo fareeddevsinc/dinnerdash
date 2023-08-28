@@ -4,7 +4,6 @@ import Header from "./components/layout/Header/Header.jsx";
 import ProductDetails from "./components/product/ProductDetails.jsx";
 import Products from "./components/product/Products.jsx";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Search from "./components/product/Search.jsx";
 import LoginSignup from "./components/user/LoginSignup.jsx";
 import Account from "./components/user/Account";
 import UpdateProfile from "./components/user/UpdateProfile";
@@ -49,7 +48,6 @@ const App = () => {
         <Route path="/product/:id" element={<ProductDetails />} />
         <Route path="/products" element={<Products />} />
         <Route path="/products/:key" element={<Products />} />
-        <Route path="/search" element={<Search />} />
         <Route path="/login" element={<LoginSignup />} />
         <Route
           path="/account"

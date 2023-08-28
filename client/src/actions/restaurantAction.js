@@ -26,6 +26,28 @@ import {
   deleteRestaurantApi,
 } from "../api/restaurant/restaurantApi";
 
+import axios from "axios";
+
+export const getRestaurant =
+  (keyword = "", currentPage = 1) =>
+  async (dispatch) => {
+    try {
+      dispatch({ type: ALL_RESTAURANT_REQUEST });
+      let link = `http://localhost:8000/api/v1/restaurants?keyword=${keyword}&page=${currentPage}`;
+      const { data } = await axios.get(link);
+
+      dispatch({
+        type: ALL_RESTAURANT_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: ALL_RESTAURANT_FAIL,
+        payload: error.response.data.message,
+      });
+    }
+  };
+
 export const getAllRestaurants = () => async (dispatch) => {
   try {
     dispatch({ type: ALL_RESTAURANT_REQUEST });

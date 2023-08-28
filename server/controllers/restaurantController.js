@@ -1,5 +1,6 @@
 const ErrorHandler = require("../utils/errorHandler");
 const Restaurant = require("../models/restaurantModel");
+const ApiFeatures = require("../utils/apiFeatures");
 
 const createRestaurant = async (req, res) => {
   try {
@@ -72,6 +73,36 @@ const viewRestaurant = async (req, res) => {
   }
 };
 
+const getAllRestaurants = async (req, res) => {
+  try {
+    const resultPerPage = 4;
+    const restaurantsCount = await Restaurant.countDocuments();
+
+    //for query in url inadvanced way from apiFeature.js
+    const apiFeature = new ApiFeatures(Restaurant.find(), req.query)
+      .search()
+      .filter();
+
+    let restaurants = apiFeature.query;
+    let filteredRestaurantCount = restaurants.length;
+    apiFeature.pagination(resultPerPage);
+    restaurants = await apiFeature.query;
+
+    if (restaurants) {
+      res.status(200).json({
+        success: true,
+        restaurants,
+        restaurantsCount,
+        resultPerPage,
+        filteredRestaurantCount,
+      });
+    }
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+//admin
 const viewAllRestaurants = async (req, res) => {
   try {
     const restaurants = await Restaurant.find({});
@@ -90,4 +121,5 @@ module.exports = {
   deleteRestaurant,
   createRestaurant,
   updateRestaurant,
+  getAllRestaurants,
 };

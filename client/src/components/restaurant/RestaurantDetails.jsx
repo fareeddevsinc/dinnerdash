@@ -17,7 +17,7 @@ const RestaurantDetails = () => {
   const alert = useAlert();
 
   const { restaurant, loading, error } = useSelector(
-    (state) => state.restaurantDetails
+    (state) => state.restaurant
   );
 
   useEffect(() => {
@@ -34,34 +34,20 @@ const RestaurantDetails = () => {
         <p>Loading...</p>
       ) : (
         <>
-          <MetaData title={`${restaurant.name} -- DinnerDash`} />
+          <MetaData title={`${restaurant.restaurant?.name} -- DinnerDash`} />
           <div className="RestaurantDetails">
             <div>
-              <Carousel>
-                {restaurant.images &&
-                  restaurant.images.map((item, i) => (
-                    <img
-                      className="CarouselImage"
-                      key={i}
-                      src={item.url}
-                      alt={`${i} Slide`}
-                    />
-                  ))}
-              </Carousel>
-            </div>
-
-            <div>
               <div className="detailsBlock-1">
-                <h2>{restaurant.name}</h2>
-                <p>restaurant # {restaurant._id}</p>
+                <h2>{restaurant.restaurant?.name}</h2>
+                <p>restaurant # {restaurant?._id}</p>
               </div>
 
               <div className="detailsBlock-4">
-                Branch : <p>{restaurant.branch}</p>
+                Branch : <p>{restaurant.restaurant?.branch}</p>
               </div>
 
               <div className="detailsBlock-4">
-                Location : <p>{restaurant.location}</p>
+                Location : <p>{restaurant.restaurant?.location}</p>
               </div>
             </div>
           </div>

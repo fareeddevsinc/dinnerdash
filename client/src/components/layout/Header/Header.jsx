@@ -63,8 +63,8 @@ const Header = ({ user }) => {
         <NavLink style={linkStyle} to="/products">
           Products
         </NavLink>
-        <NavLink style={linkStyle} to="/search">
-          Search
+        <NavLink style={linkStyle} to="/restaurants">
+          Restaurants
         </NavLink>
         <NavLink style={linkStyle} to="/cart">
           Cart

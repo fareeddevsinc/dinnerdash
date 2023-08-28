@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import RestaurantCard from "./RestaurantCard";
-import { clearErrors, getProduct } from "../../actions/productAction";
+import { clearErrors, getRestaurant } from "../../actions/restaurantAction";
 import Pagination from "react-js-pagination";
 import { useAlert } from "react-alert";
 import MetaData from "../layout/MetaData";
+import Search from "../../helpers/Search";
 
 import "../../styles/product/Product.css";
 
@@ -34,7 +35,7 @@ const Restaurants = () => {
       alert.error(error);
       dispatch(clearErrors());
     }
-    dispatch(getProduct(keyword, currentPage));
+    dispatch(getRestaurant(keyword, currentPage));
   }, [dispatch, keyword, currentPage, error]);
 
   let count = filteredRestaurantCount;
@@ -42,8 +43,10 @@ const Restaurants = () => {
     <div className="products-container">
       <MetaData title="All Dishes --DinnerDash" />
 
+      <Search item="restaurants" />
+
       {restaurants &&
-        restaurants.map((restaurant) => (
+        restaurants.restaurants.map((restaurant) => (
           <RestaurantCard key={restaurant._id} restaurant={restaurant} />
         ))}
 

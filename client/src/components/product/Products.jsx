@@ -8,6 +8,7 @@ import Slider from "@mui/material/Slider";
 import Typography from "@mui/material/Typography";
 import { useAlert } from "react-alert";
 import MetaData from "../layout/MetaData";
+import Search from "../../helpers/Search";
 
 import "../../styles/product/Product.css";
 
@@ -57,6 +58,7 @@ const Products = () => {
     <div className="products-container">
       <MetaData title="All Dishes --DinnerDash" />
 
+      <Search item="products" />
       {products &&
         products.map((product) => (
           <ProductCard key={product._id} product={product} />

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import MetaData from "../layout/MetaData";
+import MetaData from "../components/layout/MetaData";
 
 const containerStyle = {
   display: "flex",
@@ -31,16 +31,16 @@ const buttonStyle = {
   borderRadius: "5px",
 };
 
-const Search = () => {
+const Search = ({ item }) => {
   const navigate = useNavigate();
   const [keyword, setKeyword] = useState("");
 
   const submitSearchHandler = (e) => {
     e.preventDefault();
     if (keyword.trim()) {
-      navigate(`/products/${keyword}`);
+      navigate(`/${item}/${keyword}`);
     } else {
-      navigate(`/products`);
+      navigate(`/${item}`);
     }
   };
 
@@ -53,7 +53,7 @@ const Search = () => {
             style={inputStyle}
             type="text"
             value={keyword}
-            placeholder="Enter A Product To Search..."
+            placeholder="Search here..."
             onChange={(e) => setKeyword(e.target.value)}
           />
           <input style={buttonStyle} type="submit" value="Search" />
