@@ -24,7 +24,6 @@ const Products = () => {
   const [ratings, setRatings] = useState(0);
   const {
     products,
-    loading,
     error,
     productsCount,
     resultPerPage,

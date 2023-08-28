@@ -17,7 +17,6 @@ const Restaurants = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const {
     restaurants,
-    loading,
     error,
     restaurantsCount,
     resultPerPage,
@@ -36,7 +35,7 @@ const Restaurants = () => {
       dispatch(clearErrors());
     }
     dispatch(getRestaurant(keyword, currentPage));
-  }, [dispatch, keyword, currentPage, error]);
+  }, [dispatch, keyword, currentPage, alert, error]);
 
   let count = filteredRestaurantCount;
   return (

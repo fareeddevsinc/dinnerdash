@@ -52,7 +52,7 @@ const Header = ({ user }) => {
       {isAuthenticated && (
         <NavLink to="/account">
           <div style={imageContainerStyle}>
-            <img style={imageStyle} src={user.avatar.url} alt="profile-pic" />
+            <img style={imageStyle} src={user?.avatar?.url} alt="profile-pic" />
           </div>
         </NavLink>
       )}

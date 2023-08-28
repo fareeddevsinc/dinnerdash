@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import Carousel from "react-material-ui-carousel";
 import "../../styles/product/ProductDetails.css";
 import { useSelector, useDispatch } from "react-redux";
 import {

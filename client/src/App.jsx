@@ -234,6 +234,8 @@ const App = () => {
         />
         <Route path="/restaurants" element={<Restaurants />} />
 
+        <Route path="/restaurants/:key" element={<Restaurants />} />
+
         <Route path="/restaurant/:id" element={<RestaurantDetails />} />
 
         <Route path="*" element={<NotFound />} />
