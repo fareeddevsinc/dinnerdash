@@ -8,6 +8,14 @@ import {
   RESTAURANT_DETAILS_REQUEST,
   RESTAURANT_DETAILS_SUCCESS,
   RESTAURANT_DETAILS_FAIL,
+  DELETE_RESTAURANT_REQUEST,
+  DELETE_RESTAURANT_FAIL,
+  DELETE_RESTAURANT_SUCCESS,
+  DELETE_RESTAURANT_RESET,
+  UPDATE_RESTAURANT_FAIL,
+  UPDATE_RESTAURANT_REQUEST,
+  UPDATE_RESTAURANT_RESET,
+  UPDATE_RESTAURANT_SUCCESS,
   CLEAR_ERRORS,
   ADD_RESTAURANT_RESET,
 } from "../constants/restaurantConstants";
@@ -30,6 +38,54 @@ export const restaurantsReducer = (state = { restaurants: [] }, action) => {
         error: action.payload,
       };
 
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+    default:
+      return state;
+  }
+};
+
+export const restaurantReducer = (state = {}, action) => {
+  switch (action.type) {
+    case DELETE_RESTAURANT_REQUEST:
+    case UPDATE_RESTAURANT_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case DELETE_RESTAURANT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        isDeleted: action.payload,
+      };
+
+    case UPDATE_RESTAURANT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        isUpdated: action.payload,
+      };
+    case DELETE_RESTAURANT_FAIL:
+    case UPDATE_RESTAURANT_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    case DELETE_RESTAURANT_RESET:
+      return {
+        ...state,
+        isDeleted: false,
+      };
+    case UPDATE_RESTAURANT_RESET:
+      return {
+        ...state,
+        isUpdated: false,
+      };
     case CLEAR_ERRORS:
       return {
         ...state,

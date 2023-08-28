@@ -9,6 +9,12 @@ import {
   RESTAURANT_DETAILS_REQUEST,
   RESTAURANT_DETAILS_SUCCESS,
   RESTAURANT_DETAILS_FAIL,
+  DELETE_RESTAURANT_REQUEST,
+  DELETE_RESTAURANT_FAIL,
+  DELETE_RESTAURANT_SUCCESS,
+  UPDATE_RESTAURANT_FAIL,
+  UPDATE_RESTAURANT_REQUEST,
+  UPDATE_RESTAURANT_SUCCESS,
   CLEAR_ERRORS,
 } from "../constants/restaurantConstants";
 
@@ -16,6 +22,8 @@ import {
   getAllRestaurantsApi,
   getRestaurantDetailsApi,
   addRestaurantApi,
+  updateRestaurantApi,
+  deleteRestaurantApi,
 } from "../api/restaurant/restaurantApi";
 
 export const getAllRestaurants = () => async (dispatch) => {
@@ -51,7 +59,7 @@ export const getRestaurantDetails = (id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: RESTAURANT_DETAILS_FAIL,
-      payload: error.response.data.message,
+      payload: error.response?.data?.message,
     });
   }
 };
@@ -73,6 +81,48 @@ export const addRestaurant = (restaurantData) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: ADD_RESTAURANT_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+// Update Restaurant
+export const updateRestaurant = (id, RestaurantData) => async (dispatch) => {
+  try {
+    dispatch({ type: UPDATE_RESTAURANT_REQUEST });
+
+    const config = requestHeader();
+
+    const { data } = await updateRestaurantApi(id, RestaurantData, config);
+
+    dispatch({
+      type: UPDATE_RESTAURANT_SUCCESS,
+      payload: data.success,
+    });
+  } catch (error) {
+    dispatch({
+      type: UPDATE_RESTAURANT_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+// Delete Restaurant
+export const deleteRestaurant = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: DELETE_RESTAURANT_REQUEST });
+
+    const config = requestHeader();
+
+    const { data } = await deleteRestaurantApi(id, config);
+
+    dispatch({
+      type: DELETE_RESTAURANT_SUCCESS,
+      payload: data.success,
+    });
+  } catch (error) {
+    dispatch({
+      type: DELETE_RESTAURANT_FAIL,
       payload: error.response.data.message,
     });
   }

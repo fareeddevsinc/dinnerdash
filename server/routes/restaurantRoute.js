@@ -22,7 +22,7 @@ router.route("/restaurant/:id").get(viewRestaurant);
 
 router
   .route("/restaurant/:id")
-  .delete(isAuthenticatedUser, authorizeRoles("admin"), deleteRestaurant);
+  .delete(isAuthenticatedUserForPut, authorizeRoles("admin"), deleteRestaurant);
 
 router
   .route("/restaurant/new")
@@ -30,6 +30,6 @@ router
 
 router
   .route("/restaurant/:id")
-  .put(isAuthenticatedUser, authorizeRoles("admin"), updateRestaurant);
+  .put(isAuthenticatedUserForPut, authorizeRoles("admin"), updateRestaurant);
 
 module.exports = router;

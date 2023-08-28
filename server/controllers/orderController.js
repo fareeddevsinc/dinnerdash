@@ -104,10 +104,6 @@ const updateOrder = async (req, res, next) => {
 
     order.orderStatus = req.body.status;
 
-    if (req.body.status === "Completed") {
-      order.deliveredAt = Date.now();
-    }
-
     await order.save({ ValidateBeforeSave: false });
 
     res.status(200).json({

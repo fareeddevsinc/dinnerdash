@@ -57,10 +57,7 @@ const Dashboard = () => {
   let totalAmount = 0;
   orders &&
     orders.order.forEach((order) => {
-      order.orderItems.forEach((item) => {
-        console.log(`item price ${item.price}`);
-        totalAmount += item.price;
-      });
+      totalAmount += order.totalPrice;
     });
 
   const lineState = {

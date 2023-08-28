@@ -33,3 +33,28 @@ export const addRestaurantApi = async (restaurantData, config) => {
     console.log(error.message);
   }
 };
+
+export const deleteRestaurantApi = async (id, config) => {
+  try {
+    const { data } = await axios.delete(
+      `${BASE_URL}/restaurant/${id}?role=admin`,
+      config
+    );
+    return { data };
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+export const updateRestaurantApi = async (id, restaurantData, config) => {
+  try {
+    const { data } = await axios.put(
+      `${BASE_URL}/restaurant/${id}?role=admin`,
+      restaurantData,
+      config
+    );
+    return { data };
+  } catch (error) {
+    console.log(error.message);
+  }
+};

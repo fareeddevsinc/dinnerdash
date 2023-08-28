@@ -24,6 +24,7 @@ import UpdateUser from "./components/admin/UpdateUser.jsx";
 import UsersList from "./components/admin/UsersList.jsx";
 import RestaurantsList from "./components/admin/RestaurantsList.jsx";
 import NewRestaurant from "./components/admin/NewRestaurant.jsx";
+import UpdateRestaurant from "./components/admin/UpdateRestaurant.jsx";
 import Cart from "./components/cart/Cart.jsx";
 import Shipping from "./components/cart/Shipping.jsx";
 import MyOrder from "./components/order/MyOrder.jsx";
@@ -172,6 +173,15 @@ const App = () => {
           element={
             <AdminProtectedRoute role={user?.role}>
               <NewRestaurant />
+            </AdminProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/restaurant/:id"
+          element={
+            <AdminProtectedRoute role={user?.role}>
+              <UpdateRestaurant />
             </AdminProtectedRoute>
           }
         />

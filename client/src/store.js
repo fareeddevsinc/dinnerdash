@@ -30,6 +30,7 @@ import {
   restaurantDetailsReducer,
   addRestaurantReducer,
   restaurantsReducer,
+  restaurantReducer,
 } from "./reducers/restaurantReducer";
 
 import { cartReducer } from "./reducers/cartReducer";
@@ -61,6 +62,7 @@ const reducer = combineReducers({
   restaurants: restaurantsReducer,
   restaurant: restaurantDetailsReducer,
   addRestaurant: addRestaurantReducer,
+  restaurantOperations: restaurantReducer,
 });
 
 // Create a persistConfig object with a key of 'root' and the storage engine set to local storage
