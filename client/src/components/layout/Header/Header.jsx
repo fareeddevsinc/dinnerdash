@@ -69,6 +69,9 @@ const Header = ({ user }) => {
         <NavLink style={linkStyle} to="/cart">
           Cart
         </NavLink>
+        <NavLink style={linkStyle} to="/orders">
+          Orders
+        </NavLink>
         {isAuthenticated ? (
           <NavLink style={linkStyle} to="/login">
             <button style={linkStyle} onClick={handleLogout}>
