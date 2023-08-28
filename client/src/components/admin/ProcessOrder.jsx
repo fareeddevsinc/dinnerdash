@@ -13,6 +13,7 @@ import { useAlert } from "react-alert";
 import { Button } from "@material-ui/core";
 import { UPDATE_ORDER_RESET } from "../../constants/orderConstants";
 import "../../styles/admin/processOrder.css";
+import AccountTreeIcon from "@material-ui/icons/AccountTree";
 
 const ProcessOrder = () => {
   const { id } = useParams();
@@ -85,12 +86,12 @@ const ProcessOrder = () => {
                       <p>Address:</p>
                       <span>
                         {order.shippingInfo &&
-                          `${order.shippingInfo.address}, ${order.shippingInfo.city}, ${order.shippingInfo.state}, ${order.shippingInfo.pinCode}, ${order.shippingInfo.country}`}
+                          `${order.shippingInfo.address}, ${order.shippingInfo.city}`}
                       </span>
                     </div>
                   </div>
 
-                  <Typography>Payment</Typography>
+                  {/* <Typography>Payment</Typography>
                   <div className="orderDetailsContainerBox">
                     <div>
                       <p
@@ -112,7 +113,7 @@ const ProcessOrder = () => {
                       <p>Amount:</p>
                       <span>{order.totalPrice && order.totalPrice}</span>
                     </div>
-                  </div>
+                  </div> */}
 
                   <Typography>Order Status</Typography>
                   <div className="orderDetailsContainerBox">
@@ -140,8 +141,8 @@ const ProcessOrder = () => {
                             {item.name}
                           </Link>{" "}
                           <span>
-                            {item.quantity} X ₹{item.price} ={" "}
-                            <b>₹{item.price * item.quantity}</b>
+                            {item.quantity} X Rs.{item.price} ={" "}
+                            <b>Rs.{item.price * item.quantity}</b>
                           </span>
                         </div>
                       ))}
@@ -161,14 +162,19 @@ const ProcessOrder = () => {
                   <h1>Process Order</h1>
 
                   <div>
-                    Account Tree Icon
+                    <AccountTreeIcon />
                     <select onChange={(e) => setStatus(e.target.value)}>
                       <option value="">Choose Category</option>
                       {order.orderStatus === "Processing" && (
-                        <option value="Shipped">Shipped</option>
+                        <>
+                          <option value="Completed">Completed</option>
+                          <option value="Paid">Paid</option>
+                          <option value="Cancelled">Cancelled</option>
+                          <option value="Processing">Processing</option>
+                        </>
                       )}
 
-                      {order.orderStatus === "Shipped" && (
+                      {order.orderStatus === "Completed" && (
                         <option value="Delivered">Delivered</option>
                       )}
                     </select>

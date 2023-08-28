@@ -94,8 +94,8 @@ const updateOrder = async (req, res, next) => {
       return next(new ErrorHandler("Order Not Found", 404));
     }
 
-    if (order.orderStatus === "Delivered") {
-      return next(new ErrorHandler("Order Already Delivered", 200));
+    if (order.orderStatus === "Completed") {
+      return next(new ErrorHandler("Order Already Completed", 200));
     }
 
     order.orderItems.forEach(async (order) => {
@@ -104,7 +104,7 @@ const updateOrder = async (req, res, next) => {
 
     order.orderStatus = req.body.status;
 
-    if (req.body.status === "Delivered") {
+    if (req.body.status === "Completed") {
       order.deliveredAt = Date.now();
     }
 

@@ -2,13 +2,17 @@ import axios from "axios";
 import { BASE_URL } from "../baseUrl";
 
 export const updateOrderApi = async (id, order, config) => {
-  const { data } = await axios.put(
-    `${BASE_URL}/admin/order/${id}?role=admin`,
-    order,
-    config
-  );
+  try {
+    const { data } = await axios.put(
+      `${BASE_URL}/admin/order/${id}?role=admin`,
+      order,
+      config
+    );
 
-  return { data };
+    return { data };
+  } catch (error) {
+    console.log(error.message);
+  }
 };
 
 export const getAllOrdersApi = async (config) => {
@@ -40,9 +44,16 @@ export const createOrderApi = async (order, config) => {
 };
 
 export const deleteOrderApi = async (id, config) => {
-  const { data } = await axios.delete(`${BASE_URL}/${id}?role=admin`, config);
+  try {
+    const { data } = await axios.delete(
+      `${BASE_URL}/admin/order/${id}?role=admin`,
+      config
+    );
 
-  return { data };
+    return { data };
+  } catch (error) {
+    console.log(error.message);
+  }
 };
 
 export const getOrderDetailsApi = async (id, config) => {
