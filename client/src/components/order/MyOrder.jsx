@@ -11,6 +11,7 @@ import MetaData from "../layout/MetaData";
 import { clearErrors, myOrders } from "../../redux/actions/orderAction";
 
 import "../../styles/order/myOrders.css";
+import LoadingScreen from "../layout/Loader/Loader";
 
 const MyOrders = () => {
   const dispatch = useDispatch();
@@ -76,7 +77,7 @@ const MyOrders = () => {
   const rows = [];
 
   orders &&
-    orders.order.forEach((item) => {
+    orders?.order?.forEach((item) => {
       rows.push({
         id: item._id,
         itemsQty: item.quantity,
@@ -100,7 +101,7 @@ const MyOrders = () => {
       <MetaData title={`${user?.name} - Orders`} />
 
       {loading ? (
-        <p>Loading...</p>
+        <LoadingScreen />
       ) : (
         <div className="myOrdersPage">
           <DataGrid
