@@ -47,9 +47,9 @@ const UpdateUser = () => {
     if (user && user._id !== userId) {
       dispatch(getUserDetails(userId));
     } else {
-      setName(user.name);
-      setEmail(user.email);
-      setRole(user.role);
+      setName(user?.name);
+      setEmail(user?.email);
+      setRole(user?.role);
     }
     if (error) {
       alert.error(error);

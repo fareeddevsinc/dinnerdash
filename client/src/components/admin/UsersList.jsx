@@ -118,7 +118,7 @@ const UsersList = () => {
   const rows = [];
 
   users &&
-    users.forEach((item) => {
+    users?.forEach((item) => {
       rows.push({
         id: item._id,
         role: item.role,

@@ -62,7 +62,7 @@ const Dashboard = () => {
       });
     let total = 0;
     orders &&
-      orders.order.forEach((order) => {
+      orders?.order?.forEach((order) => {
         total += order.totalPrice;
       });
     setTotalAmount(total);
