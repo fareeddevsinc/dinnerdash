@@ -3,7 +3,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAlert } from "react-alert";
 import { Button } from "@material-ui/core";
-import { DescriptionIcon, SpellcheckIcon } from "@material-ui/icons";
+import {
+  Description as DescriptionIcon,
+  Spellcheck as SpellcheckIcon,
+} from "@material-ui/icons";
 
 import MetaData from "../layout/MetaData";
 import SideBar from "./Sidebar";

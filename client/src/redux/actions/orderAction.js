@@ -27,8 +27,8 @@ import {
   getOrderDetailsApi,
   myOrdersApi,
   updateOrderApi,
-} from "../api/order/orderApi";
-import requestHeader from "../helpers/requestHeaders";
+} from "../../api/order/orderApi";
+import requestHeader from "../../helpers/requestHeaders";
 
 // Create Order
 export const createOrder = (order) => async (dispatch) => {
@@ -37,8 +37,6 @@ export const createOrder = (order) => async (dispatch) => {
 
     const config = requestHeader();
     const { data } = await createOrderApi(order, config);
-
-    console.log(`order is: ${data}`);
 
     dispatch({ type: CREATE_ORDER_SUCCESS, payload: data });
   } catch (error) {

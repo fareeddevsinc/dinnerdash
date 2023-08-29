@@ -1,5 +1,5 @@
 import axios from "axios";
-import requestHeader from "../helpers/requestHeaders";
+import requestHeader from "../../helpers/requestHeaders";
 
 import {
   ALL_PRODUCT_FAIL,
@@ -40,7 +40,7 @@ import {
   getProductDetailsApi,
   newReviewApi,
   updateProductApi,
-} from "../api/product/productApi";
+} from "../../api/product/productApi";
 
 // Get All Products
 export const getProduct =

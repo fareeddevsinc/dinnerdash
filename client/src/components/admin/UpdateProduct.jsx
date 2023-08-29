@@ -4,11 +4,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useAlert } from "react-alert";
 import { Button } from "@material-ui/core";
 import {
-  AccountTreeIcon,
-  AttachMoneyIcon,
-  DescriptionIcon,
-  SpellcheckIcon,
-  StorageIcon,
+  AccountTree as AccountTreeIcon,
+  AttachMoney as AttachMoneyIcon,
+  Description as DescriptionIcon,
+  Spellcheck as SpellcheckIcon,
+  Storage as StorageIcon,
 } from "@material-ui/icons";
 
 import MetaData from "../layout/MetaData";

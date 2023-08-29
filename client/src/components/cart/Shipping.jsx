@@ -2,7 +2,11 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useAlert } from "react-alert";
-import { HomeIcon, LocationCityIcon, PhoneIcon } from "@material-ui/icons";
+import {
+  Home as HomeIcon,
+  LocationCity as LocationCityIcon,
+  Phone as PhoneIcon,
+} from "@material-ui/icons";
 
 import CheckoutSteps from "./CheckoutSteps";
 import MetaData from "../layout/MetaData";

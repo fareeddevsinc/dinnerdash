@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useAlert } from "react-alert";
 import { Typography } from "@material-ui/core";
 import { DataGrid } from "@material-ui/data-grid";
-import { LaunchIcon } from "@material-ui/icons";
+import { Launch as LaunchIcon } from "@material-ui/icons";
 
 import MetaData from "../layout/MetaData";
 

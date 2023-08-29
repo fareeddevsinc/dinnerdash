@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useAlert } from "react-alert";
 import { Link } from "react-router-dom";
 import { Typography } from "@material-ui/core";
-import { RemoveShoppingCartIcon } from "@material-ui/icons";
+import { RemoveShoppingCart as RemoveShoppingCartIcon } from "@material-ui/icons";
 
 import CartItemCard from "./CartItemCard";
 

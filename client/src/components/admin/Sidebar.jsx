@@ -1,14 +1,14 @@
 import { Link } from "react-router-dom";
 import { TreeView, TreeItem } from "@material-ui/lab";
 import {
-  AddIcon,
-  DashboardIcon,
-  ExpandMoreIcon,
-  ImportExportIcon,
-  ListAltIcon,
-  PeopleIcon,
-  PostAddIcon,
-  RateReviewIcon,
+  Add as AddIcon,
+  Dashboard as DashboardIcon,
+  ExpandMore as ExpandMoreIcon,
+  ImportExport as ImportExportIcon,
+  ListAlt as ListAltIcon,
+  People as PeopleIcon,
+  PostAdd as PostAddIcon,
+  RateReview as RateReviewIcon,
 } from "@material-ui/icons";
 
 import logo from "../../images/noImage.jpg";

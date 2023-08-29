@@ -9,14 +9,14 @@ import {
   productReviewsReducer,
   productsReducer,
   reviewReducer,
-} from "./reducers/productReducer";
+} from "./redux/reducers/productReducer";
 import {
   allUsersReducer,
   forgotPasswordReducer,
   profileReducer,
   userDetailsReducer,
   userReducer,
-} from "./reducers/userReducer";
+} from "./redux/reducers/userReducer";
 
 import {
   allOrdersReducer,
@@ -24,16 +24,16 @@ import {
   newOrderReducer,
   orderDetailsReducer,
   orderReducer,
-} from "./reducers/orderReducer";
+} from "./redux/reducers/orderReducer";
 
 import {
   restaurantDetailsReducer,
   addRestaurantReducer,
   restaurantsReducer,
   restaurantReducer,
-} from "./reducers/restaurantReducer";
+} from "./redux/reducers/restaurantReducer";
 
-import { cartReducer } from "./reducers/cartReducer";
+import { cartReducer } from "./redux/reducers/cartReducer";
 
 // Import persistStore and persistReducer from redux-persist
 import { persistStore, persistReducer } from "redux-persist";

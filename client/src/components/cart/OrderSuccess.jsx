@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { Typography } from "@material-ui/core";
-import { CheckCircleIcon } from "@material-ui/icons";
+import { CheckCircle as CheckCircleIcon } from "@material-ui/icons";
 
 import { deleteCart } from "../../redux/actions/cartAction";
 

@@ -4,9 +4,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useAlert } from "react-alert";
 import { Button } from "@material-ui/core";
 import {
-  MailOutlineIcon,
-  PersonIcon,
-  VerifiedUserIcon,
+  MailOutline as MailOutlineIcon,
+  Person as PersonIcon,
+  VerifiedUser as VerifiedUserIcon,
 } from "@material-ui/icons";
 
 import MetaData from "../layout/MetaData";

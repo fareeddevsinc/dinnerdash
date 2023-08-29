@@ -1,5 +1,8 @@
 import { Typography, Stepper, Step, StepLabel } from "@material-ui/core";
-import { LibraryAddCheckIcon, LocalShippingIcon } from "@material-ui/icons";
+import {
+  LibraryAddCheck as LibraryAddCheckIcon,
+  LocalShipping as LocalShippingIcon,
+} from "@material-ui/icons";
 
 import "../../styles/cart/CheckoutSteps.css";
 
