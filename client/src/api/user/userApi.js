@@ -56,9 +56,13 @@ export const getAllUsersApi = async () => {
 };
 
 export const getUserDetailsApi = async (id) => {
-  const { data } = await apiService.get(`/admin/user/${id}?role=admin`);
+  try {
+    const { data } = await apiService.get(`/admin/user/${id}?role=admin`);
 
-  return { data };
+    return { data };
+  } catch (error) {
+    console.log(error.message);
+  }
 };
 
 export const updateUserApi = async (id, userData) => {

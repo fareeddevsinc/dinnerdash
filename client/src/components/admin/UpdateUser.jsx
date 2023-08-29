@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAlert } from "react-alert";
@@ -20,12 +20,14 @@ import {
 import { UPDATE_USER_RESET } from "../../redux/constants/userConstants";
 
 import "../../styles/admin/productList.css";
+import LoadingScreen from "../layout/Loader/Loader";
 
 const UpdateUser = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const dispatch = useDispatch();
   const alert = useAlert();
+  const firstUpdate = useRef(true);
 
   const { loading, error, user } = useSelector((state) => state.userDetails);
 
@@ -64,18 +66,42 @@ const UpdateUser = () => {
       navigate("/admin/users");
       dispatch({ type: UPDATE_USER_RESET });
     }
-  }, [dispatch, alert, error, navigate, isUpdated, updateError, user, userId]);
+  }, [dispatch, isUpdated, updateError, user, userId]);
 
   const updateUserSubmitHandler = (e) => {
     e.preventDefault();
 
-    const myForm = new FormData();
+    const isNameValid =
+      name.trim().length >= 2 &&
+      name.trim().length <= 32 &&
+      /\S/.test(name) &&
+      !/\s{2,}/.test(name);
 
-    myForm.set("name", name);
-    myForm.set("email", email);
-    myForm.set("role", role);
+    const isEmailValid = (function validateEmail(email) {
+      const pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      const parts = email.split("@");
 
-    dispatch(updateUser(userId, myForm));
+      // Check if there are exactly two parts and the domain has only one period
+      return (
+        parts.length === 2 &&
+        pattern.test(email) &&
+        parts[1].split(".").length === 2
+      );
+    })(email);
+
+    if (!isNameValid) {
+      alert.error("Name Should Contain Atleast 2 Characters And Must Be Valid");
+    } else if (!isEmailValid) {
+      alert.error("Invalid Email");
+    } else {
+      const myForm = new FormData();
+
+      myForm.set("name", name);
+      myForm.set("email", email);
+      myForm.set("role", role);
+
+      dispatch(updateUser(userId, myForm));
+    }
   };
 
   return (
@@ -85,7 +111,7 @@ const UpdateUser = () => {
         <SideBar />
         <div className="newProductContainer">
           {loading ? (
-            <p>Loading...</p>
+            <LoadingScreen />
           ) : (
             <form
               className="createProductForm"

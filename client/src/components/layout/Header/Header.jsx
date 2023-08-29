@@ -58,6 +58,11 @@ const Header = ({ user }) => {
         </NavLink>
       )}
       <div>
+        {user?.role === "admin" && (
+          <NavLink style={linkStyle} to="/admin/dashboard">
+            Dashboard
+          </NavLink>
+        )}
         <NavLink style={linkStyle} to="/">
           Home
         </NavLink>

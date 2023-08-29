@@ -97,7 +97,7 @@ const Dashboard = () => {
             </Link>
             <Link to="/admin/restaurants">
               <p>Restaurants</p>
-              <p>{restaurants && restaurants.restaurants.length}</p>
+              <p>{restaurants && restaurants?.restaurants?.length}</p>
             </Link>
           </div>
         </div>
