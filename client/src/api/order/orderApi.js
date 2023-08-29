@@ -1,12 +1,10 @@
-import axios from "axios";
-import { BASE_URL } from "../baseUrl";
+import apiService from "../apiService";
 
-export const updateOrderApi = async (id, order, config) => {
+export const updateOrderApi = async (id, order) => {
   try {
-    const { data } = await axios.put(
-      `${BASE_URL}/admin/order/${id}?role=admin`,
-      order,
-      config
+    const { data } = await apiService.put(
+      `/admin/order/${id}?role=admin`,
+      order
     );
 
     return { data };
@@ -15,18 +13,15 @@ export const updateOrderApi = async (id, order, config) => {
   }
 };
 
-export const getAllOrdersApi = async (config) => {
-  const { data } = await axios.get(
-    `${BASE_URL}/admin/orders?role=admin`,
-    config
-  );
+export const getAllOrdersApi = async () => {
+  const { data } = await apiService.get(`/admin/orders?role=admin`);
 
   return { data };
 };
 
-export const myOrdersApi = async (config) => {
+export const myOrdersApi = async () => {
   try {
-    const { data } = await axios.get(`${BASE_URL}/orders/me`, config);
+    const { data } = await apiService.get(`/orders/me`);
 
     return { data };
   } catch (error) {
@@ -34,21 +29,18 @@ export const myOrdersApi = async (config) => {
   }
 };
 
-export const createOrderApi = async (order, config) => {
+export const createOrderApi = async (order) => {
   try {
-    const { data } = await axios.post(`${BASE_URL}/order/new`, order, config);
+    const { data } = await apiService.post(`/order/new`, order);
     return { data };
   } catch (error) {
     console.log(error.message);
   }
 };
 
-export const deleteOrderApi = async (id, config) => {
+export const deleteOrderApi = async (id) => {
   try {
-    const { data } = await axios.delete(
-      `${BASE_URL}/admin/order/${id}?role=admin`,
-      config
-    );
+    const { data } = await apiService.delete(`/admin/order/${id}?role=admin`);
 
     return { data };
   } catch (error) {
@@ -56,8 +48,8 @@ export const deleteOrderApi = async (id, config) => {
   }
 };
 
-export const getOrderDetailsApi = async (id, config) => {
-  const { data } = await axios.get(`${BASE_URL}/order/${id}`, config);
+export const getOrderDetailsApi = async (id) => {
+  const { data } = await apiService.get(`/order/${id}`);
 
   return { data };
 };

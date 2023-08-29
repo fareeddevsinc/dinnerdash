@@ -1,9 +1,8 @@
-import axios from "axios";
-import { BASE_URL } from "../baseUrl";
+import apiService from "../apiService";
 
-export const getAllCartItemsApi = async (config) => {
+export const getAllCartItemsApi = async () => {
   try {
-    const { data } = await axios.get(`${BASE_URL}/cart`, config);
+    const { data } = await apiService.get(`/cart`);
 
     return { data };
   } catch (error) {
@@ -11,13 +10,9 @@ export const getAllCartItemsApi = async (config) => {
   }
 };
 
-export const addItemsToCartApi = async (id, quantity, config) => {
+export const addItemsToCartApi = async (id, quantity) => {
   try {
-    const { data } = await axios.post(
-      `${BASE_URL}/cart/${id}`,
-      { quantity },
-      config
-    );
+    const { data } = await apiService.post(`/cart/${id}`, { quantity });
     console.log(data);
 
     return { data };
@@ -26,9 +21,9 @@ export const addItemsToCartApi = async (id, quantity, config) => {
   }
 };
 
-export const removeItemsFromCartApi = async (id, config) => {
+export const removeItemsFromCartApi = async (id) => {
   try {
-    const { data } = await axios.delete(`${BASE_URL}/cart/${id}`, config);
+    const { data } = await apiService.delete(`/cart/${id}`);
 
     return { data };
   } catch (error) {
@@ -36,9 +31,9 @@ export const removeItemsFromCartApi = async (id, config) => {
   }
 };
 
-export const deleteCartApi = async (config) => {
+export const deleteCartApi = async () => {
   try {
-    const { data } = await axios.delete(`${BASE_URL}/cart`, config);
+    const { data } = await apiService.delete(`/cart`);
 
     return { data };
   } catch (error) {
@@ -46,9 +41,9 @@ export const deleteCartApi = async (config) => {
   }
 };
 
-export const saveShippingInfoApi = async (userData, config) => {
+export const saveShippingInfoApi = async (userData) => {
   try {
-    const { data } = await axios.post(`${BASE_URL}/shipping`, userData, config);
+    const { data } = await apiService.post(`/shipping`, userData);
 
     return { data };
   } catch (error) {

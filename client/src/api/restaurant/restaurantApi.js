@@ -1,9 +1,8 @@
-import axios from "axios";
-import { BASE_URL } from "../baseUrl";
+import apiService from "../apiService";
 
 export const getAllRestaurantsApi = async () => {
   try {
-    const { data } = await axios.get(`${BASE_URL}/restaurants`);
+    const { data } = await apiService.get(`/restaurants`);
 
     return { data };
   } catch (error) {
@@ -13,7 +12,7 @@ export const getAllRestaurantsApi = async () => {
 
 export const getRestaurantDetailsApi = async (id) => {
   try {
-    const { data } = await axios.get(`${BASE_URL}/restaurant/${id}`);
+    const { data } = await apiService.get(`/restaurant/${id}`);
 
     return { data };
   } catch (error) {
@@ -21,12 +20,11 @@ export const getRestaurantDetailsApi = async (id) => {
   }
 };
 
-export const addRestaurantApi = async (restaurantData, config) => {
+export const addRestaurantApi = async (restaurantData) => {
   try {
-    const { data } = await axios.post(
-      `${BASE_URL}/restaurant/new?role=admin`,
-      restaurantData,
-      config
+    const { data } = await apiService.post(
+      `/restaurant/new?role=admin`,
+      restaurantData
     );
     return { data };
   } catch (error) {
@@ -34,24 +32,20 @@ export const addRestaurantApi = async (restaurantData, config) => {
   }
 };
 
-export const deleteRestaurantApi = async (id, config) => {
+export const deleteRestaurantApi = async (id) => {
   try {
-    const { data } = await axios.delete(
-      `${BASE_URL}/restaurant/${id}?role=admin`,
-      config
-    );
+    const { data } = await apiService.delete(`/restaurant/${id}?role=admin`);
     return { data };
   } catch (error) {
     console.log(error.message);
   }
 };
 
-export const updateRestaurantApi = async (id, restaurantData, config) => {
+export const updateRestaurantApi = async (id, restaurantData) => {
   try {
-    const { data } = await axios.put(
-      `${BASE_URL}/restaurant/${id}?role=admin`,
-      restaurantData,
-      config
+    const { data } = await apiService.put(
+      `/restaurant/${id}?role=admin`,
+      restaurantData
     );
     return { data };
   } catch (error) {

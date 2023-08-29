@@ -1,104 +1,77 @@
-import axios from "axios";
-import { BASE_URL } from "../baseUrl";
+import apiService from "../apiService";
 
-export const registerUserApi = async (userData, config) => {
-  const data = await axios.post(`${BASE_URL}/register`, userData, config);
-
-  return data;
-};
-
-export const loginUserApi = async (email, password, config) => {
-  const data = await axios.post(
-    `${BASE_URL}/login`,
-    { email, password },
-    config
-  );
+export const registerUserApi = async (userData) => {
+  const data = await apiService.post("/register", userData);
 
   return data;
 };
 
-export const loadUserApi = async (config) => {
-  const data = await axios.get(`${BASE_URL}/me`, config);
+export const loginUserApi = async (email, password) => {
+  const data = await apiService.post(`/login`, { email, password });
+
   return data;
 };
 
-export const logoutUserApi = async (config) => {
-  const data = await axios.get(`${BASE_URL}/logout`, config);
+export const loadUserApi = async () => {
+  const data = await apiService.get(`/me`);
   return data;
 };
 
-export const updateProfileApi = async (userData, config) => {
+export const logoutUserApi = async () => {
+  const data = await apiService.get(`/logout`);
+  return data;
+};
+
+export const updateProfileApi = async (userData) => {
   try {
-    const { data } = await axios.put(`${BASE_URL}/me/update`, userData, config);
+    const { data } = await apiService.put(`/me/update`, userData);
     return { data };
   } catch (error) {
     console.log(error.message);
   }
 };
 
-export const updatePasswordApi = async (passwords, config) => {
-  const { data } = await axios.put(
-    `${BASE_URL}/password/update`,
-    passwords,
-    config
+export const updatePasswordApi = async (passwords) => {
+  const { data } = await apiService.put(`/password/update`, passwords);
+
+  return { data };
+};
+
+export const forgotPasswordApi = async (email) => {
+  const { data } = await apiService.post(`/password/forgot`, email);
+
+  return { data };
+};
+
+export const resetPasswordApi = async (token, passwords) => {
+  const { data } = await apiService.post(`/password/reset/${token}`, passwords);
+
+  return { data };
+};
+
+export const getAllUsersApi = async () => {
+  const { data } = await apiService.get(`/admin/users?role=admin`);
+
+  return { data };
+};
+
+export const getUserDetailsApi = async (id) => {
+  const { data } = await apiService.get(`/admin/user/${id}?role=admin`);
+
+  return { data };
+};
+
+export const updateUserApi = async (id, userData) => {
+  const { data } = await apiService.put(
+    `/admin/user/${id}?role=admin`,
+    userData
   );
 
   return { data };
 };
 
-export const forgotPasswordApi = async (email, config) => {
-  const { data } = await axios.post(
-    `${BASE_URL}/password/forgot`,
-    email,
-    config
-  );
-
-  return { data };
-};
-
-export const resetPasswordApi = async (token, passwords, config) => {
-  const { data } = await axios.post(
-    `${BASE_URL}/password/reset/${token}`,
-    passwords,
-    config
-  );
-
-  return { data };
-};
-
-export const getAllUsersApi = async (config) => {
-  const { data } = await axios.get(
-    `${BASE_URL}/admin/users?role=admin`,
-    config
-  );
-
-  return { data };
-};
-
-export const getUserDetailsApi = async (id, config) => {
-  const { data } = await axios.get(
-    `${BASE_URL}/admin/user/${id}?role=admin`,
-    config
-  );
-
-  return { data };
-};
-
-export const updateUserApi = async (id, userData, config) => {
-  const { data } = await axios.put(
-    `${BASE_URL}/admin/user/${id}?role=admin`,
-    userData,
-    config
-  );
-
-  return { data };
-};
-
-export const deleteUserApi = async (id, config) => {
-  const { data } = await axios.delete(
-    `${BASE_URL}/admin/user/${id}?role=admin`,
-    config
-  );
+export const deleteUserApi = async (id) => {
+  const { data } = await apiService.delete(`/admin/user/${id}?role=admin`);
 
   return { data };
 };

@@ -1,30 +1,24 @@
-import axios from "axios";
-import { BASE_URL } from "../baseUrl";
+import apiService from "../apiService";
 
-export const getAdminProductApi = async (config) => {
-  const { data } = await axios.get(
-    `${BASE_URL}/admin/products?role=admin`,
-    config
-  );
+export const getAdminProductApi = async () => {
+  const { data } = await apiService.get(`/admin/products?role=admin`);
   return { data };
 };
 
-export const createProductApi = async (productData, config) => {
-  const { data } = await axios.post(
-    `${BASE_URL}/admin/product/new?role=admin`,
-    productData,
-    config
+export const createProductApi = async (productData) => {
+  const { data } = await apiService.post(
+    `/admin/product/new?role=admin`,
+    productData
   );
   console.log(data);
   return { data };
 };
 
-export const updateProductApi = async (id, productData, config) => {
+export const updateProductApi = async (id, productData) => {
   try {
-    const { data } = await axios.put(
-      `${BASE_URL}/admin/product/${id}?role=admin`,
-      productData,
-      config
+    const { data } = await apiService.put(
+      `/admin/product/${id}?role=admin`,
+      productData
     );
 
     return { data };
@@ -33,37 +27,33 @@ export const updateProductApi = async (id, productData, config) => {
   }
 };
 
-export const deleteProductApi = async (id, config) => {
-  const { data } = await axios.delete(
-    `${BASE_URL}/admin/product/${id}?role=admin`,
-    config
-  );
+export const deleteProductApi = async (id) => {
+  const { data } = await apiService.delete(`/admin/product/${id}?role=admin`);
 
   return { data };
 };
 
 export const getProductDetailsApi = async (id) => {
-  const { data } = await axios.get(`${BASE_URL}/product/${id}`);
+  const { data } = await apiService.get(`/product/${id}`);
 
   return { data };
 };
 
-export const newReviewApi = async (reviewData, config) => {
-  const { data } = await axios.put(`${BASE_URL}/review`, reviewData, config);
+export const newReviewApi = async (reviewData) => {
+  const { data } = await apiService.put(`/review`, reviewData);
 
   return { data };
 };
 
-export const getAllReviewsApi = async (id, config) => {
-  const { data } = await axios.get(`${BASE_URL}/reviews?id=${id}`, config);
+export const getAllReviewsApi = async (id) => {
+  const { data } = await apiService.get(`/reviews?id=${id}`);
 
   return { data };
 };
 
-export const deleteReviewsApi = async (reviewId, productId, config) => {
-  const { data } = await axios.delete(
-    `${BASE_URL}/reviews?id=${reviewId}&productId=${productId}`,
-    config
+export const deleteReviewsApi = async (reviewId, productId) => {
+  const { data } = await apiService.delete(
+    `/reviews?id=${reviewId}&productId=${productId}`
   );
 
   return { data };
