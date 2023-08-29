@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useCallback, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import { useAlert } from "react-alert";
@@ -27,7 +27,6 @@ const UsersList = () => {
   const alert = useAlert();
 
   const { error, users } = useSelector((state) => state.allUsers);
-  // const { user } = useSelector((state) => state.user);
 
   const {
     error: deleteError,
@@ -35,9 +34,12 @@ const UsersList = () => {
     message,
   } = useSelector((state) => state.profile);
 
-  const deleteUserHandler = (id) => {
-    dispatch(deleteUser(id));
-  };
+  const deleteUserHandler = useCallback(
+    (id) => {
+      dispatch(deleteUser(id));
+    },
+    [dispatch]
+  );
 
   useEffect(() => {
     if (error) {
@@ -115,17 +117,21 @@ const UsersList = () => {
     },
   ];
 
-  const rows = [];
+  const rows = useMemo(() => {
+    const rows = [];
 
-  users &&
-    users?.forEach((item) => {
-      rows.push({
-        id: item._id,
-        role: item.role,
-        email: item.email,
-        name: item.name,
+    users &&
+      users.forEach((item) => {
+        rows.push({
+          id: item._id,
+          role: item.role,
+          email: item.email,
+          name: item.name,
+        });
       });
-    });
+
+    return rows;
+  }, [users]);
 
   return (
     <>

@@ -5,6 +5,12 @@ import { useNavigate } from "react-router-dom";
 
 import MetaData from "../layout/MetaData";
 
+import LoadingScreen from "../layout/Loader/Loader";
+import {
+  isEmailValid,
+  isNameValid,
+} from "../../helpers/admin/users/formValidation";
+
 import {
   clearErrors,
   updateProfile,
@@ -13,7 +19,6 @@ import {
 import { UPDATE_PROFILE_RESET } from "../../redux/constants/userConstants";
 
 import "../../styles/user/UpdateProfile.css";
-import LoadingScreen from "../layout/Loader/Loader";
 
 const UpdateProfile = () => {
   const navigate = useNavigate();
@@ -30,43 +35,23 @@ const UpdateProfile = () => {
   const [avatar, setAvatar] = useState(null);
   const [avatarPreview, setAvatarPreview] = useState(user.avatar.url);
 
-  const isFullNameValid =
-    fullName.trim().length >= 4 &&
-    fullName.trim().length <= 32 &&
-    /\S/.test(fullName) &&
-    !/\s{2,}/.test(fullName);
-
-  const isNameValid =
-    name.trim().length >= 2 &&
-    name.trim().length <= 32 &&
-    /\S/.test(name) &&
-    !/\s{2,}/.test(name);
-
-  const isEmailValid = (function validateEmail(email) {
-    const pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    const parts = email.split("@");
-
-    // Check if there are exactly two parts and the domain has only one period
-    return (
-      parts.length === 2 &&
-      pattern.test(email) &&
-      parts[1].split(".").length === 2
-    );
-  })(email);
-
   const updateProfileSubmit = (e) => {
     e.preventDefault();
 
-    if (!isFullNameValid) {
+    const isFullName = isNameValid(fullName, 4, 32);
+    const isName = isNameValid(name, 2, 32);
+    const isEmail = isEmailValid(email);
+
+    if (!isFullName) {
       alert.error("Name Should Contain Atleast 4 Characters");
     }
-    if (!isNameValid) {
+    if (!isName) {
       alert.error("Name Should Contain Atleast 2 Characters And Must Be Valid");
-    } else if (!isEmailValid) {
+    } else if (!isEmail) {
       alert.error("Invalid Email");
     }
 
-    if (isFullNameValid && isEmailValid && isNameValid) {
+    if (isFullName && isEmail && isName) {
       const myForm = new FormData();
       myForm.set("fullName", fullName);
       myForm.set("name", name);

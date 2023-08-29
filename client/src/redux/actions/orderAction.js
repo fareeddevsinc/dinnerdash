@@ -69,11 +69,7 @@ export const getAllOrders = () => async (dispatch) => {
   try {
     dispatch({ type: ALL_ORDERS_REQUEST });
 
-    const config = requestHeader();
-
-    const { data } = await getAllOrdersApi(config);
-
-    console.log(data);
+    const { data } = await getAllOrdersApi();
 
     dispatch({ type: ALL_ORDERS_SUCCESS, payload: data });
   } catch (error) {

@@ -10,6 +10,7 @@ import { UPDATE_PASSWORD_RESET } from "../../redux/constants/userConstants";
 
 import "../../styles/user/UpdatePassword.css";
 import LoadingScreen from "../layout/Loader/Loader";
+import { isPasswordValid } from "../../helpers/admin/users/formValidation";
 
 const UpdatePassword = () => {
   const navigate = useNavigate();
@@ -26,9 +27,9 @@ const UpdatePassword = () => {
   const updatePasswordSubmit = (e) => {
     e.preventDefault();
 
-    const isPasswordValid = newPassword.length >= 8 && !/\s/.test(newPassword);
+    const isPassword = isPasswordValid(newPassword);
 
-    if (!isPasswordValid) {
+    if (!isPassword) {
       alert.error("Password must be 8 characters Long");
     } else if (newPassword !== confirmPassword) {
       alert.error("Password doesn't match");

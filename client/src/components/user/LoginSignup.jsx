@@ -7,6 +7,9 @@ import { clearErrors, login, register } from "../../redux/actions/userAction";
 
 import "../../styles/user/loginSignup.css";
 import LoadingScreen from "../layout/Loader/Loader";
+import { createFormData } from "../../helpers/admin/users/formValidation";
+import { validateRegisterData } from "../../helpers/users/validateRegisterData";
+import { handleAvatarChange } from "../../helpers/users/handleAvatarChange";
 
 const LoginSignUp = () => {
   const dispatch = useDispatch();
@@ -39,33 +42,6 @@ const LoginSignUp = () => {
     password: "",
   });
 
-  const isFullNameValid =
-    user.fullName.trim().length >= 4 &&
-    user.fullName.trim().length <= 32 &&
-    /\S/.test(user.fullName) &&
-    !/\s{2,}/.test(user.fullName);
-
-  const isNameValid =
-    user.name.trim().length >= 2 &&
-    user.name.trim().length <= 32 &&
-    /\S/.test(user.name) &&
-    !/\s{2,}/.test(user.name);
-
-  const isEmailValid = (function validateEmail(email) {
-    const pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    const parts = email.split("@");
-
-    // Check if there are exactly two parts and the domain has only one period
-    return (
-      parts.length === 2 &&
-      pattern.test(email) &&
-      parts[1].split(".").length === 2
-    );
-  })(user.email);
-
-  const isPasswordValid =
-    user.password.length >= 8 && !/\s/.test(user.password);
-
   const { fullName, name, email, password } = user;
 
   const loginSubmit = (e) => {
@@ -75,23 +51,17 @@ const LoginSignUp = () => {
 
   const registerSubmit = (e) => {
     e.preventDefault();
-    if (!isFullNameValid) {
-      alert.error("Name Should Contain Atleast 4 Characters");
-    }
-    if (!isNameValid) {
-      alert.error("Name Should Contain Atleast 2 Characters And Must Be Valid");
-    } else if (!isEmailValid) {
-      alert.error("Invalid Email");
-    } else if (!isPasswordValid) {
-      alert.error("Password must be 8 characters Long");
-    } else if (isNameValid && isEmailValid && isPasswordValid) {
-      const myForm = new FormData();
 
-      myForm.set("fullName", user.fullName);
-      myForm.set("name", user.name);
-      myForm.set("email", user.email);
-      myForm.set("password", user.password);
-      myForm.set("avatar", avatar);
+    if (validateRegisterData(fullName, name, email, password, alert)) {
+      const userObj = {
+        fullName: user.fullName,
+        name: user.name,
+        email: user.email,
+        password: user.password,
+        avatar: avatar,
+      };
+
+      const myForm = createFormData(userObj);
       dispatch(register(myForm));
     } else {
       alert.error("Please provide valid data for registration.");
@@ -100,16 +70,7 @@ const LoginSignUp = () => {
 
   const registerDataChange = (e) => {
     if (e.target.name === "avatar") {
-      const reader = new FileReader();
-
-      reader.onload = () => {
-        if (reader.readyState === 2) {
-          setAvatarPreview(reader.result);
-          setAvatar(reader.result);
-        }
-      };
-
-      reader.readAsDataURL(e.target.files[0]);
+      handleAvatarChange(e, setAvatarPreview, setAvatar);
     } else {
       setUser({ ...user, [e.target.name]: e.target.value });
     }

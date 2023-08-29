@@ -21,6 +21,7 @@ import { getAllUsers } from "../../redux/actions/userAction.js";
 import { getAllRestaurants } from "../../redux/actions/restaurantAction.js";
 
 import "../../styles/admin/dashboard.css";
+import { initialCalculations } from "../../helpers/admin/dashboard/initialCalculations.js";
 
 Chart.register(
   CategoryScale,
@@ -48,25 +49,11 @@ const Dashboard = () => {
     dispatch(getAllOrders());
     dispatch(getAllUsers());
     dispatch(getAllRestaurants());
-    initialCalculations();
   }, [dispatch]);
 
-  const initialCalculations = () => {
-    let outOfStock = 0;
-
-    products &&
-      products.forEach((item) => {
-        if (item.stock === 0) {
-          outOfStock += 1;
-        }
-      });
-    let total = 0;
-    orders &&
-      orders?.order?.forEach((order) => {
-        total += order.totalPrice;
-      });
-    setTotalAmount(total);
-  };
+  useEffect(() => {
+    setTotalAmount(initialCalculations(orders));
+  }, [orders]);
 
   return (
     <div className="dashboard">

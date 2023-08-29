@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAlert } from "react-alert";
@@ -12,6 +12,7 @@ import {
 import MetaData from "../layout/MetaData";
 import SideBar from "./Sidebar";
 
+import { updateUserSubmitHandler } from "../../helpers/admin/users/updateSubmitHandler";
 import {
   clearErrors,
   getUserDetails,
@@ -27,7 +28,6 @@ const UpdateUser = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const alert = useAlert();
-  const firstUpdate = useRef(true);
 
   const { loading, error, user } = useSelector((state) => state.userDetails);
 
@@ -68,42 +68,6 @@ const UpdateUser = () => {
     }
   }, [dispatch, isUpdated, updateError, user, userId]);
 
-  const updateUserSubmitHandler = (e) => {
-    e.preventDefault();
-
-    const isNameValid =
-      name.trim().length >= 2 &&
-      name.trim().length <= 32 &&
-      /\S/.test(name) &&
-      !/\s{2,}/.test(name);
-
-    const isEmailValid = (function validateEmail(email) {
-      const pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-      const parts = email.split("@");
-
-      // Check if there are exactly two parts and the domain has only one period
-      return (
-        parts.length === 2 &&
-        pattern.test(email) &&
-        parts[1].split(".").length === 2
-      );
-    })(email);
-
-    if (!isNameValid) {
-      alert.error("Name Should Contain Atleast 2 Characters And Must Be Valid");
-    } else if (!isEmailValid) {
-      alert.error("Invalid Email");
-    } else {
-      const myForm = new FormData();
-
-      myForm.set("name", name);
-      myForm.set("email", email);
-      myForm.set("role", role);
-
-      dispatch(updateUser(userId, myForm));
-    }
-  };
-
   return (
     <>
       <MetaData title="Update User" />
@@ -115,7 +79,18 @@ const UpdateUser = () => {
           ) : (
             <form
               className="createProductForm"
-              onSubmit={updateUserSubmitHandler}
+              onSubmit={(e) =>
+                updateUserSubmitHandler(
+                  e,
+                  name,
+                  email,
+                  role,
+                  alert,
+                  userId,
+                  dispatch,
+                  updateUser
+                )
+              }
             >
               <h1>Update User</h1>
 
@@ -149,13 +124,7 @@ const UpdateUser = () => {
                 </select>
               </div>
 
-              <Button
-                id="createProductBtn"
-                type="submit"
-                // disabled={
-                //   updateLoading ? true : false || role === "" ? true : false
-                // }
-              >
+              <Button id="createProductBtn" type="submit">
                 Update
               </Button>
             </form>

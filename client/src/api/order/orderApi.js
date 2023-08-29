@@ -14,9 +14,13 @@ export const updateOrderApi = async (id, order) => {
 };
 
 export const getAllOrdersApi = async () => {
-  const { data } = await apiService.get(`/admin/orders?role=admin`);
+  try {
+    const { data } = await apiService.get(`/admin/orders?role=admin`);
 
-  return { data };
+    return { data };
+  } catch (error) {
+    console.log(error.message);
+  }
 };
 
 export const myOrdersApi = async () => {
