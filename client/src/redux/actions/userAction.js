@@ -109,6 +109,7 @@ export const logout = () => async (dispatch) => {
     const config = requestHeader();
     await logoutUserApi(config);
     document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    localStorage.removeItem("shippingInfo");
 
     dispatch({ type: LOGOUT_SUCCESS });
   } catch (error) {
@@ -175,9 +176,7 @@ export const resetPassword = (token, passwords) => async (dispatch) => {
   try {
     dispatch({ type: RESET_PASSWORD_REQUEST });
 
-    const config = requestHeader();
-
-    const { data } = await resetPasswordApi(token, passwords, config);
+    const { data } = await resetPasswordApi(token, passwords);
 
     dispatch({ type: RESET_PASSWORD_SUCCESS, payload: data.success });
   } catch (error) {

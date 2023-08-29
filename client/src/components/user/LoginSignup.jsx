@@ -6,6 +6,7 @@ import { useNavigate, useLocation, Link } from "react-router-dom";
 import { clearErrors, login, register } from "../../redux/actions/userAction";
 
 import "../../styles/user/loginSignup.css";
+import LoadingScreen from "../layout/Loader/Loader";
 
 const LoginSignUp = () => {
   const dispatch = useDispatch();
@@ -39,15 +40,29 @@ const LoginSignUp = () => {
   });
 
   const isFullNameValid =
-    user.fullName.length >= 4 &&
-    user.fullName.length <= 32 &&
-    /\S/.test(user.fullName);
+    user.fullName.trim().length >= 4 &&
+    user.fullName.trim().length <= 32 &&
+    /\S/.test(user.fullName) &&
+    !/\s{2,}/.test(user.fullName);
+
   const isNameValid =
-    user.name.length >= 2 && user.name.length <= 32 && /\S/.test(user.name);
-  const isEmailValid =
-    /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/.test(user.email) &&
-    !user.email.includes("..") &&
-    user.email.split("@").length === 2;
+    user.name.trim().length >= 2 &&
+    user.name.trim().length <= 32 &&
+    /\S/.test(user.name) &&
+    !/\s{2,}/.test(user.name);
+
+  const isEmailValid = (function validateEmail(email) {
+    const pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const parts = email.split("@");
+
+    // Check if there are exactly two parts and the domain has only one period
+    return (
+      parts.length === 2 &&
+      pattern.test(email) &&
+      parts[1].split(".").length === 2
+    );
+  })(user.email);
+
   const isPasswordValid =
     user.password.length >= 8 && !/\s/.test(user.password);
 
@@ -61,10 +76,10 @@ const LoginSignUp = () => {
   const registerSubmit = (e) => {
     e.preventDefault();
     if (!isFullNameValid) {
-      alert.error("Name should contain atleast 4 characters");
+      alert.error("Name Should Contain Atleast 4 Characters");
     }
     if (!isNameValid) {
-      alert.error("Name should contain atleast 2 characters");
+      alert.error("Name Should Contain Atleast 2 Characters And Must Be Valid");
     } else if (!isEmailValid) {
       alert.error("Invalid Email");
     } else if (!isPasswordValid) {
@@ -133,7 +148,7 @@ const LoginSignUp = () => {
   return (
     <>
       {loading ? (
-        <p>Loading...</p>
+        <LoadingScreen />
       ) : (
         <>
           <div className="LoginSignUpContainer">

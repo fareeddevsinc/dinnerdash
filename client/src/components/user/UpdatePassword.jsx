@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useAlert } from "react-alert";
 import { useNavigate } from "react-router-dom";
@@ -9,40 +9,52 @@ import { clearErrors, updatePassword } from "../../redux/actions/userAction";
 import { UPDATE_PASSWORD_RESET } from "../../redux/constants/userConstants";
 
 import "../../styles/user/UpdatePassword.css";
+import LoadingScreen from "../layout/Loader/Loader";
 
 const UpdatePassword = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const alert = useAlert();
+  const firstUpdate = useRef(true);
 
-  const { error, loading } = useSelector((state) => state.profile);
+  const { error, loading, isUpdated } = useSelector((state) => state.profile);
 
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [update, setUpdate] = useState(false);
 
   const updatePasswordSubmit = (e) => {
     e.preventDefault();
 
-    const myForm = new FormData();
+    const isPasswordValid = newPassword.length >= 8 && !/\s/.test(newPassword);
 
-    myForm.set("oldPassword", oldPassword);
-    myForm.set("newPassword", newPassword);
-    myForm.set("confirmPassword", confirmPassword);
+    if (!isPasswordValid) {
+      alert.error("Password must be 8 characters Long");
+    } else if (newPassword !== confirmPassword) {
+      alert.error("Password doesn't match");
+    } else {
+      const myForm = new FormData();
 
-    dispatch(updatePassword(myForm));
-    setUpdate(true);
+      myForm.set("oldPassword", oldPassword);
+      myForm.set("newPassword", newPassword);
+      myForm.set("confirmPassword", confirmPassword);
+
+      dispatch(updatePassword(myForm));
+    }
   };
 
   useEffect(() => {
+    if (firstUpdate.current) {
+      firstUpdate.current = false;
+      return;
+    }
     if (error) {
       alert.error(error);
       dispatch(clearErrors());
     }
 
-    if (update) {
-      alert.success("Profile Updated Successfully");
+    if (isUpdated) {
+      alert.success("Password Updated Successfully");
 
       navigate("/account");
 
@@ -50,12 +62,12 @@ const UpdatePassword = () => {
         type: UPDATE_PASSWORD_RESET,
       });
     }
-  }, [dispatch, error, alert, navigate, update]);
+  }, [dispatch, error, alert, navigate, isUpdated]);
 
   return (
     <>
       {loading ? (
-        <div>Loading...</div>
+        <LoadingScreen />
       ) : (
         <>
           <MetaData title="Change Password" />

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useAlert } from "react-alert";
 import { useNavigate } from "react-router-dom";
@@ -13,11 +13,13 @@ import {
 import { UPDATE_PROFILE_RESET } from "../../redux/constants/userConstants";
 
 import "../../styles/user/UpdateProfile.css";
+import LoadingScreen from "../layout/Loader/Loader";
 
 const UpdateProfile = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const alert = useAlert();
+  const firstUpdate = useRef(true);
 
   const { user } = useSelector((state) => state.user);
   const { error, isUpdated, loading } = useSelector((state) => state.profile);
@@ -28,25 +30,50 @@ const UpdateProfile = () => {
   const [avatar, setAvatar] = useState(null);
   const [avatarPreview, setAvatarPreview] = useState(user.avatar.url);
 
+  const isFullNameValid =
+    fullName.trim().length >= 4 &&
+    fullName.trim().length <= 32 &&
+    /\S/.test(fullName) &&
+    !/\s{2,}/.test(fullName);
+
+  const isNameValid =
+    name.trim().length >= 2 &&
+    name.trim().length <= 32 &&
+    /\S/.test(name) &&
+    !/\s{2,}/.test(name);
+
+  const isEmailValid = (function validateEmail(email) {
+    const pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const parts = email.split("@");
+
+    // Check if there are exactly two parts and the domain has only one period
+    return (
+      parts.length === 2 &&
+      pattern.test(email) &&
+      parts[1].split(".").length === 2
+    );
+  })(email);
+
   const updateProfileSubmit = (e) => {
     e.preventDefault();
 
-    const myForm = new FormData();
+    if (!isFullNameValid) {
+      alert.error("Name Should Contain Atleast 4 Characters");
+    }
+    if (!isNameValid) {
+      alert.error("Name Should Contain Atleast 2 Characters And Must Be Valid");
+    } else if (!isEmailValid) {
+      alert.error("Invalid Email");
+    }
 
-    if (fullName) {
+    if (isFullNameValid && isEmailValid && isNameValid) {
+      const myForm = new FormData();
       myForm.set("fullName", fullName);
-    }
-    if (name) {
       myForm.set("name", name);
-    }
-    if (email) {
       myForm.set("email", email);
-    }
-    if (avatar) {
-      console.log(`avatar is ${avatar}`);
       myForm.set("avatar", avatar);
+      dispatch(updateProfile(myForm));
     }
-    dispatch(updateProfile(myForm));
   };
 
   const updateProfileDataChange = (e) => {
@@ -94,7 +121,17 @@ const UpdateProfile = () => {
       alert.error(error);
       dispatch(clearErrors());
     }
+  }, []);
 
+  useEffect(() => {
+    if (firstUpdate.current) {
+      firstUpdate.current = false;
+      return;
+    }
+    if (error) {
+      alert.error(error);
+      dispatch(clearErrors());
+    }
     if (isUpdated) {
       alert.success("Profile Updated Successfully");
       dispatch(loadUser());
@@ -105,11 +142,11 @@ const UpdateProfile = () => {
         type: UPDATE_PROFILE_RESET,
       });
     }
-  }, [dispatch, error, alert, navigate, user, isUpdated]);
+  }, [dispatch, error, alert, navigate, isUpdated]);
   return (
     <>
       {loading ? (
-        <div>Loading...</div>
+        <LoadingScreen />
       ) : (
         <>
           <MetaData title="Update Profile" />

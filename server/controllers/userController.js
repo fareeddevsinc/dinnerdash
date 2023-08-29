@@ -251,9 +251,19 @@ const resetPassword = async (req, res, next) => {
     user.password = req.body.password;
     user.resetPasswordToken = undefined;
     user.resetPasswordExpire = undefined;
-    await user.save();
+    await User.updateOne(
+      { _id: user._id },
+      {
+        $set: {
+          password: req.body.password,
+          resetPasswordToken: undefined,
+          resetPasswordExpire: undefined,
+        },
+      }
+    );
     sendToken(user, 200, res);
   } catch (error) {
+    console.log(error.message);
     return next(new ErrorHandler(error.message, 500));
   }
 };

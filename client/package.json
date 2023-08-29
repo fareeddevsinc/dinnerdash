@@ -21,6 +21,7 @@
     "axios": "^1.4.0",
     "bootstrap": "^5.3.1",
     "chart.js": "^4.3.3",
+    "formik": "^2.4.3",
     "handlebars": "^4.7.8",
     "overlay-navbar": "^1.2.3",
     "react": "^18.2.0",
@@ -41,7 +42,8 @@
     "redux": "^4.2.1",
     "redux-devtools-extension": "^2.13.9",
     "redux-persist": "^6.0.0",
-    "redux-thunk": "^2.4.2"
+    "redux-thunk": "^2.4.2",
+    "yup": "^1.2.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",

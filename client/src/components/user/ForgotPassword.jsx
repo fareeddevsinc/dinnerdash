@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useAlert } from "react-alert";
 
@@ -7,10 +7,12 @@ import MetaData from "../layout/MetaData";
 import { clearErrors, forgotPassword } from "../../redux/actions/userAction";
 
 import "../../styles/user/forgotPassword.css";
+import LoadingScreen from "../layout/Loader/Loader";
 
 const ForgotPassword = () => {
   const dispatch = useDispatch();
   const alert = useAlert();
+  const firstUpdate = useRef(true);
 
   const { error, message, loading } = useSelector(
     (state) => state.forgotPassword
@@ -31,16 +33,23 @@ const ForgotPassword = () => {
   };
 
   useEffect(() => {
+    if (firstUpdate.current) {
+      firstUpdate.current = false;
+      return;
+    }
     if (error) {
       alert.error(error);
       dispatch(clearErrors());
     }
-  }, [dispatch, error, alert]);
+    if (message) {
+      alert.success(message);
+    }
+  }, [dispatch, error, alert, message]);
 
   return (
     <>
       {loading ? (
-        <div>Loading...</div>
+        <LoadingScreen />
       ) : (
         <>
           <MetaData title="Forgot Password" />
