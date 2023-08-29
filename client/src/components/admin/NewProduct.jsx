@@ -1,14 +1,18 @@
 import { useEffect, useState } from "react";
-import "../../styles/admin/newProduct.css";
 import { useSelector, useDispatch } from "react-redux";
-import { clearErrors, createProduct } from "../../actions/productAction";
+import { useNavigate } from "react-router-dom";
 import { useAlert } from "react-alert";
 import { Button } from "@material-ui/core";
+import Select from "react-select";
+
 import MetaData from "../layout/MetaData";
 import SideBar from "./Sidebar";
-import { useNavigate } from "react-router-dom";
-import { NEW_PRODUCT_RESET } from "../../constants/productConstants";
-import Select from "react-select";
+
+import { clearErrors, createProduct } from "../../redux/actions/productAction";
+
+import { NEW_PRODUCT_RESET } from "../../redux/constants/productConstants";
+
+import "../../styles/admin/newProduct.css";
 
 const NewProduct = () => {
   const dispatch = useDispatch();

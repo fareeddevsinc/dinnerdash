@@ -1,26 +1,28 @@
 import { useEffect, useState } from "react";
-import Carousel from "react-material-ui-carousel";
-import "../../styles/product/ProductDetails.css";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  clearErrors,
-  getProductDetails,
-  newReview,
-} from "../../actions/productAction";
-import ReviewCard from "./ReviewCard";
+import { useParams } from "react-router-dom";
 import { useAlert } from "react-alert";
-import MetaData from "../layout/MetaData";
-import { addItemsToCart } from "../../actions/cartAction";
 import {
+  Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
-  Button,
 } from "@material-ui/core";
+import Carousel from "react-material-ui-carousel";
 import { Rating } from "@material-ui/lab";
-import { NEW_REVIEW_RESET } from "../../constants/productConstants";
-import { useParams } from "react-router-dom";
+
+import MetaData from "../layout/MetaData";
+import ReviewCard from "./ReviewCard";
+
+import {
+  clearErrors,
+  getProductDetails,
+  newReview,
+} from "../../redux/actions/productAction";
+import { addItemsToCart } from "../../redux/actions/cartAction";
+
+import "../../styles/product/ProductDetails.css";
 
 const ProductDetails = () => {
   const { id } = useParams();

@@ -1,6 +1,6 @@
-import { Typography, Stepper, StepLabel, Step } from "@material-ui/core";
-import LocalShippingIcon from "@material-ui/icons/LocalShipping";
-import LibraryAddCheckIcon from "@material-ui/icons/LibraryAddCheck";
+import { Typography, Stepper, Step, StepLabel } from "@material-ui/core";
+import { LibraryAddCheckIcon, LocalShippingIcon } from "@material-ui/icons";
+
 import "../../styles/cart/CheckoutSteps.css";
 
 const CheckoutSteps = ({ activeStep }) => {

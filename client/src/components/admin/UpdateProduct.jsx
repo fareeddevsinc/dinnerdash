@@ -1,21 +1,27 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  clearErrors,
-  updateProduct,
-  getProductDetails,
-} from "../../actions/productAction";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAlert } from "react-alert";
 import { Button } from "@material-ui/core";
+import {
+  AccountTreeIcon,
+  AttachMoneyIcon,
+  DescriptionIcon,
+  SpellcheckIcon,
+  StorageIcon,
+} from "@material-ui/icons";
+
 import MetaData from "../layout/MetaData";
-import AccountTreeIcon from "@material-ui/icons/AccountTree";
-import DescriptionIcon from "@material-ui/icons/Description";
-import StorageIcon from "@material-ui/icons/Storage";
-import SpellcheckIcon from "@material-ui/icons/Spellcheck";
-import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import SideBar from "./Sidebar";
-import { UPDATE_PRODUCT_RESET } from "../../constants/productConstants";
-import { useNavigate, useParams } from "react-router-dom";
+
+import {
+  clearErrors,
+  getProductDetails,
+  updateProduct,
+} from "../../redux/actions/productAction";
+import { UPDATE_PRODUCT_RESET } from "../../redux/constants/productConstants";
+
+import "../../styles/admin/productList.css";
 
 const UpdateProduct = () => {
   const navigate = useNavigate();

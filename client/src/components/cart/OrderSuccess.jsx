@@ -1,11 +1,12 @@
-import CheckCircleIcon from "@material-ui/icons/CheckCircle";
-import "../../styles/cart/orderSuccess.css";
-import { Typography } from "@material-ui/core";
-import { Link } from "react-router-dom";
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { deleteCart } from "../../actions/cartAction";
-import { deleteProduct } from "../../actions/productAction";
+import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import { Typography } from "@material-ui/core";
+import { CheckCircleIcon } from "@material-ui/icons";
+
+import { deleteCart } from "../../redux/actions/cartAction";
+
+import "../../styles/cart/orderSuccess.css";
 
 const OrderSuccess = () => {
   const dispatch = useDispatch();

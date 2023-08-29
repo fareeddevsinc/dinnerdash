@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
-import "../../styles/user/ResetPassword.css";
-
 import { useDispatch, useSelector } from "react-redux";
-import { clearErrors, resetPassword } from "../../actions/userAction";
 import { useAlert } from "react-alert";
-import MetaData from "../layout/MetaData";
 import { useNavigate, useParams } from "react-router-dom";
+
+import MetaData from "../layout/MetaData";
+
+import { clearErrors, resetPassword } from "../../redux/actions/userAction";
+
+import "../../styles/user/ResetPassword.css";
 
 const ResetPassword = () => {
   const navigate = useNavigate();

@@ -1,20 +1,24 @@
 import { useEffect } from "react";
-import { DataGrid } from "@material-ui/data-grid";
-import "../../styles/admin/productList.css";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useAlert } from "react-alert";
+import { Button } from "@material-ui/core";
+import { DataGrid } from "@material-ui/data-grid";
+import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from "@material-ui/icons/Delete";
+
+import MetaData from "../layout/MetaData";
+import SideBar from "./Sidebar";
+
 import {
   clearErrors,
   getAdminProduct,
   deleteProduct,
-} from "../../actions/productAction";
-import { Link, useNavigate } from "react-router-dom";
-import { useAlert } from "react-alert";
-import { Button } from "@material-ui/core";
-import MetaData from "../layout/MetaData";
-import EditIcon from "@material-ui/icons/Edit";
-import DeleteIcon from "@material-ui/icons/Delete";
-import SideBar from "./Sidebar";
-import { DELETE_PRODUCT_RESET } from "../../constants/productConstants";
+} from "../../redux/actions/productAction";
+
+import { DELETE_PRODUCT_RESET } from "../../redux/constants/productConstants";
+
+import "../../styles/admin/productList.css";
 
 const ProductList = () => {
   const dispatch = useDispatch();

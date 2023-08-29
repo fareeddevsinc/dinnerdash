@@ -1,22 +1,26 @@
-import { useEffect, useState } from "react";
-import Sidebar from "./Sidebar";
-import "../../styles/admin/dashboard.css";
-import { Typography } from "@material-ui/core";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { getAdminProduct } from "../../actions/productAction.js";
-import { getAllOrders } from "../../actions/orderAction.js";
-import { getAllUsers } from "../../actions/userAction.js";
-import MetaData from "../layout/MetaData.jsx";
+import { Typography } from "@material-ui/core";
+
 import {
-  Chart,
-  CategoryScale,
   ArcElement,
+  CategoryScale,
+  Chart,
   LinearScale,
-  PointElement,
   LineElement,
+  PointElement,
 } from "chart.js";
-import { getAllRestaurants } from "../../actions/restaurantAction";
+
+import MetaData from "../layout/MetaData.jsx";
+import Sidebar from "./Sidebar";
+
+import { getAdminProduct } from "../../redux/actions/productAction.js";
+import { getAllOrders } from "../../redux/actions/orderAction.js";
+import { getAllUsers } from "../../redux/actions/userAction.js";
+import { getAllRestaurants } from "../../redux/actions/restaurantAction.js";
+
+import "../../styles/admin/dashboard.css";
 
 Chart.register(
   CategoryScale,

@@ -1,18 +1,21 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  clearErrors,
-  updateRestaurant,
-  getRestaurantDetails,
-} from "../../actions/restaurantAction";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAlert } from "react-alert";
 import { Button } from "@material-ui/core";
+import { DescriptionIcon, SpellcheckIcon } from "@material-ui/icons";
+
 import MetaData from "../layout/MetaData";
-import DescriptionIcon from "@material-ui/icons/Description";
-import SpellcheckIcon from "@material-ui/icons/Spellcheck";
 import SideBar from "./Sidebar";
-import { UPDATE_RESTAURANT_RESET } from "../../constants/restaurantConstants";
-import { useNavigate, useParams } from "react-router-dom";
+
+import {
+  clearErrors,
+  getRestaurantDetails,
+  updateRestaurant,
+} from "../../redux/actions/restaurantAction";
+import { UPDATE_RESTAURANT_RESET } from "../../redux/constants/restaurantConstants";
+
+import "../../styles/admin/productList.css";
 
 const UpdateRestaurant = () => {
   const navigate = useNavigate();

@@ -1,14 +1,16 @@
 import { useEffect } from "react";
-import "../../styles/product/ProductDetails.css";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { useAlert } from "react-alert";
+
+import MetaData from "../layout/MetaData";
+
 import {
   clearErrors,
   getRestaurantDetails,
-} from "../../actions/restaurantAction";
-import { useAlert } from "react-alert";
-import MetaData from "../layout/MetaData";
+} from "../../redux/actions/restaurantAction";
 
-import { useParams } from "react-router-dom";
+import "../../styles/product/ProductDetails.css";
 
 const RestaurantDetails = () => {
   const { id } = useParams();

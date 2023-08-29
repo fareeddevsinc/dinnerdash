@@ -1,11 +1,11 @@
-import { useRef, useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import "../../styles/user/loginSignup.css";
-
-import { Link } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { clearErrors, login, register } from "../../actions/userAction";
 import { useAlert } from "react-alert";
+import { useNavigate, useLocation, Link } from "react-router-dom";
+
+import { clearErrors, login, register } from "../../redux/actions/userAction";
+
+import "../../styles/user/loginSignup.css";
 
 const LoginSignUp = () => {
   const dispatch = useDispatch();

@@ -1,16 +1,15 @@
 import { useState } from "react";
-import "../../styles/cart/Shipping.css";
-import { useSelector, useDispatch } from "react-redux";
-import MetaData from "../layout/MetaData";
-import HomeIcon from "@material-ui/icons/Home";
-import LocationCityIcon from "@material-ui/icons/LocationCity";
-import PhoneIcon from "@material-ui/icons/Phone";
-import { useAlert } from "react-alert";
-import CheckoutSteps from "./CheckoutSteps";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useAlert } from "react-alert";
+import { HomeIcon, LocationCityIcon, PhoneIcon } from "@material-ui/icons";
+
+import CheckoutSteps from "./CheckoutSteps";
+import MetaData from "../layout/MetaData";
+
+import "../../styles/cart/Shipping.css";
 
 const Shipping = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const alert = useAlert();
   const { shippingInfo } = useSelector((state) => state.cart);

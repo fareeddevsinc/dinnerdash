@@ -1,9 +1,12 @@
 import { useState, useEffect } from "react";
-import "../../styles/user/forgotPassword.css";
 import { useDispatch, useSelector } from "react-redux";
-import { clearErrors, forgotPassword } from "../../actions/userAction";
 import { useAlert } from "react-alert";
+
 import MetaData from "../layout/MetaData";
+
+import { clearErrors, forgotPassword } from "../../redux/actions/userAction";
+
+import "../../styles/user/forgotPassword.css";
 
 const ForgotPassword = () => {
   const dispatch = useDispatch();

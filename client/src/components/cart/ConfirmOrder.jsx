@@ -1,10 +1,14 @@
-import CheckoutSteps from "./CheckoutSteps";
 import { useSelector, useDispatch } from "react-redux";
-import MetaData from "../layout/MetaData";
-import "../../styles/cart/ConfirmOrder.css";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Typography } from "@material-ui/core";
-import { createOrder } from "../../actions/orderAction";
+
+import MetaData from "../layout/MetaData";
+import CheckoutSteps from "./CheckoutSteps";
+
+import { createOrder } from "../../redux/actions/orderAction";
+
+import "../../styles/cart/ConfirmOrder.css";
 
 const ConfirmOrder = () => {
   const { cartItems } = useSelector((state) => state.cart);

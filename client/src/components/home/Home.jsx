@@ -1,17 +1,18 @@
 import { useEffect } from "react";
-import ProductCard from "../product/ProductCard";
-import "../../styles/home/home.css";
-import MetaData from "../layout/MetaData";
-import { clearErrors, getProduct } from "../../actions/productAction";
 import { useSelector, useDispatch } from "react-redux";
 import { useAlert } from "react-alert";
+
+import MetaData from "../layout/MetaData";
+import ProductCard from "../product/ProductCard";
+
+import { clearErrors, getProduct } from "../../redux/actions/productAction";
+
+import "../../styles/home/home.css";
 
 const Home = () => {
   const alert = useAlert();
   const dispatch = useDispatch();
-  const { loading, error, products, productsCount } = useSelector(
-    (state) => state.products
-  );
+  const { loading, error, products } = useSelector((state) => state.products);
   useEffect(() => {
     if (error) {
       alert.error(error);

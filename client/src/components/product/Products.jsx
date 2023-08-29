@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import ProductCard from "./ProductCard";
-import { clearErrors, getProduct } from "../../actions/productAction";
-import Pagination from "react-js-pagination";
+import { useParams } from "react-router-dom";
+import { useAlert } from "react-alert";
 import Slider from "@mui/material/Slider";
 import Typography from "@mui/material/Typography";
-import { useAlert } from "react-alert";
+import Pagination from "react-js-pagination";
+
 import MetaData from "../layout/MetaData";
+import ProductCard from "./ProductCard";
 import Search from "../../helpers/Search";
 
-import "../../styles/product/Product.css";
+import { clearErrors, getProduct } from "../../redux/actions/productAction";
 
-const categories = ["laptop", "Footwear", "Tops"];
+import "../../styles/product/Product.css";
 
 const Products = () => {
   const dispatch = useDispatch();
@@ -29,6 +29,8 @@ const Products = () => {
     resultPerPage,
     filteredProductCount,
   } = useSelector((state) => state.products);
+
+  const categories = ["Desserts", "Beverages", "Desi", "Continental"];
 
   const keyword = key;
 

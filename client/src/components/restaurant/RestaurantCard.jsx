@@ -1,5 +1,6 @@
-import { NavLink } from "react-router-dom";
 import { Card } from "react-bootstrap";
+import { NavLink } from "react-router-dom";
+
 import "../../styles/product/productCard.css";
 
 const RestaurantCard = ({ restaurant }) => {

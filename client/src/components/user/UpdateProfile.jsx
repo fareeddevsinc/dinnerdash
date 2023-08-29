@@ -1,12 +1,18 @@
 import { useState, useEffect } from "react";
-import "../../styles/user/UpdateProfile.css";
-
 import { useDispatch, useSelector } from "react-redux";
-import { clearErrors, updateProfile, loadUser } from "../../actions/userAction";
 import { useAlert } from "react-alert";
-import { UPDATE_PROFILE_RESET } from "../../constants/userConstants";
-import MetaData from "../layout/MetaData";
 import { useNavigate } from "react-router-dom";
+
+import MetaData from "../layout/MetaData";
+
+import {
+  clearErrors,
+  updateProfile,
+  loadUser,
+} from "../../redux/actions/userAction";
+import { UPDATE_PROFILE_RESET } from "../../redux/constants/userConstants";
+
+import "../../styles/user/UpdateProfile.css";
 
 const UpdateProfile = () => {
   const navigate = useNavigate();

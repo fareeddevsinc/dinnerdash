@@ -1,4 +1,5 @@
 import "../../styles/error/notFound.css";
+
 const NotFound = () => {
   return (
     <div className="not-found-container">

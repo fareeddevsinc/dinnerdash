@@ -1,6 +1,7 @@
-import { NavLink } from "react-router-dom";
-import { logout } from "../../../actions/userAction";
 import { useDispatch, useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
+
+import { logout } from "../../../actions/userAction";
 
 const navbarStyle = {
   display: "flex",

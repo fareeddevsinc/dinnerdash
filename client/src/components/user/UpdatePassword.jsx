@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
-import "../../styles/user/UpdatePassword.css";
-
 import { useDispatch, useSelector } from "react-redux";
-import { clearErrors, updatePassword } from "../../actions/userAction";
 import { useAlert } from "react-alert";
-import { UPDATE_PASSWORD_RESET } from "../../constants/userConstants";
-import MetaData from "../layout/MetaData";
 import { useNavigate } from "react-router-dom";
+
+import MetaData from "../layout/MetaData";
+
+import { clearErrors, updatePassword } from "../../redux/actions/userAction";
+import { UPDATE_PASSWORD_RESET } from "../../redux/constants/userConstants";
+
+import "../../styles/user/UpdatePassword.css";
 
 const UpdatePassword = () => {
   const navigate = useNavigate();

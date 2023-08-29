@@ -1,13 +1,20 @@
 import { useEffect, useState } from "react";
-import "../../styles/admin/newProduct.css";
 import { useSelector, useDispatch } from "react-redux";
-import { clearErrors, addRestaurant } from "../../actions/restaurantAction";
+import { useNavigate } from "react-router-dom";
 import { useAlert } from "react-alert";
 import { Button } from "@material-ui/core";
+
 import MetaData from "../layout/MetaData";
 import SideBar from "./Sidebar";
-import { useNavigate } from "react-router-dom";
-import { ADD_RESTAURANT_RESET } from "../../constants/restaurantConstants";
+
+import {
+  clearErrors,
+  addRestaurant,
+} from "../../redux/actions/restaurantAction";
+
+import { ADD_RESTAURANT_RESET } from "../../redux/constants/restaurantConstants";
+
+import "../../styles/admin/newProduct.css";
 
 const NewRestaurant = () => {
   const dispatch = useDispatch();

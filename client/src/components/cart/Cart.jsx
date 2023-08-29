@@ -1,18 +1,22 @@
-import "../../styles/cart/Cart.css";
-import CartItemCard from "./CartItemCard";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useAlert } from "react-alert";
+import { Link } from "react-router-dom";
+import { Typography } from "@material-ui/core";
+import { RemoveShoppingCartIcon } from "@material-ui/icons";
+
+import CartItemCard from "./CartItemCard";
+
 import {
   addItemsToCart,
+  deleteCart,
   getCart,
   removeItemsFromCart,
-  deleteCart,
-} from "../../actions/cartAction";
-import { Typography } from "@material-ui/core";
-import RemoveShoppingCartIcon from "@material-ui/icons/RemoveShoppingCart";
-import { Link, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-import { clearErrors } from "../../actions/userAction";
-import { useAlert } from "react-alert";
+} from "../../redux/actions/cartAction";
+import { clearErrors } from "../../redux/actions/userAction";
+
+import "../../styles/cart/Cart.css";
 
 const Cart = () => {
   const navigate = useNavigate();

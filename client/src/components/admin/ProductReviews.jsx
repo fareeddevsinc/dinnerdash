@@ -1,21 +1,24 @@
 import { useEffect, useState } from "react";
-import { DataGrid } from "@material-ui/data-grid";
-import "../../styles/admin/productReviews.css";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useAlert } from "react-alert";
+import { Button } from "@material-ui/core";
+import { DataGrid } from "@material-ui/data-grid";
+import DeleteIcon from "@material-ui/icons/Delete";
+import Star from "@material-ui/icons/Star";
+
+import MetaData from "../layout/MetaData";
+import SideBar from "./Sidebar";
+
 import {
   clearErrors,
   getAllReviews,
   deleteReviews,
-} from "../../actions/productAction";
-import { useAlert } from "react-alert";
-import { Button } from "@material-ui/core";
-import MetaData from "../layout/MetaData";
-import Star from "@material-ui/icons/Star";
+} from "../../redux/actions/productAction";
 
-import SideBar from "./Sidebar";
-import { DELETE_REVIEW_RESET } from "../../constants/productConstants";
-import { useNavigate } from "react-router-dom";
-import DeleteIcon from "@material-ui/icons/Delete";
+import { DELETE_REVIEW_RESET } from "../../redux/constants/productConstants";
+
+import "../../styles/admin/productReviews.css";
 
 const ProductReviews = () => {
   const dispatch = useDispatch();

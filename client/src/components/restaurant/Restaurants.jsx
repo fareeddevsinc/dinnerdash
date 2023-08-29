@@ -1,12 +1,17 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import RestaurantCard from "./RestaurantCard";
-import { clearErrors, getRestaurant } from "../../actions/restaurantAction";
-import Pagination from "react-js-pagination";
+import { useParams } from "react-router-dom";
 import { useAlert } from "react-alert";
+import Pagination from "react-js-pagination";
+
 import MetaData from "../layout/MetaData";
+import RestaurantCard from "./RestaurantCard";
 import Search from "../../helpers/Search";
+
+import {
+  clearErrors,
+  getRestaurant,
+} from "../../redux/actions/restaurantAction";
 
 import "../../styles/product/Product.css";
 

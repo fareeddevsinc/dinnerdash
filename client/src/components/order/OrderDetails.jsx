@@ -1,11 +1,14 @@
 import { useEffect } from "react";
-import "../../styles/order/orderDetails.css";
 import { useSelector, useDispatch } from "react-redux";
-import MetaData from "../layout/MetaData";
-import { Link, useParams } from "react-router-dom";
-import { Typography } from "@material-ui/core";
-import { getOrderDetails, clearErrors } from "../../actions/orderAction";
 import { useAlert } from "react-alert";
+import { useParams } from "react-router-dom";
+import { Typography } from "@material-ui/core";
+
+import MetaData from "../layout/MetaData";
+
+import { clearErrors, getOrderDetails } from "../../redux/actions/orderAction";
+
+import "../../styles/order/orderDetails.css";
 
 const OrderDetails = () => {
   const { id } = useParams();

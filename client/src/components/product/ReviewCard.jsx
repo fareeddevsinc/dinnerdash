@@ -1,4 +1,5 @@
 import ReactStars from "react-rating-stars-component";
+
 import defaultUser from "../../images/defaultUser.jpg";
 
 const ReviewCard = ({ review }) => {

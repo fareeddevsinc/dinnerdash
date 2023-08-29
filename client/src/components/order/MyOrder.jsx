@@ -1,13 +1,16 @@
 import { useEffect } from "react";
-import { DataGrid } from "@material-ui/data-grid";
-import "../../styles/order/myOrders.css";
 import { useSelector, useDispatch } from "react-redux";
-import { clearErrors, myOrders } from "../../actions/orderAction";
 import { Link } from "react-router-dom";
 import { useAlert } from "react-alert";
-import Typography from "@material-ui/core/Typography";
+import { Typography } from "@material-ui/core";
+import { DataGrid } from "@material-ui/data-grid";
+import { LaunchIcon } from "@material-ui/icons";
+
 import MetaData from "../layout/MetaData";
-import LaunchIcon from "@material-ui/icons/Launch";
+
+import { clearErrors, myOrders } from "../../redux/actions/orderAction";
+
+import "../../styles/order/myOrders.css";
 
 const MyOrders = () => {
   const dispatch = useDispatch();

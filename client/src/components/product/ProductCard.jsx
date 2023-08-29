@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { Card } from "react-bootstrap";
 import ReactStars from "react-rating-stars-component";
+
 import "../../styles/product/productCard.css";
 
 const ProductCard = ({ product }) => {
