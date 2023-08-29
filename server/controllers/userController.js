@@ -10,6 +10,8 @@ const crypto = require("crypto");
 
 const cloudinary = require("cloudinary");
 
+const renderEmailTemplate = require("../utils/emailTemplate");
+
 //register
 
 const registerUser = async (req, res, next) => {
@@ -189,13 +191,26 @@ const forgotPassword = async (req, res, next) => {
 
     const resetPasswordUrl = `http://localhost:5173/password/reset/${resetToken}`;
 
-    const message = `Your Reset Password Token Is ${resetPasswordUrl}`;
+    const emailData = {
+      resetPasswordUrl: resetPasswordUrl,
+    };
+
+    const path = require("path");
+    const templatePath = path.join(
+      __dirname,
+      "..",
+      "public",
+      "views",
+      "templates",
+      "resetPasswordTemplate.html"
+    );
+    const emailContent = renderEmailTemplate(templatePath, emailData);
 
     try {
       await sendEmail({
         email: user.email,
         subject: "Dinner Dash Password Recovery",
-        message,
+        html: emailContent,
       });
 
       res.status(200).json({
@@ -209,6 +224,7 @@ const forgotPassword = async (req, res, next) => {
       return next(new ErrorHandler(error.message, 500));
     }
   } catch (error) {
+    console.log(error.message);
     return next(new ErrorHandler(error.message, 404));
   }
 };
@@ -280,7 +296,8 @@ const updateProfile = async (req, res, next) => {
       success: true,
     });
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
+    res.json({ error });
   }
 };
 

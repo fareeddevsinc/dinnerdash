@@ -13,7 +13,7 @@ const UpdateProfile = () => {
   const dispatch = useDispatch();
   const alert = useAlert();
 
-  const { user, isAuthenticated } = useSelector((state) => state.user);
+  const { user } = useSelector((state) => state.user);
   const { error, isUpdated, loading } = useSelector((state) => state.profile);
 
   const [fullName, setFullName] = useState("");
@@ -27,13 +27,18 @@ const UpdateProfile = () => {
 
     const myForm = new FormData();
 
-    myForm.set("fullName", fullName);
-    myForm.set("name", name);
-    myForm.set("email", email);
+    if (fullName) {
+      myForm.set("fullName", fullName);
+    }
+    if (name) {
+      myForm.set("name", name);
+    }
+    if (email) {
+      myForm.set("email", email);
+    }
     if (avatar) {
+      console.log(`avatar is ${avatar}`);
       myForm.set("avatar", avatar);
-    } else {
-      myForm.set("avatar", user.avatar.url);
     }
     dispatch(updateProfile(myForm));
   };
@@ -51,12 +56,32 @@ const UpdateProfile = () => {
     reader.readAsDataURL(e.target.files[0]);
   };
 
+  const defaultImageHandler = async () => {
+    try {
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (reader.readyState === 2) {
+          setAvatar(reader.result);
+        }
+      };
+      const response = await fetch(user.avatar.url);
+      const data = await response.blob();
+      const defaultAvatarFile = new File([data], "default-avatar.jpg", {
+        type: "image/jpg",
+      });
+      reader.readAsDataURL(defaultAvatarFile);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   useEffect(() => {
     if (user) {
       setFullName(user.fullName);
       setName(user.name);
       setEmail(user.email);
       setAvatarPreview(user.avatar.url);
+      defaultImageHandler();
     }
 
     if (error) {

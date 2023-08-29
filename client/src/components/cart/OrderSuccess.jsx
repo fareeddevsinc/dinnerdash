@@ -11,13 +11,9 @@ const OrderSuccess = () => {
   const dispatch = useDispatch();
   const { cartItems } = useSelector((state) => state.cart);
 
+  // incomplete
   useEffect(() => {
     dispatch(deleteCart());
-    cartItems.cart.forEach((cart) => {
-      cart.product.forEach((item) => {
-        dispatch(deleteProduct(item.product._id));
-      });
-    });
   }, []);
 
   return (

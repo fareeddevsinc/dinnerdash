@@ -28,9 +28,12 @@ export const logoutUserApi = async () => {
 };
 
 export const updateProfileApi = async (userData, config) => {
-  const { data } = await axios.put(`${BASE_URL}/me/update`, userData, config);
-
-  return { data };
+  try {
+    const { data } = await axios.put(`${BASE_URL}/me/update`, userData, config);
+    return { data };
+  } catch (error) {
+    console.log(error.message);
+  }
 };
 
 export const updatePasswordApi = async (passwords, config) => {
