@@ -17,13 +17,13 @@ export const loginUserApi = async (email, password, config) => {
   return data;
 };
 
-export const loadUserApi = async () => {
-  const data = await axios.get(`${BASE_URL}/me`, { withCredentials: true });
+export const loadUserApi = async (config) => {
+  const data = await axios.get(`${BASE_URL}/me`, config);
   return data;
 };
 
-export const logoutUserApi = async () => {
-  const data = await axios.get(`${BASE_URL}/logout`, { withCredentials: true });
+export const logoutUserApi = async (config) => {
+  const data = await axios.get(`${BASE_URL}/logout`, config);
   return data;
 };
 
@@ -66,18 +66,20 @@ export const resetPasswordApi = async (token, passwords, config) => {
   return { data };
 };
 
-export const getAllUsersApi = async () => {
-  const { data } = await axios.get(`${BASE_URL}/admin/users?role=admin`, {
-    withCredentials: true,
-  });
+export const getAllUsersApi = async (config) => {
+  const { data } = await axios.get(
+    `${BASE_URL}/admin/users?role=admin`,
+    config
+  );
 
   return { data };
 };
 
-export const getUserDetailsApi = async (id) => {
-  const { data } = await axios.get(`${BASE_URL}/admin/user/${id}?role=admin`, {
-    withCredentials: true,
-  });
+export const getUserDetailsApi = async (id, config) => {
+  const { data } = await axios.get(
+    `${BASE_URL}/admin/user/${id}?role=admin`,
+    config
+  );
 
   return { data };
 };

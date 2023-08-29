@@ -1,4 +1,4 @@
-import requestHeader from "../helpers/requestHeaders";
+import requestHeader from "../../helpers/requestHeaders";
 import {
   registerUserApi,
   loginUserApi,
@@ -12,7 +12,7 @@ import {
   getUserDetailsApi,
   updateUserApi,
   deleteUserApi,
-} from "../api/user/userApi";
+} from "../../api/user/userApi";
 
 import {
   LOGIN_REQUEST,
@@ -94,7 +94,9 @@ export const loadUser = () => async (dispatch) => {
   try {
     dispatch({ type: LOAD_USER_REQUEST });
 
-    const { data } = await loadUserApi();
+    const config = requestHeader();
+
+    const { data } = await loadUserApi(config);
 
     dispatch({ type: LOAD_USER_SUCCESS, payload: data.user });
   } catch (error) {
@@ -104,7 +106,8 @@ export const loadUser = () => async (dispatch) => {
 
 export const logout = () => async (dispatch) => {
   try {
-    await logoutUserApi();
+    const config = requestHeader();
+    await logoutUserApi(config);
     document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 
     dispatch({ type: LOGOUT_SUCCESS });
@@ -189,7 +192,10 @@ export const resetPassword = (token, passwords) => async (dispatch) => {
 export const getAllUsers = () => async (dispatch) => {
   try {
     dispatch({ type: ALL_USERS_REQUEST });
-    const { data } = await getAllUsersApi();
+
+    const config = requestHeader();
+
+    const { data } = await getAllUsersApi(config);
 
     dispatch({ type: ALL_USERS_SUCCESS, payload: data.users });
   } catch (error) {
@@ -201,7 +207,10 @@ export const getAllUsers = () => async (dispatch) => {
 export const getUserDetails = (id) => async (dispatch) => {
   try {
     dispatch({ type: USER_DETAILS_REQUEST });
-    const { data } = await getUserDetailsApi(id);
+
+    const config = requestHeader();
+
+    const { data } = await getUserDetailsApi(id, config);
 
     dispatch({ type: USER_DETAILS_SUCCESS, payload: data.user });
   } catch (error) {

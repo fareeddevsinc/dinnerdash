@@ -13,11 +13,12 @@ const UpdatePassword = () => {
   const dispatch = useDispatch();
   const alert = useAlert();
 
-  const { error, isUpdated, loading } = useSelector((state) => state.profile);
+  const { error, loading } = useSelector((state) => state.profile);
 
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [update, setUpdate] = useState(false);
 
   const updatePasswordSubmit = (e) => {
     e.preventDefault();
@@ -29,6 +30,7 @@ const UpdatePassword = () => {
     myForm.set("confirmPassword", confirmPassword);
 
     dispatch(updatePassword(myForm));
+    setUpdate(true);
   };
 
   useEffect(() => {
@@ -37,7 +39,7 @@ const UpdatePassword = () => {
       dispatch(clearErrors());
     }
 
-    if (isUpdated) {
+    if (update) {
       alert.success("Profile Updated Successfully");
 
       navigate("/account");
@@ -46,7 +48,7 @@ const UpdatePassword = () => {
         type: UPDATE_PASSWORD_RESET,
       });
     }
-  }, [dispatch, error, alert, navigate, isUpdated]);
+  }, [dispatch, error, alert, navigate, update]);
 
   return (
     <>

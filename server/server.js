@@ -1,6 +1,6 @@
-const app = require("./app");
-
 require("dotenv").config({ path: "./config/config.env" });
+
+const app = require("./app");
 
 require("./config/database");
 
@@ -15,14 +15,3 @@ cloudinary.config({
 const server = app.listen(process.env.PORT, () => {
   console.log(`server is running at http://localhost:${process.env.PORT}`);
 });
-
-//unhandled promise rejection, in case server fails to connect
-//with this we dont need a catch in mongoose.connect
-// process.on("unhandledRejection", (err) => {
-//   console.log(`Error: ${err.message}`);
-//   console.log(`Shutting Down the server due to Unhandled Promise Rejection`);
-
-//   server.close(() => {
-//     process.exit(1);
-//   });
-// });

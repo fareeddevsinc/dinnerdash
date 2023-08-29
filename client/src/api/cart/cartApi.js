@@ -1,11 +1,9 @@
 import axios from "axios";
 import { BASE_URL } from "../baseUrl";
 
-export const getAllCartItemsApi = async () => {
+export const getAllCartItemsApi = async (config) => {
   try {
-    const { data } = await axios.get(`${BASE_URL}/cart`, {
-      withCredentials: true,
-    });
+    const { data } = await axios.get(`${BASE_URL}/cart`, config);
 
     return { data };
   } catch (error) {
@@ -38,11 +36,9 @@ export const removeItemsFromCartApi = async (id, config) => {
   }
 };
 
-export const deleteCartApi = async () => {
+export const deleteCartApi = async (config) => {
   try {
-    const { data } = await axios.delete(`${BASE_URL}/cart`, {
-      withCredentials: true,
-    });
+    const { data } = await axios.delete(`${BASE_URL}/cart`, config);
 
     return { data };
   } catch (error) {

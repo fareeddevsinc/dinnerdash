@@ -3,8 +3,7 @@ import {
   getAllCartItemsApi,
   removeItemsFromCartApi,
   deleteCartApi,
-  saveShippingInfoApi,
-} from "../api/cart/cartApi";
+} from "../../api/cart/cartApi";
 import {
   GET_CART_REQUEST,
   GET_CART_SUCCESS,
@@ -18,20 +17,17 @@ import {
   DELETE_CART_REQUEST,
   DELETE_CART_SUCCESS,
   DELETE_CART_FAIL,
-  SHIPPING_INFO_REQUEST,
-  SHIPPING_INFO_SUCCESS,
-  SHIPPING_INFO_FAIL,
 } from "../constants/cartConstants";
 
-import requestHeader from "../helpers/requestHeaders";
+import requestHeader from "../../helpers/requestHeaders";
 
 export const getCart = () => async (dispatch) => {
   try {
     dispatch({ type: GET_CART_REQUEST });
 
-    const { data } = await getAllCartItemsApi();
+    const config = requestHeader();
 
-    // console.log(data.cart[0].products[0].product.name);
+    const { data } = await getAllCartItemsApi(config);
 
     dispatch({
       type: GET_CART_SUCCESS,
@@ -88,7 +84,9 @@ export const deleteCart = () => async (dispatch) => {
   try {
     dispatch({ type: DELETE_CART_REQUEST });
 
-    const { data } = await deleteCartApi();
+    const config = requestHeader();
+
+    const { data } = await deleteCartApi(config);
 
     dispatch({
       type: DELETE_CART_SUCCESS,

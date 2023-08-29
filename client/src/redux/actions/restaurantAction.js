@@ -1,4 +1,4 @@
-import requestHeader from "../helpers/requestHeaders";
+import requestHeader from "../../helpers/requestHeaders";
 import {
   ALL_RESTAURANT_REQUEST,
   ALL_RESTAURANT_SUCCESS,
@@ -24,7 +24,7 @@ import {
   addRestaurantApi,
   updateRestaurantApi,
   deleteRestaurantApi,
-} from "../api/restaurant/restaurantApi";
+} from "../../api/restaurant/restaurantApi";
 
 import axios from "axios";
 
@@ -90,7 +90,7 @@ export const addRestaurant = (restaurantData) => async (dispatch) => {
   try {
     dispatch({ type: ADD_RESTAURANT_REQUEST });
 
-    const config = requestHeader("multipart/form-data");
+    const config = requestHeader();
 
     const { data } = await addRestaurantApi(restaurantData, config);
 

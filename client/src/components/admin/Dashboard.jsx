@@ -1,9 +1,8 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
 import "../../styles/admin/dashboard.css";
 import { Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import { Doughnut, Line } from "react-chartjs-2";
 import { useSelector, useDispatch } from "react-redux";
 import { getAdminProduct } from "../../actions/productAction.js";
 import { getAllOrders } from "../../actions/orderAction.js";
@@ -30,6 +29,8 @@ Chart.register(
 const Dashboard = () => {
   const dispatch = useDispatch();
 
+  const [totalAmount, setTotalAmount] = useState(0);
+
   const { products } = useSelector((state) => state.products);
 
   const { orders } = useSelector((state) => state.allOrders);
@@ -38,49 +39,29 @@ const Dashboard = () => {
 
   const { restaurants } = useSelector((state) => state.restaurants);
 
-  let outOfStock = 0;
-
-  products &&
-    products.forEach((item) => {
-      if (item.stock === 0) {
-        outOfStock += 1;
-      }
-    });
-
   useEffect(() => {
     dispatch(getAdminProduct());
     dispatch(getAllOrders());
     dispatch(getAllUsers());
     dispatch(getAllRestaurants());
+    initialCalculations();
   }, [dispatch]);
 
-  let totalAmount = 0;
-  orders &&
-    orders.order.forEach((order) => {
-      totalAmount += order.totalPrice;
-    });
+  const initialCalculations = () => {
+    let outOfStock = 0;
 
-  const lineState = {
-    labels: ["Initial Amount", "Amount Earned"],
-    datasets: [
-      {
-        label: "TOTAL AMOUNT",
-        backgroundColor: ["tomato"],
-        hoverBackgroundColor: ["rgb(197, 72, 49)"],
-        data: [0, totalAmount],
-      },
-    ],
-  };
-
-  const doughnutState = {
-    labels: ["Out of Stock", "InStock"],
-    datasets: [
-      {
-        backgroundColor: ["#00A6B4", "#6800B4"],
-        hoverBackgroundColor: ["#4B5000", "#35014F"],
-        data: [outOfStock, products?.length - outOfStock],
-      },
-    ],
+    products &&
+      products.forEach((item) => {
+        if (item.stock === 0) {
+          outOfStock += 1;
+        }
+      });
+    let total = 0;
+    orders &&
+      orders.order.forEach((order) => {
+        total += order.totalPrice;
+      });
+    setTotalAmount(total);
   };
 
   return (
@@ -116,14 +97,6 @@ const Dashboard = () => {
             </Link>
           </div>
         </div>
-
-        {/* <div className="lineChart">
-          <Line data={lineState} />
-        </div> */}
-
-        {/* <div className="doughnutChart">
-          <Doughnut data={doughnutState} />
-        </div> */}
       </div>
     </div>
   );

@@ -33,21 +33,17 @@ export const updateProductApi = async (id, productData, config) => {
   }
 };
 
-export const deleteProductApi = async (id) => {
+export const deleteProductApi = async (id, config) => {
   const { data } = await axios.delete(
     `${BASE_URL}/admin/product/${id}?role=admin`,
-    {
-      withCredentials: true,
-    }
+    config
   );
 
   return { data };
 };
 
 export const getProductDetailsApi = async (id) => {
-  const { data } = await axios.get(`${BASE_URL}/product/${id}`, {
-    withCredentials: true,
-  });
+  const { data } = await axios.get(`${BASE_URL}/product/${id}`);
 
   return { data };
 };

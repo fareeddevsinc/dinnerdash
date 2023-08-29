@@ -1,10 +1,6 @@
 const express = require("express");
 
-const {
-  isAuthenticatedUser,
-  isAuthenticatedUserForPut,
-  authorizeRoles,
-} = require("../middlewares/auth");
+const { isAuthenticatedUser, authorizeRoles } = require("../middlewares/auth");
 
 const {
   viewRestaurant,
@@ -22,14 +18,14 @@ router.route("/restaurant/:id").get(viewRestaurant);
 
 router
   .route("/restaurant/:id")
-  .delete(isAuthenticatedUserForPut, authorizeRoles("admin"), deleteRestaurant);
+  .delete(isAuthenticatedUser, authorizeRoles("admin"), deleteRestaurant);
 
 router
   .route("/restaurant/new")
-  .post(isAuthenticatedUserForPut, authorizeRoles("admin"), createRestaurant);
+  .post(isAuthenticatedUser, authorizeRoles("admin"), createRestaurant);
 
 router
   .route("/restaurant/:id")
-  .put(isAuthenticatedUserForPut, authorizeRoles("admin"), updateRestaurant);
+  .put(isAuthenticatedUser, authorizeRoles("admin"), updateRestaurant);
 
 module.exports = router;
