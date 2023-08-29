@@ -32,15 +32,7 @@ const NewProduct = () => {
   const [images, setImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState([]);
 
-  const all_categories = [
-    "Laptop",
-    "Footwear",
-    "Bottom",
-    "Tops",
-    "Attire",
-    "Camera",
-    "SmartPhones",
-  ];
+  const all_categories = ["Desi", "Dessert", "Continental"];
 
   const categoryOptions = all_categories.map((cate) => ({
     value: cate,
