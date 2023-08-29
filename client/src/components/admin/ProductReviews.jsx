@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useAlert } from "react-alert";
@@ -120,17 +120,19 @@ const ProductReviews = () => {
     },
   ];
 
-  const rows = [];
-
-  reviews &&
-    reviews.forEach((item) => {
-      rows.push({
-        id: item._id,
-        rating: item.rating,
-        comment: item.comment,
-        user: item.name,
+  const rows = useMemo(() => {
+    const result = [];
+    reviews &&
+      reviews.forEach((item) => {
+        result.push({
+          id: item._id,
+          rating: item.rating,
+          comment: item.comment,
+          user: item.name,
+        });
       });
-    });
+    return result;
+  }, [reviews]);
 
   return (
     <>

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import { useAlert } from "react-alert";
@@ -32,9 +32,12 @@ const ProductList = () => {
     (state) => state.product
   );
 
-  const deleteProductHandler = (id) => {
-    dispatch(deleteProduct(id));
-  };
+  const deleteProductHandler = useCallback(
+    (id) => {
+      dispatch(deleteProduct(id));
+    },
+    [dispatch]
+  );
 
   useEffect(() => {
     if (error) {
@@ -114,18 +117,20 @@ const ProductList = () => {
     },
   ];
 
-  const rows = [];
-
-  products &&
-    products.forEach((item) => {
-      rows.push({
-        id: item._id,
-        stock: item.stock,
-        category: item.category,
-        price: item.price,
-        name: item.name,
+  const rows = useMemo(() => {
+    const result = [];
+    products &&
+      products.forEach((item) => {
+        result.push({
+          id: item._id,
+          stock: item.stock,
+          category: item.category,
+          price: item.price,
+          name: item.name,
+        });
       });
-    });
+    return result;
+  }, [products]);
 
   return (
     <>

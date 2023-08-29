@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useAlert } from "react-alert";
@@ -16,11 +16,17 @@ import MetaData from "../layout/MetaData";
 import ReviewCard from "./ReviewCard";
 
 import {
+  increaseQuantity,
+  decreaseQuantity,
+  addToCartHandler,
+} from "../../helpers/products/productDetailsHelper";
+import {
   clearErrors,
   getProductDetails,
   newReview,
 } from "../../redux/actions/productAction";
 import { addItemsToCart } from "../../redux/actions/cartAction";
+import { NEW_REVIEW_RESET } from "../../redux/constants/productConstants";
 
 import "../../styles/product/ProductDetails.css";
 
@@ -37,41 +43,26 @@ const ProductDetails = () => {
     (state) => state.newReview
   );
 
-  const options = {
-    size: "large",
-    value: product?.ratings,
-    readOnly: true,
-    precision: 0.5,
-  };
-
   const [quantity, setQuantity] = useState(1);
   const [open, setOpen] = useState(false);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
 
-  const increaseQuantity = () => {
-    if (product.stock <= quantity) return;
+  const options = useMemo(
+    () => ({
+      size: "large",
+      value: product?.ratings,
+      readOnly: true,
+      precision: 0.5,
+    }),
+    [product?.ratings]
+  );
 
-    const qty = quantity + 1;
-    setQuantity(qty);
-  };
-
-  const decreaseQuantity = () => {
-    if (1 >= quantity) return;
-    const qty = quantity - 1;
-    setQuantity(qty);
-  };
-
-  const addToCartHandler = () => {
-    dispatch(addItemsToCart(id, quantity));
-    alert.success("Item Added To Cart");
-  };
-
-  const submitReviewToggle = () => {
+  const submitReviewToggle = useCallback(() => {
     open ? setOpen(false) : setOpen(true);
-  };
+  }, [open]);
 
-  const reviewSubmitHandler = () => {
+  const reviewSubmitHandler = useCallback(() => {
     const myForm = new FormData();
 
     myForm.set("rating", rating);
@@ -81,7 +72,7 @@ const ProductDetails = () => {
     dispatch(newReview(myForm));
 
     setOpen(false);
-  };
+  }, [dispatch, rating, comment, id]);
 
   useEffect(() => {
     if (error) {
@@ -139,13 +130,31 @@ const ProductDetails = () => {
                 <h1>{`Rs.${product?.price}`}</h1>
                 <div className="detailsBlock-3-1">
                   <div className="detailsBlock-3-1-1">
-                    <button onClick={decreaseQuantity}>-</button>
+                    <button
+                      onClick={() => decreaseQuantity(quantity, setQuantity)}
+                    >
+                      -
+                    </button>
                     {quantity}
-                    <button onClick={increaseQuantity}>+</button>
+                    <button
+                      onClick={() =>
+                        increaseQuantity(product, quantity, setQuantity)
+                      }
+                    >
+                      +
+                    </button>
                   </div>
                   <button
                     disabled={product?.stock < 1 ? true : false}
-                    onClick={addToCartHandler}
+                    onClick={() =>
+                      addToCartHandler(
+                        id,
+                        quantity,
+                        dispatch,
+                        addItemsToCart,
+                        alert
+                      )
+                    }
                   >
                     Add to Cart
                   </button>

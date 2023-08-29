@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense, lazy } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useAlert } from "react-alert";
@@ -7,8 +7,10 @@ import Typography from "@mui/material/Typography";
 import Pagination from "react-js-pagination";
 
 import MetaData from "../layout/MetaData";
-import ProductCard from "./ProductCard";
 import Search from "../../helpers/Search";
+import Loader from "../layout/Loader/Loader";
+
+const ProductCard = lazy(() => import("./ProductCard"));
 
 import { clearErrors, getProduct } from "../../redux/actions/productAction";
 
@@ -60,10 +62,12 @@ const Products = () => {
       <MetaData title="All Dishes --DinnerDash" />
 
       <Search item="products" />
-      {products &&
-        products.map((product) => (
-          <ProductCard key={product._id} product={product} />
-        ))}
+      <Suspense fallback={<Loader />}>
+        {products &&
+          products.map((product) => (
+            <ProductCard key={product._id} product={product} />
+          ))}
+      </Suspense>
 
       <div className="slider-container">
         <Typography>Price</Typography>
