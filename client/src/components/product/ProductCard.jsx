@@ -18,7 +18,7 @@ const ProductCard = ({ product }) => {
       <div className="product-container">
         <Card>
           <NavLink to={`/product/${product._id}`}>
-            <Card.Img variant="top" src={product.images[0].url} />
+            <Card.Img variant="top" src={product?.images?.url} />
             <Card.Body>
               <Card.Title>{product.name}</Card.Title>
               <div>
