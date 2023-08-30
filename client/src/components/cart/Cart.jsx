@@ -7,6 +7,7 @@ import { Typography } from "@material-ui/core";
 import { RemoveShoppingCart as RemoveShoppingCartIcon } from "@material-ui/icons";
 
 import CartItemCard from "./CartItemCard";
+import Loader from "../layout/Loader/Loader";
 
 import {
   addItemsToCart,
@@ -21,7 +22,7 @@ import "../../styles/cart/Cart.css";
 const Cart = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { error, cartItems } = useSelector((state) => state.cart);
+  const { error, cartItems, loading } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.user);
   const alert = useAlert();
   const [numItems, setNumItems] = useState(cartItems?.cart[0]?.length);
@@ -40,6 +41,7 @@ const Cart = () => {
       return;
     }
     dispatch(addItemsToCart(id, newQty));
+    location.reload();
   };
 
   const decreaseQuantity = (id, quantity) => {
@@ -48,6 +50,7 @@ const Cart = () => {
       return;
     }
     dispatch(addItemsToCart(id, newQty));
+    location.reload();
   };
 
   const deleteCartItems = (id) => {
@@ -75,70 +78,79 @@ const Cart = () => {
 
   return (
     <>
-      {cartItems.cart.length === 0 ? (
-        <div className="emptyCart">
-          <RemoveShoppingCartIcon />
-
-          <Typography>No Product in Your Cart</Typography>
-          <Link to="/products">View Products</Link>
-        </div>
+      {loading ? (
+        <Loader />
       ) : (
         <>
-          <div className="cartPage">
-            <div className="cartHeader">
-              <p>Product</p>
-              <p>Quantity</p>
-              <p>Subtotal</p>
-            </div>
+          {cartItems.cart.length === 0 ? (
+            <div className="emptyCart">
+              <RemoveShoppingCartIcon />
 
-            {cartItems &&
-              cartItems.cart[0]?.products.map((item) => (
-                <div className="cartContainer" key={item?.product?._id}>
-                  <CartItemCard item={item} deleteCartItems={deleteCartItems} />
-                  <div className="cartInput">
-                    <button
-                      onClick={() =>
-                        decreaseQuantity(item.product._id, item.quantity)
-                      }
-                    >
-                      -
-                    </button>
-                    {item.quantity}
-                    <input type="text" value={item.quantity} readOnly />
-                    <button
-                      onClick={() =>
-                        increaseQuantity(
-                          item.product._id,
-                          item.quantity,
-                          item.product.stock
-                        )
-                      }
-                    >
-                      +
-                    </button>
-                  </div>
-                  <p className="cartSubtotal">{`Rs.${
-                    item.product?.price * item.quantity
-                  }`}</p>
+              <Typography>No Product in Your Cart</Typography>
+              <Link to="/products">View Products</Link>
+            </div>
+          ) : (
+            <>
+              <div className="cartPage">
+                <div className="cartHeader">
+                  <p>Product</p>
+                  <p>Quantity</p>
+                  <p>Subtotal</p>
                 </div>
-              ))}
 
-            <div className="cartGrossProfit">
-              <div></div>
-              <div className="cartGrossProfitBox">
-                <p>Gross Total</p>
-                <p>{`Rs.${cartItems.cart[0]?.products.reduce(
-                  (acc, item) => acc + item?.quantity * item.product?.price,
-                  0
-                )}`}</p>
+                {cartItems &&
+                  cartItems.cart[0]?.products.map((item) => (
+                    <div className="cartContainer" key={item?.product?._id}>
+                      <CartItemCard
+                        item={item}
+                        deleteCartItems={deleteCartItems}
+                      />
+                      <div className="cartInput">
+                        <button
+                          onClick={() =>
+                            decreaseQuantity(item.product._id, item.quantity)
+                          }
+                        >
+                          -
+                        </button>
+                        {item.quantity}
+                        <input type="text" value={item.quantity} readOnly />
+                        <button
+                          onClick={() =>
+                            increaseQuantity(
+                              item.product._id,
+                              item.quantity,
+                              item.product.stock
+                            )
+                          }
+                        >
+                          +
+                        </button>
+                      </div>
+                      <p className="cartSubtotal">{`Rs.${
+                        item.product?.price * item.quantity
+                      }`}</p>
+                    </div>
+                  ))}
+
+                <div className="cartGrossProfit">
+                  <div></div>
+                  <div className="cartGrossProfitBox">
+                    <p>Gross Total</p>
+                    <p>{`Rs.${cartItems.cart[0]?.products.reduce(
+                      (acc, item) => acc + item?.quantity * item.product?.price,
+                      0
+                    )}`}</p>
+                  </div>
+                  <div></div>
+                  <div className="checkOutBtn">
+                    <button onClick={checkoutHandler}>Check Out</button>
+                  </div>
+                </div>
               </div>
-              <div></div>
-              <div className="checkOutBtn">
-                <button onClick={checkoutHandler}>Check Out</button>
-              </div>
-            </div>
-          </div>
-          <button onClick={removeCart}>Delete Cart</button>
+              <button onClick={removeCart}>Delete Cart</button>
+            </>
+          )}
         </>
       )}
     </>
