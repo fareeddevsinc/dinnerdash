@@ -5,7 +5,7 @@ const restaurant = new mongoose.Schema({
     type: String,
     required: [true, "Please Enter the restaurant Name"],
     trim: true,
-    unique: [true, "Please Enter A unique name"];
+    unique: [true, "Please Enter A unique name"],
   },
   location: {
     type: String,

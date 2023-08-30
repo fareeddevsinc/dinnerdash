@@ -13,14 +13,13 @@ import { clearErrors, createProduct } from "../../redux/actions/productAction";
 import { NEW_PRODUCT_RESET } from "../../redux/constants/productConstants";
 
 import "../../styles/admin/newProduct.css";
-import LoadingScreen from "../layout/Loader/Loader";
 
 const NewProduct = () => {
   const dispatch = useDispatch();
   const alert = useAlert();
   const navigate = useNavigate();
 
-  const { loading, error, success } = useSelector((state) => state.newProduct);
+  const { error, success } = useSelector((state) => state.newProduct);
 
   const { restaurants } = useSelector((state) => state.restaurants);
 
@@ -30,8 +29,12 @@ const NewProduct = () => {
   const [categories, setCategories] = useState([]);
   const [restaurant, setRestaurant] = useState([]);
   const [stock, setStock] = useState(0);
-  const [images, setImages] = useState([]);
-  const [imagesPreview, setImagesPreview] = useState([]);
+  const [images, setImages] = useState(
+    "https://projectfba.com/wp-content/uploads/2021/07/no-image-logo.jpg"
+  );
+  const [imagesPreview, setImagesPreview] = useState(
+    "https://projectfba.com/wp-content/uploads/2021/07/no-image-logo.jpg"
+  );
 
   const all_categories = ["Desi", "Dessert", "Continental"];
 
@@ -85,10 +88,11 @@ const NewProduct = () => {
     myForm.set("category", categories);
     myForm.set("restaurant", restaurant);
     myForm.set("stock", stock);
+    myForm.set("images", images);
 
-    images.forEach((image) => {
-      myForm.append("images", image);
-    });
+    // images.forEach((image) => {
+    //   myForm.append("images", image);
+    // });
     dispatch(createProduct(myForm));
     alert.success("Product Added Successfully");
   };
@@ -104,8 +108,8 @@ const NewProduct = () => {
 
       reader.onload = () => {
         if (reader.readyState === 2) {
-          setImagesPreview((old) => [...old, reader.result]);
-          setImages((old) => [...old, reader.result]);
+          setImagesPreview(reader.result);
+          setImages(reader.result);
         }
       };
 
@@ -118,101 +122,96 @@ const NewProduct = () => {
       <MetaData title="Create Product" />
       <div className="dashboard">
         <SideBar />
-        {!loading ? (
-          <LoadingScreen />
-        ) : (
-          <div className="newProductContainer">
-            <form
-              className="createProductForm"
-              encType="multipart/form-data"
-              onSubmit={createProductSubmitHandler}
+
+        <div className="newProductContainer">
+          <form
+            className="createProductForm"
+            encType="multipart/form-data"
+            onSubmit={createProductSubmitHandler}
+          >
+            <h1>Create Product</h1>
+            {restaurant}
+
+            <div>
+              <input
+                type="text"
+                placeholder="Product Name"
+                required
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+            </div>
+            <div>
+              <input
+                type="number"
+                placeholder="Price"
+                required
+                onChange={(e) => setPrice(e.target.value)}
+              />
+            </div>
+
+            <div>
+              <textarea
+                placeholder="Product Description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                cols="30"
+                rows="1"
+              ></textarea>
+            </div>
+
+            <div>
+              <Select
+                isMulti
+                value={categories}
+                options={categoryOptions}
+                onChange={handleCategoryChange}
+                placeholder="Select Categories"
+              />
+            </div>
+
+            <div>
+              <Select
+                isMulti
+                value={restaurant}
+                options={restaurantOptions}
+                onChange={handleRestaurantChange}
+                placeholder="Select Restaurants"
+              />
+            </div>
+
+            <div>
+              <input
+                type="number"
+                placeholder="stock"
+                required
+                onChange={(e) => setStock(e.target.value)}
+              />
+            </div>
+
+            <div id="createProductFormFile">
+              <input
+                type="file"
+                name="avatar"
+                accept="image/*"
+                onChange={createProductImagesChange}
+                multiple
+              />
+            </div>
+
+            <div id="createProductFormImage">
+              <img src={imagesPreview} alt="Product Preview" />
+            </div>
+
+            <Button
+              id="createProductBtn"
+              type="submit"
+              // disabled={loading ? true : false}
             >
-              <h1>Create Product</h1>
-              {restaurant}
-
-              <div>
-                <input
-                  type="text"
-                  placeholder="Product Name"
-                  required
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                />
-              </div>
-              <div>
-                <input
-                  type="number"
-                  placeholder="Price"
-                  required
-                  onChange={(e) => setPrice(e.target.value)}
-                />
-              </div>
-
-              <div>
-                <textarea
-                  placeholder="Product Description"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  cols="30"
-                  rows="1"
-                ></textarea>
-              </div>
-
-              <div>
-                <Select
-                  isMulti
-                  value={categories}
-                  options={categoryOptions}
-                  onChange={handleCategoryChange}
-                  placeholder="Select Categories"
-                />
-              </div>
-
-              <div>
-                <Select
-                  isMulti
-                  value={restaurant}
-                  options={restaurantOptions}
-                  onChange={handleRestaurantChange}
-                  placeholder="Select Restaurants"
-                />
-              </div>
-
-              <div>
-                <input
-                  type="number"
-                  placeholder="stock"
-                  required
-                  onChange={(e) => setStock(e.target.value)}
-                />
-              </div>
-
-              <div id="createProductFormFile">
-                <input
-                  type="file"
-                  name="avatar"
-                  accept="image/*"
-                  onChange={createProductImagesChange}
-                  multiple
-                />
-              </div>
-
-              <div id="createProductFormImage">
-                {imagesPreview.map((image, index) => (
-                  <img key={index} src={image} alt="Product Preview" />
-                ))}
-              </div>
-
-              <Button
-                id="createProductBtn"
-                type="submit"
-                // disabled={loading ? true : false}
-              >
-                Create
-              </Button>
-            </form>
-          </div>
-        )}
+              Create
+            </Button>
+          </form>
+        </div>
       </div>
     </>
   );

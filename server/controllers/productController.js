@@ -1,5 +1,6 @@
 const ErrorHandler = require("../utils/errorHandler");
 const Product = require("../models/productModel");
+const Restaurant = require("../models/restaurantModel");
 const ApiFeatures = require("../utils/apiFeatures");
 const cloudinary = require("cloudinary");
 
@@ -12,19 +13,23 @@ const createProduct = async (req, res, next) => {
       crop: "scale",
     });
 
-    const { name, price, description, category, stock } = req.body;
-    const user = await Product.create({
-      name,
-      price,
-      description,
-      category,
-      stock,
-      images: {
-        public_id: myCloud.public_id,
-        url: myCloud.secure_url,
-      },
-      user: req.user.id,
-    });
+    const { name, price, description, category, stock, restaurant } = req.body;
+    const findRestaurant = await Restaurant.findOne({ name: restaurant });
+    if (findRestaurant) {
+      const user = await Product.create({
+        name,
+        price,
+        description,
+        category,
+        stock,
+        images: {
+          public_id: myCloud.public_id,
+          url: myCloud.secure_url,
+        },
+        restaurant,
+        user: req.user.id,
+      });
+    }
   } catch (error) {
     console.log(error.message);
     return next(new ErrorHandler(error.message, 500));

@@ -89,6 +89,13 @@ const ProductList = () => {
       minWidth: 270,
       flex: 0.5,
     },
+    {
+      field: "restaurant",
+      headerName: "Restaurant",
+      type: "text",
+      minWidth: 270,
+      flex: 0.5,
+    },
 
     {
       field: "actions",
@@ -128,6 +135,7 @@ const ProductList = () => {
           category: [...item.category],
           price: item.price,
           name: item.name,
+          restaurant: [...item.restaurant],
         });
       });
     return result;
