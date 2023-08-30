@@ -89,7 +89,7 @@ const Cart = () => {
 
             {cartItems &&
               cartItems.cart[0]?.products.map((item) => (
-                <div className="cartContainer" key={item.product._id}>
+                <div className="cartContainer" key={item?.product?._id}>
                   <CartItemCard item={item} deleteCartItems={deleteCartItems} />
                   <div className="cartInput">
                     <button

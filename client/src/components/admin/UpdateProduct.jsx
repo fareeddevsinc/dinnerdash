@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAlert } from "react-alert";
+import Select from "react-select";
 import { Button } from "@material-ui/core";
 import {
   AccountTree as AccountTreeIcon,
@@ -22,7 +23,6 @@ import {
 import { UPDATE_PRODUCT_RESET } from "../../redux/constants/productConstants";
 
 import "../../styles/admin/productList.css";
-import LoadingScreen from "../layout/Loader/Loader";
 
 const UpdateProduct = () => {
   const navigate = useNavigate();
@@ -32,48 +32,72 @@ const UpdateProduct = () => {
 
   const { error, product } = useSelector((state) => state.productDetails);
 
-  const {
-    loading,
-    error: updateError,
-    isUpdated,
-  } = useSelector((state) => state.product);
+  const { restaurants } = useSelector((state) => state.restaurants);
+
+  const { error: updateError, isUpdated } = useSelector(
+    (state) => state.product
+  );
 
   const [name, setName] = useState("");
   const [price, setPrice] = useState(0);
   const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("");
+  const [productCategory, setCategory] = useState([]);
   const [stock, setStock] = useState(0);
   const [images, setImages] = useState([]);
-  const [oldImages, setOldImages] = useState([]);
-  const [imagesPreview, setImagesPreview] = useState([]);
+  const [imagesPreview, setImagesPreview] = useState(product.images.url);
+  const [restaurant, setRestaurant] = useState([]);
+
+  const customStyles = {
+    control: (base) => ({
+      ...base,
+      width: "300px",
+    }),
+  };
 
   const categories = ["Desi", "Dessert", "Continental"];
+
+  const categoryOptions = categories.map((cate) => ({
+    value: cate,
+    label: cate,
+  }));
+
+  const restaurantOptions = restaurants.restaurants.map((cate) => ({
+    value: cate.name,
+    label: cate.name,
+  }));
+
+  const handleCategoryChange = (selectedOptions) => {
+    const data = selectedOptions.map((category) => category.value);
+    console.log(data[1]);
+    setCategory([...data]);
+  };
+
+  const handleRestaurantChange = (selectedOptions) => {
+    setRestaurant([...selectedOptions.map((category) => category.value)]);
+  };
 
   const productId = id;
 
   useEffect(() => {
     const defaultImageHandler = async () => {
       try {
-        const base64Images = [];
-        for (const image of images) {
-          const reader = new FileReader();
-          reader.onload = () => {
-            if (reader.readyState === 2) {
-              base64Images.push(reader.result);
-            }
-          };
-          const response = await fetch(image.url);
-          const data = await response.blob();
-          const imageFile = new File([data], image.name, { type: image.type });
-          reader.readAsDataURL(imageFile);
-        }
-        setImages(base64Images);
+        const reader = new FileReader();
+        reader.onload = () => {
+          if (reader.readyState === 2) {
+            setImages(reader.result);
+          }
+        };
+        const response = await fetch(product.images.url);
+        const data = await response.blob();
+        const defaultAvatarFile = new File([data], "default-avatar.jpg", {
+          type: "image/jpg",
+        });
+        reader.readAsDataURL(defaultAvatarFile);
       } catch (error) {
         console.log(error.message);
       }
     };
     defaultImageHandler();
-    handleImagesChange(product.images);
   }, []);
 
   useEffect(() => {
@@ -85,7 +109,7 @@ const UpdateProduct = () => {
       setPrice(product.price);
       setCategory(product.category);
       setStock(product.stock);
-      setOldImages(product.images);
+      setImages(product.images);
     }
     if (error) {
       alert.error(error);
@@ -113,11 +137,6 @@ const UpdateProduct = () => {
     updateError,
   ]);
 
-  const handleImagesChange = (product) => {
-    const imageUrls = product?.images?.map((image) => image.url);
-    setImagesPreview(imageUrls);
-  };
-
   const updateProductSubmitHandler = (e) => {
     e.preventDefault();
 
@@ -126,14 +145,11 @@ const UpdateProduct = () => {
     myForm.set("name", name);
     myForm.set("price", price);
     myForm.set("description", description);
-    myForm.set("category", category);
+    myForm.set("category", productCategory);
     myForm.set("stock", stock);
+    myForm.set("images", images);
 
-    images.forEach((image) => {
-      myForm.append("images", image);
-    });
     dispatch(updateProduct(productId, myForm));
-    alert.success("Product Updated Successfully");
   };
 
   const updateProductImagesChange = (e) => {
@@ -141,15 +157,14 @@ const UpdateProduct = () => {
 
     setImages([]);
     setImagesPreview([]);
-    setOldImages([]);
 
     files.forEach((file) => {
       const reader = new FileReader();
 
       reader.onload = () => {
         if (reader.readyState === 2) {
-          setImagesPreview((old) => [...old, reader.result]);
-          setImages((old) => [...old, reader.result]);
+          setImagesPreview(reader.result);
+          setImages(reader.result);
         }
       };
 
@@ -162,7 +177,6 @@ const UpdateProduct = () => {
       <MetaData title="Update Product" />
       <div className="dashboard">
         <SideBar />
-
         <div className="newProductContainer">
           <form
             className="createProductForm"
@@ -203,20 +217,28 @@ const UpdateProduct = () => {
                 rows="1"
               ></textarea>
             </div>
+            <div>
+              {" "}
+              <Select
+                isMulti
+                value={productCategory}
+                options={categoryOptions}
+                onChange={handleCategoryChange}
+                placeholder="Select Categories"
+                styles={customStyles}
+              />
+            </div>
 
             <div>
-              <AccountTreeIcon />
-              <select
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-              >
-                <option value="">Choose Category</option>
-                {categories.map((cate) => (
-                  <option key={cate} value={cate}>
-                    {cate}
-                  </option>
-                ))}
-              </select>
+              {" "}
+              <Select
+                isMulti
+                value={restaurant}
+                options={restaurantOptions}
+                onChange={handleRestaurantChange}
+                placeholder="Select Restaurants"
+                styles={customStyles}
+              />
             </div>
 
             <div>
@@ -241,16 +263,7 @@ const UpdateProduct = () => {
             </div>
 
             <div id="createProductFormImage">
-              {oldImages &&
-                oldImages.map((image, index) => (
-                  <img key={index} src={image.url} alt="Old Product Preview" />
-                ))}
-            </div>
-
-            <div id="createProductFormImage">
-              {imagesPreview?.map((image, index) => (
-                <img key={index} src={image} alt="Product Preview" />
-              ))}
+              <img src={imagesPreview} alt="Product Preview" />
             </div>
 
             <Button
