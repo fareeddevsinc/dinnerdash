@@ -3,7 +3,7 @@ import apiService from "../apiService";
 export const getAllCartItemsApi = async () => {
   try {
     const { data } = await apiService.get(`/cart`);
-
+    console.log(data);
     return { data };
   } catch (error) {
     console.log(error.message);

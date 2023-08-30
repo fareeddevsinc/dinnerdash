@@ -1,17 +1,39 @@
 const ErrorHandler = require("../utils/errorHandler");
 const Cart = require("../models/cartModel");
+const Product = require("../models/productModel");
 
 const getAllCartItems = async (req, res) => {
   try {
     const cart = await Cart.find({ user: req.user.id })
       .populate("user")
       .populate("products.product");
+    if (cart.length === 0) {
+      console.log(cart);
+      res.status(200).json({ success: false, cart });
+    }
+    // Filter out products that are null
+    else if (cart) {
+      const filteredProducts = cart[0].products.filter(
+        (product) => product.product !== null
+      );
 
-    if (cart) {
-      res.status(200).json({
-        success: true,
-        cart,
-      });
+      // Check if the products array is empty
+      if (filteredProducts.length === 0) {
+        // Remove the cart document from the database
+        await Cart.deleteOne({ _id: cart[0]._id });
+      } else {
+        // Update the products array in the cart document
+        await Cart.updateOne(
+          { _id: cart[0]._id },
+          { $set: { products: filteredProducts } }
+        );
+      }
+      if (cart) {
+        res.status(200).json({
+          success: true,
+          cart,
+        });
+      }
     }
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
@@ -36,6 +58,16 @@ const removeItemFromCart = async (req, res) => {
     );
 
     if (productIndex !== -1) {
+      // Find the product in the database
+      const product = await Product.findById(req.params.id);
+
+      // Restore the stock value of the product
+      product.stock += cart.products[productIndex].quantity;
+
+      // Save the changes to the product document
+      await product.save();
+
+      // Remove the product from the cart
       cart.products.splice(productIndex, 1);
     } else {
       // If the product is not found in the cart, return an error
@@ -59,6 +91,12 @@ const removeItemFromCart = async (req, res) => {
 const createOrUpdateCart = async (req, res) => {
   try {
     let cart = await Cart.findOne({ user: req.user.id });
+
+    const product = await Product.findById(req.params.id);
+
+    product.stock -= req.body.quantity;
+
+    await product.save();
 
     if (!cart) {
       // If the cart doesn't exist, create a new one
@@ -108,6 +146,18 @@ const clearCart = async (req, res) => {
         success: false,
         message: "Cart not found",
       });
+    }
+
+    // Restore the stock value of all products in the cart
+    for (const cartItem of cart.products) {
+      // Find the product in the database
+      const product = await Product.findById(cartItem.product);
+
+      // Restore the stock value of the product
+      product.stock += cartItem.quantity;
+
+      // Save the changes to the product document
+      await product.save();
     }
 
     // If the cart exists, clear it

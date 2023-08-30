@@ -25,9 +25,7 @@ export const getCart = () => async (dispatch) => {
   try {
     dispatch({ type: GET_CART_REQUEST });
 
-    const config = requestHeader();
-
-    const { data } = await getAllCartItemsApi(config);
+    const { data } = await getAllCartItemsApi();
 
     dispatch({
       type: GET_CART_SUCCESS,
@@ -45,9 +43,7 @@ export const addItemsToCart = (id, quantity) => async (dispatch) => {
   try {
     dispatch({ type: ADD_CART_ITEM_REQUEST });
 
-    const config = requestHeader();
-
-    const { data } = await addItemsToCartApi(id, quantity, config);
+    const { data } = await addItemsToCartApi(id, quantity);
 
     dispatch({
       type: ADD_CART_ITEM_SUCCESS,

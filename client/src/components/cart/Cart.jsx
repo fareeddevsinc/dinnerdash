@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useAlert } from "react-alert";
@@ -24,6 +24,7 @@ const Cart = () => {
   const { error, cartItems } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.user);
   const alert = useAlert();
+  const [numItems, setNumItems] = useState(cartItems?.cart[0]?.length);
 
   useEffect(() => {
     if (error) {
@@ -31,8 +32,7 @@ const Cart = () => {
       dispatch(clearErrors());
     }
     dispatch(getCart());
-    console.log(cartItems.cart[0].products);
-  }, [dispatch, alert, error]);
+  }, [dispatch, alert, error, numItems]);
 
   const increaseQuantity = (id, quantity, stock) => {
     const newQty = quantity + 1;
@@ -53,11 +53,15 @@ const Cart = () => {
   const deleteCartItems = (id) => {
     dispatch(removeItemsFromCart(id));
     alert.success("Item Deleted Successfully");
+    // Update the numItems state variable
+    setNumItems((prevNumItems) => prevNumItems - 1);
+    location.reload();
   };
 
   const removeCart = () => {
     dispatch(deleteCart());
     alert.success("Cart Deleted Cart Deleted Successfully");
+    location.reload();
   };
 
   const checkoutHandler = () => {
@@ -71,7 +75,7 @@ const Cart = () => {
 
   return (
     <>
-      {cartItems.cart[0]?.products[0]?.length === 0 ? (
+      {cartItems.cart.length === 0 ? (
         <div className="emptyCart">
           <RemoveShoppingCartIcon />
 
@@ -134,9 +138,9 @@ const Cart = () => {
               </div>
             </div>
           </div>
+          <button onClick={removeCart}>Delete Cart</button>
         </>
       )}
-      <button onClick={removeCart}>Delete Cart</button>
     </>
   );
 };
