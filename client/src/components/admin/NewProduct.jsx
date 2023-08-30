@@ -30,10 +30,10 @@ const NewProduct = () => {
   const [restaurant, setRestaurant] = useState([]);
   const [stock, setStock] = useState(0);
   const [images, setImages] = useState(
-    "https://projectfba.com/wp-content/uploads/2021/07/no-image-logo.jpg"
+    "https://st4.depositphotos.com/14953852/22772/v/450/depositphotos_227724992-stock-illustration-image-available-icon-flat-vector.jpg"
   );
   const [imagesPreview, setImagesPreview] = useState(
-    "https://projectfba.com/wp-content/uploads/2021/07/no-image-logo.jpg"
+    "https://st4.depositphotos.com/14953852/22772/v/450/depositphotos_227724992-stock-illustration-image-available-icon-flat-vector.jpg"
   );
 
   const all_categories = ["Desi", "Dessert", "Continental"];

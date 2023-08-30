@@ -114,7 +114,7 @@ const Products = () => {
             </fieldset>
           </div>
 
-          {resultPerPage < count && (
+          {resultPerPage && (
             <div className="pagination-container">
               <Pagination
                 activePage={currentPage}
