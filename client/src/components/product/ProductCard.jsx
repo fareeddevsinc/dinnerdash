@@ -17,7 +17,7 @@ const ProductCard = ({ product }) => {
     <>
       <div className="product-container">
         <Card>
-          <NavLink to={`http://localhost:5173/product/${product._id}`}>
+          <NavLink to={`/product/${product._id}`}>
             <Card.Img variant="top" src={product.images[0].url} />
             <Card.Body>
               <Card.Title>{product.name}</Card.Title>

@@ -121,10 +121,11 @@ const ProductList = () => {
     const result = [];
     products &&
       products.forEach((item) => {
+        console.log([...item.category]);
         result.push({
           id: item._id,
           stock: item.stock,
-          category: item.category,
+          category: [...item.category],
           price: item.price,
           name: item.name,
         });

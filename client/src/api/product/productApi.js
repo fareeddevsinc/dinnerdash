@@ -6,12 +6,16 @@ export const getAdminProductApi = async () => {
 };
 
 export const createProductApi = async (productData) => {
-  const { data } = await apiService.post(
-    `/admin/product/new?role=admin`,
-    productData
-  );
-  console.log(data);
-  return { data };
+  try {
+    const { data } = await apiService.post(
+      `/admin/product/new?role=admin`,
+      productData
+    );
+    console.log(data);
+    return { data };
+  } catch (error) {
+    console.log(error.message);
+  }
 };
 
 export const updateProductApi = async (id, productData) => {
@@ -34,27 +38,43 @@ export const deleteProductApi = async (id) => {
 };
 
 export const getProductDetailsApi = async (id) => {
-  const { data } = await apiService.get(`/product/${id}`);
+  try {
+    const { data } = await apiService.get(`/product/${id}`);
 
-  return { data };
+    return { data };
+  } catch (error) {
+    console.log(error.message);
+  }
 };
 
 export const newReviewApi = async (reviewData) => {
-  const { data } = await apiService.put(`/review`, reviewData);
+  try {
+    const { data } = await apiService.put(`/review`, reviewData);
 
-  return { data };
+    return { data };
+  } catch (error) {
+    console.log(error.message);
+  }
 };
 
 export const getAllReviewsApi = async (id) => {
-  const { data } = await apiService.get(`/reviews?id=${id}`);
+  try {
+    const { data } = await apiService.get(`/reviews?id=${id}`);
 
-  return { data };
+    return { data };
+  } catch (error) {
+    console.log(error.message);
+  }
 };
 
 export const deleteReviewsApi = async (reviewId, productId) => {
-  const { data } = await apiService.delete(
-    `/reviews?id=${reviewId}&productId=${productId}`
-  );
+  try {
+    const { data } = await apiService.delete(
+      `/reviews?id=${reviewId}&productId=${productId}`
+    );
 
-  return { data };
+    return { data };
+  } catch (error) {
+    console.log(error.message);
+  }
 };

@@ -94,6 +94,7 @@ const updateProduct = async (req, res, next) => {
         useFindAndModify: false,
       }
     );
+    console.log("11");
 
     res.status(200).json({
       success: true,
@@ -125,6 +126,7 @@ const getProductDetails = async (req, res, next) => {
     if (!product) {
       return next(new ErrorHandler("Product Not Found", 404));
     }
+    console.log(`product details: ${product}`);
     res.status(200).json({ success: true, product });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });

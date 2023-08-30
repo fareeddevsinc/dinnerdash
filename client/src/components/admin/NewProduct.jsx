@@ -46,11 +46,17 @@ const NewProduct = () => {
   }));
 
   const handleCategoryChange = (selectedOptions) => {
-    setCategories(selectedOptions);
+    setCategories([
+      ...categories,
+      ...selectedOptions.map((category) => category.value),
+    ]);
   };
 
   const handleRestaurantChange = (selectedOptions) => {
-    setRestaurant(selectedOptions);
+    setRestaurant([
+      ...restaurant,
+      ...selectedOptions.map((restaurant) => restaurant.value),
+    ]);
   };
 
   useEffect(() => {
@@ -70,6 +76,8 @@ const NewProduct = () => {
     e.preventDefault();
 
     const myForm = new FormData();
+
+    console.log(categories);
 
     myForm.set("name", name);
     myForm.set("price", price);
@@ -110,7 +118,7 @@ const NewProduct = () => {
       <MetaData title="Create Product" />
       <div className="dashboard">
         <SideBar />
-        {loading ? (
+        {!loading ? (
           <LoadingScreen />
         ) : (
           <div className="newProductContainer">
@@ -120,6 +128,7 @@ const NewProduct = () => {
               onSubmit={createProductSubmitHandler}
             >
               <h1>Create Product</h1>
+              {restaurant}
 
               <div>
                 <input

@@ -15,13 +15,14 @@ const ProductCard = lazy(() => import("./ProductCard"));
 import { clearErrors, getProduct } from "../../redux/actions/productAction";
 
 import "../../styles/product/Product.css";
+import LoadingScreen from "../layout/Loader/Loader";
 
 const Products = () => {
   const dispatch = useDispatch();
   const alert = useAlert();
   const { key } = useParams();
   const [currentPage, setCurrentPage] = useState(1);
-  const [price, setPrice] = useState([0, 25000]);
+  const [price, setPrice] = useState([0, 3000]);
   const [category, setCategory] = useState("");
   const [ratings, setRatings] = useState(0);
   const {
@@ -30,6 +31,7 @@ const Products = () => {
     productsCount,
     resultPerPage,
     filteredProductCount,
+    loading,
   } = useSelector((state) => state.products);
 
   const categories = ["Desserts", "Beverages", "Desi", "Continental"];
@@ -59,73 +61,77 @@ const Products = () => {
   let count = filteredProductCount;
   return (
     <div className="products-container">
-      <MetaData title="All Dishes --DinnerDash" />
+      {loading ? (
+        <LoadingScreen />
+      ) : (
+        <div>
+          <MetaData title="All Dishes --DinnerDash" />
+          <h2 className="productsHeading">Dishes</h2>
+          <Search item="products" />
+          <div className="products">
+            <Suspense fallback={<Loader />}>
+              {products &&
+                products.map((product) => (
+                  <ProductCard key={product._id} product={product} />
+                ))}
+            </Suspense>
+          </div>
 
-      <Search item="products" />
-      <Suspense fallback={<Loader />}>
-        {products &&
-          products.map((product) => (
-            <ProductCard key={product._id} product={product} />
-          ))}
-      </Suspense>
+          <div className="filterBox">
+            <Typography>Price</Typography>
+            <Slider
+              value={price}
+              onChange={priceHandler}
+              valueLabelDisplay="auto"
+              aria-labelledby="range-slider"
+              min={0}
+              max={3000}
+            />
 
-      <div className="slider-container">
-        <Typography>Price</Typography>
-        <Slider
-          value={price}
-          onChange={priceHandler}
-          valueLabelDisplay="auto"
-          aria-labelledby="range-slider"
-          min={0}
-          max={25000}
-        />
-      </div>
+            <Typography>Categories</Typography>
+            <ul className="categories-list">
+              {categories.map((category) => (
+                <li
+                  key={category}
+                  onClick={() => setCategory(category)}
+                  className="category-item"
+                >
+                  {category}
+                </li>
+              ))}
+            </ul>
 
-      <div className="categories-container">
-        <Typography>Categories</Typography>
-        <ul className="categories-list">
-          {categories.map((category) => (
-            <li
-              key={category}
-              onClick={() => setCategory(category)}
-              className="category-item"
-            >
-              {category}
-            </li>
-          ))}
-        </ul>
-      </div>
+            <fieldset>
+              <Typography component="legend">Ratings Above</Typography>
+              <Slider
+                value={ratings}
+                onChange={ratingHandler}
+                valueLabelDisplay="auto"
+                aria-labelledby="continuous-slider"
+                min={0}
+                max={5}
+              />
+            </fieldset>
+          </div>
 
-      <div className="ratings-container">
-        <fieldset>
-          <Typography component="legend">Ratings Above</Typography>
-          <Slider
-            value={ratings}
-            onChange={ratingHandler}
-            valueLabelDisplay="auto"
-            aria-labelledby="continuous-slider"
-            min={0}
-            max={5}
-          />
-        </fieldset>
-      </div>
-
-      {resultPerPage < count && (
-        <div className="pagination-container">
-          <Pagination
-            activePage={currentPage}
-            itemsCountPerPage={resultPerPage}
-            totalItemsCount={productsCount}
-            onChange={setCurrentPageNo}
-            nextPageText="Next"
-            prevPageText="Prev"
-            firstPageText="1st"
-            lastPageText="Last"
-            itemClass="page-item"
-            linkClass="page-link"
-            activeClass="pageItemActive"
-            activeLinkClass="pageLinkActive"
-          />
+          {resultPerPage < count && (
+            <div className="pagination-container">
+              <Pagination
+                activePage={currentPage}
+                itemsCountPerPage={resultPerPage}
+                totalItemsCount={productsCount}
+                onChange={setCurrentPageNo}
+                nextPageText="Next"
+                prevPageText="Prev"
+                firstPageText="1st"
+                lastPageText="Last"
+                itemClass="page-item"
+                linkClass="page-link"
+                activeClass="pageItemActive"
+                activeLinkClass="pageLinkActive"
+              />
+            </div>
+          )}
         </div>
       )}
     </div>

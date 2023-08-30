@@ -23,7 +23,8 @@
 }
 
 .CarouselImage {
-  width: 20vmax;
+  width: 100%;
+  min-width: 300px;
 }
 
 .detailsBlock-1 > h2 {
@@ -121,6 +122,14 @@
 .detailsBlock-4 > p {
   color: rgba(0, 0, 0, 0.534);
   font: 300 0.8vmax sans-serif;
+}
+
+.redColor {
+  color: red !important;
+}
+
+.greenColor {
+  color: green !important;
 }
 
 .submitReview {

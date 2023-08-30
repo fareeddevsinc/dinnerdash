@@ -42,6 +42,7 @@ const isAuthenticatedUser = async (req, res, next) => {
 
 const authorizeRoles = (...roles) => {
   return (req, res, next) => {
+    console.log("admin");
     if (!roles.includes(req.query.role)) {
       return next(
         new ErrorHandler(

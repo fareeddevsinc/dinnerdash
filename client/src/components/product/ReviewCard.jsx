@@ -3,6 +3,8 @@ import ReactStars from "react-rating-stars-component";
 
 import defaultUser from "../../images/defaultUser.jpg";
 
+import "../../styles/product/Reviews.css";
+
 const ReviewCard = ({ review }) => {
   const options = useMemo(
     () => ({
@@ -15,15 +17,17 @@ const ReviewCard = ({ review }) => {
     }),
     [review?.rating]
   );
+  console.log(review);
   return (
-    <>
-      <div>
-        <img src={defaultUser} alt="Default User" />
-        <h4>{review?.name}</h4>
-        <ReactStars {...options} />
-        <h2>{review?.comment}</h2>
+    <div className="card-container">
+      <img className="card-image" src={defaultUser} alt="Default User" />
+      <div className="card-content">
+        <ReactStars {...options} className="stars" />
+        <h2 className="comment">
+          <b>Comment:</b> {review?.comment}
+        </h2>
       </div>
-    </>
+    </div>
   );
 };
 

@@ -1,25 +1,41 @@
 import apiService from "../apiService";
 
 export const registerUserApi = async (userData) => {
-  const data = await apiService.post("/register", userData);
+  try {
+    const data = await apiService.post("/register", userData);
 
-  return data;
+    return data;
+  } catch (error) {
+    console.log(error.message);
+  }
 };
 
 export const loginUserApi = async (email, password) => {
-  const data = await apiService.post(`/login`, { email, password });
+  try {
+    const data = await apiService.post(`/login`, { email, password });
 
-  return data;
+    return data;
+  } catch (error) {
+    console.log(error.message);
+  }
 };
 
 export const loadUserApi = async () => {
-  const data = await apiService.get(`/me`);
-  return data;
+  try {
+    const data = await apiService.get(`/me`);
+    return data;
+  } catch (error) {
+    console.log(error.message);
+  }
 };
 
 export const logoutUserApi = async () => {
-  const data = await apiService.get(`/logout`);
-  return data;
+  try {
+    const data = await apiService.get(`/logout`);
+    return data;
+  } catch (error) {
+    console.log(error.message);
+  }
 };
 
 export const updateProfileApi = async (userData) => {
@@ -32,27 +48,43 @@ export const updateProfileApi = async (userData) => {
 };
 
 export const updatePasswordApi = async (passwords) => {
-  const { data } = await apiService.put(`/password/update`, passwords);
+  try {
+    const { data } = await apiService.put(`/password/update`, passwords);
 
-  return { data };
+    return { data };
+  } catch (error) {
+    console.log(error.message);
+  }
 };
 
 export const forgotPasswordApi = async (email) => {
-  const { data } = await apiService.post(`/password/forgot`, email);
-
-  return { data };
+  try {
+    const { data } = await apiService.post(`/password/forgot`, email);
+    return { data };
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const resetPasswordApi = async (token, passwords) => {
-  const { data } = await apiService.put(`/password/reset/${token}`, passwords);
-
-  return { data };
+  try {
+    const { data } = await apiService.put(
+      `/password/reset/${token}`,
+      passwords
+    );
+    return { data };
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const getAllUsersApi = async () => {
-  const { data } = await apiService.get(`/admin/users?role=admin`);
-
-  return { data };
+  try {
+    const { data } = await apiService.get(`/admin/users?role=admin`);
+    return { data };
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const getUserDetailsApi = async (id) => {
@@ -66,16 +98,22 @@ export const getUserDetailsApi = async (id) => {
 };
 
 export const updateUserApi = async (id, userData) => {
-  const { data } = await apiService.put(
-    `/admin/user/${id}?role=admin`,
-    userData
-  );
-
-  return { data };
+  try {
+    const { data } = await apiService.put(
+      `/admin/user/${id}?role=admin`,
+      userData
+    );
+    return { data };
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const deleteUserApi = async (id) => {
-  const { data } = await apiService.delete(`/admin/user/${id}?role=admin`);
-
-  return { data };
+  try {
+    const { data } = await apiService.delete(`/admin/user/${id}?role=admin`);
+    return { data };
+  } catch (error) {
+    console.error(error);
+  }
 };
