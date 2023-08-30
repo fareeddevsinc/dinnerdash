@@ -67,7 +67,7 @@ const Cart = () => {
   };
 
   const checkoutHandler = () => {
-    if (user.role !== undefined) {
+    if (user.role) {
       navigate("/shipping");
     } else {
       navigate("/login");
@@ -85,7 +85,7 @@ const Cart = () => {
             <div className="emptyCart">
               <RemoveShoppingCartIcon />
 
-              <Typography>No Product in Your Cart</Typography>
+              <Typography>No Products in Your Cart</Typography>
               <Link to="/products">View Products</Link>
             </div>
           ) : (
@@ -145,9 +145,11 @@ const Cart = () => {
                   <div className="checkOutBtn">
                     <button onClick={checkoutHandler}>Check Out</button>
                   </div>
+                  <div className="deleteBtn">
+                    <button onClick={removeCart}>Delete Cart</button>
+                  </div>
                 </div>
               </div>
-              <button onClick={removeCart}>Delete Cart</button>
             </>
           )}
         </>

@@ -5,7 +5,7 @@ import "../../styles/cart/CartItemCard.css";
 const CartItemCard = ({ item, deleteCartItems }) => {
   return (
     <div className="CartItemCard">
-      <img src={item?.product?.image} alt="product" />
+      <img src={item?.product?.images?.url} alt="product" />
       <div>
         <Link to={`/product/${item?.product?._id}`}>{item?.product?.name}</Link>
         <span>{`Price: Rs. ${item?.product?.price}`}</span>
