@@ -56,7 +56,6 @@ const Cart = () => {
   const deleteCartItems = (id) => {
     dispatch(removeItemsFromCart(id));
     alert.success("Item Deleted Successfully");
-    // Update the numItems state variable
     setNumItems((prevNumItems) => prevNumItems - 1);
     location.reload();
   };

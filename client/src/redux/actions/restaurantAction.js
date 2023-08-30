@@ -73,6 +73,7 @@ export const getRestaurantDetails = (id) => async (dispatch) => {
     dispatch({ type: RESTAURANT_DETAILS_REQUEST });
 
     const { data } = await getRestaurantDetailsApi(id);
+    console.log(data);
 
     dispatch({
       type: RESTAURANT_DETAILS_SUCCESS,
@@ -86,13 +87,11 @@ export const getRestaurantDetails = (id) => async (dispatch) => {
   }
 };
 
-export const addRestaurant = (restaurantData) => async (dispatch) => {
+export const addRestaurant = (restaurantData, alert) => async (dispatch) => {
   try {
     dispatch({ type: ADD_RESTAURANT_REQUEST });
 
-    const config = requestHeader();
-
-    const { data } = await addRestaurantApi(restaurantData, config);
+    const { data } = await addRestaurantApi(restaurantData, alert);
 
     console.log(data);
 

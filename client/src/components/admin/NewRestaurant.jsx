@@ -7,6 +7,7 @@ import { Button } from "@material-ui/core";
 import MetaData from "../layout/MetaData";
 import SideBar from "./Sidebar";
 
+import { isNameValid } from "../../helpers/admin/users/formValidation";
 import {
   clearErrors,
   addRestaurant,
@@ -43,13 +44,25 @@ const NewRestaurant = () => {
   const createProductSubmitHandler = (e) => {
     e.preventDefault();
 
-    const myForm = new FormData();
+    const isName = isNameValid(name, 2, 30);
+    const isLocation = isNameValid(name, 2, 30);
+    const isBranch = isNameValid(name, 2, 30);
 
-    myForm.set("name", name);
-    myForm.set("location", location);
-    myForm.set("branch", branch);
+    if (!isName) {
+      alert.error("Name must be Uniue and minimum 2 letters");
+    } else if (!isLocation) {
+      alert.error("Location must be minimum 2 letters");
+    } else if (!isBranch) {
+      alert.error("Branch must be minimum 2 letters");
+    } else {
+      const myForm = new FormData();
 
-    dispatch(addRestaurant(myForm));
+      myForm.set("name", name);
+      myForm.set("location", location);
+      myForm.set("branch", branch);
+
+      dispatch(addRestaurant(myForm, alert));
+    }
   };
 
   return (

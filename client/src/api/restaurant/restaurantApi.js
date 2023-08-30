@@ -13,14 +13,14 @@ export const getAllRestaurantsApi = async () => {
 export const getRestaurantDetailsApi = async (id) => {
   try {
     const { data } = await apiService.get(`/restaurant/${id}`);
-
+    console.log(data);
     return { data };
   } catch (error) {
     console.log(error.message);
   }
 };
 
-export const addRestaurantApi = async (restaurantData) => {
+export const addRestaurantApi = async (restaurantData, alert) => {
   try {
     const { data } = await apiService.post(
       `/restaurant/new?role=admin`,
@@ -29,6 +29,7 @@ export const addRestaurantApi = async (restaurantData) => {
     return { data };
   } catch (error) {
     console.log(error.message);
+    alert.error("restaurant Name Must Be Unique");
   }
 };
 

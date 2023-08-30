@@ -1,20 +1,27 @@
 const ErrorHandler = require("../utils/errorHandler");
 const Restaurant = require("../models/restaurantModel");
+const Product = require("../models/productModel");
 const ApiFeatures = require("../utils/apiFeatures");
 
-const createRestaurant = async (req, res) => {
+const createRestaurant = async (req, res, next) => {
   try {
+    const restaurantPresent = await Restaurant.findOne({ name: req.body.name });
+    if (restaurantPresent) {
+      return next(new ErrorHandler("Restaurant Name Already present", 409));
+    }
+
     const restaurant = await Restaurant.create(req.body);
     res.status(201).json({
       success: true,
       restaurant,
     });
   } catch (error) {
+    console.log(error.message);
     res.status(500).json({ success: false, message: error.message });
   }
 };
 
-const deleteRestaurant = async (req, res) => {
+const deleteRestaurant = async (req, res, next) => {
   try {
     const restaurant = await Restaurant.findByIdAndDelete(req.params.id);
 
@@ -64,9 +71,12 @@ const viewRestaurant = async (req, res) => {
       return next(new ErrorHandler("Restaurant not found", 404));
     }
 
+    const products = await Product.find({ restaurant: restaurant.name });
+
     res.status(200).json({
       success: true,
       restaurant,
+      products,
     });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });

@@ -1,19 +1,18 @@
 import { Card } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 
-import "../../styles/product/productCard.css";
+import "../../styles/restaurant/restaurantCard.css";
 
 const RestaurantCard = ({ restaurant }) => {
   return (
     <>
       <div className="product-container">
-        <Card>
-          <NavLink to={`http://localhost:5173/restaurant/${restaurant._id}`}>
-            <Card.Img variant="top" src={restaurant?.images?.url} />
+        <Card className="restaurant-card">
+          <NavLink to={`/restaurant/${restaurant?._id}`}>
             <Card.Body>
-              <Card.Title>{`Name: ${restaurant?.name}`}</Card.Title>
-              <Card.Text>{`Branch: ${restaurant?.branch}`}</Card.Text>
-              <Card.Text>{`Location: ${restaurant?.location}`}</Card.Text>
+              <Card.Title className="restaurant-name">{`Name: ${restaurant?.name}`}</Card.Title>
+              <Card.Text className="restaurant-branch">{`Branch: ${restaurant?.branch}`}</Card.Text>
+              <Card.Text className="restaurant-location">{`Location: ${restaurant?.location}`}</Card.Text>
             </Card.Body>
           </NavLink>
         </Card>

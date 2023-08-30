@@ -10,7 +10,6 @@ const restaurant = new mongoose.Schema({
   location: {
     type: String,
     required: [true, "Please Enter the restaurant location"],
-    unique: true,
   },
   branch: {
     type: String,

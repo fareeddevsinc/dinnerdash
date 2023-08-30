@@ -1,16 +1,18 @@
-import { useEffect } from "react";
+import { useEffect, Suspense, lazy } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useAlert } from "react-alert";
 
 import MetaData from "../layout/MetaData";
+import LoadingScreen from "../layout/Loader/Loader";
+const ProductCard = lazy(() => import("../product/ProductCard"));
 
 import {
   clearErrors,
   getRestaurantDetails,
 } from "../../redux/actions/restaurantAction";
 
-import "../../styles/product/ProductDetails.css";
+import "../../styles/restaurant/restaurantDetails.css";
 
 const RestaurantDetails = () => {
   const { id } = useParams();
@@ -32,39 +34,35 @@ const RestaurantDetails = () => {
   return (
     <>
       {loading ? (
-        <p>Loading...</p>
+        <LoadingScreen />
       ) : (
         <>
-          <MetaData title={`${restaurant.restaurant?.name} -- DinnerDash`} />
+          <MetaData title={`${restaurant?.restaurant?.name} -- DinnerDash`} />
           <div className="RestaurantDetails">
             <div>
               <div className="detailsBlock-1">
-                <h2>{restaurant.restaurant?.name}</h2>
-                <p>restaurant # {restaurant?._id}</p>
+                <h2>{restaurant?.restaurant?.name}</h2>
+                <p>restaurant # {restaurant.restaurant?._id}</p>
               </div>
 
               <div className="detailsBlock-4">
-                Branch : <p>{restaurant.restaurant?.branch}</p>
+                Branch : <span>{restaurant?.restaurant?.branch}</span>
               </div>
 
               <div className="detailsBlock-4">
-                Location : <p>{restaurant.restaurant?.location}</p>
+                Location : <span>{restaurant?.restaurant?.location}</span>
               </div>
             </div>
           </div>
 
           <h3 className="reviewsHeading">PRODUCTS</h3>
 
-          {/* {product.reviews && product.reviews[0] ? (
-            <div className="reviews">
-              {product.reviews &&
-                product.reviews.map((review) => (
-                  <ReviewCard key={review._id} review={review} />
-                ))}
-            </div>
-          ) : (
-            <p className="noReviews">No Products Yet</p>
-          )} */}
+          <Suspense fallback={<LoadingScreen />}>
+            {restaurant.products &&
+              restaurant.products.map((value) => (
+                <ProductCard key={value._id} product={value} />
+              ))}
+          </Suspense>
         </>
       )}
     </>
