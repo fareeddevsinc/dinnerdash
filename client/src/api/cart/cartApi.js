@@ -10,14 +10,17 @@ export const getAllCartItemsApi = async () => {
   }
 };
 
-export const addItemsToCartApi = async (id, quantity) => {
+export const addItemsToCartApi = async (id, quantity, alert) => {
   try {
     const { data } = await apiService.post(`/cart/${id}`, { quantity });
-    console.log(data);
+    if (data) {
+      alert.success("Data Added To Cart Successfully");
+    }
 
     return { data };
   } catch (error) {
     console.log(error.message);
+    alert.error("Item Cannot Be Added From A Different Restaurant");
   }
 };
 

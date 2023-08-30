@@ -18,6 +18,5 @@ export const addToCartHandler = (
   addItemsToCart,
   alert
 ) => {
-  dispatch(addItemsToCart(id, quantity));
-  alert.success("Item Added To Cart");
+  dispatch(addItemsToCart(id, quantity, alert));
 };

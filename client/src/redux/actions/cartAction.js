@@ -39,11 +39,11 @@ export const getCart = () => async (dispatch) => {
   }
 };
 
-export const addItemsToCart = (id, quantity) => async (dispatch) => {
+export const addItemsToCart = (id, quantity, alert) => async (dispatch) => {
   try {
     dispatch({ type: ADD_CART_ITEM_REQUEST });
 
-    const { data } = await addItemsToCartApi(id, quantity);
+    const { data } = await addItemsToCartApi(id, quantity, alert);
 
     dispatch({
       type: ADD_CART_ITEM_SUCCESS,

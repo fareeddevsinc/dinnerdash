@@ -90,7 +90,9 @@ const removeItemFromCart = async (req, res) => {
 
 const createOrUpdateCart = async (req, res) => {
   try {
-    let cart = await Cart.findOne({ user: req.user.id });
+    let cart = await Cart.findOne({ user: req.user.id }).populate(
+      "products.product"
+    );
 
     const product = await Product.findById(req.params.id);
 
@@ -112,16 +114,32 @@ const createOrUpdateCart = async (req, res) => {
     } else {
       // If the cart exists, update it
       const productIndex = cart.products.findIndex(
-        (cartItem) => cartItem.product.toString() === req.params.id.toString()
+        (cartItem) =>
+          cartItem.product._id.toString() === req.params.id.toString()
       );
 
       if (productIndex !== -1) {
         cart.products[productIndex].quantity = req.body.quantity;
       } else {
-        cart.products.push({
-          product: req.params.id,
-          quantity: req.body.quantity,
-        });
+        // Check if all products in the cart are from the same restaurant
+        console.log(cart.products);
+        const sameRestaurant = cart.products.every((cartItem) =>
+          product.restaurant.some((restaurant) =>
+            cartItem.product.restaurant.includes(restaurant)
+          )
+        );
+
+        if (sameRestaurant) {
+          cart.products.push({
+            product: req.params.id,
+            quantity: req.body.quantity,
+          });
+        } else {
+          return res.status(400).json({
+            success: false,
+            message: "All items in the cart must be from the same restaurant",
+          });
+        }
       }
 
       await cart.save();
