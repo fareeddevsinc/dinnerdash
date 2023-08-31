@@ -42,10 +42,16 @@ const UpdateProduct = () => {
   const [price, setPrice] = useState(0);
   const [description, setDescription] = useState("");
   const [productCategory, setCategory] = useState([]);
+  const [categories, setCategories] = useState([
+    "Desi",
+    "Dessert",
+    "Continental",
+  ]);
   const [stock, setStock] = useState(0);
   const [images, setImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState(product.images.url);
-  const [restaurant, setRestaurant] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [selectedRestaurants, setSelectedRestaurants] = useState([]);
 
   const customStyles = {
     control: (base) => ({
@@ -54,32 +60,45 @@ const UpdateProduct = () => {
     }),
   };
 
-  const categories = ["Desi", "Dessert", "Continental"];
-
-  const categoryOptions = categories.map((cate) => ({
-    value: cate,
-    label: cate,
-  }));
-
-  const restaurantOptions = restaurants.restaurants.map((cate) => ({
-    value: cate.name,
-    label: cate.name,
-  }));
-
   const handleCategoryChange = (selectedOptions) => {
-    const data = selectedOptions.map((category) => category.value);
-    console.log(data[1]);
-    setCategory([...productCategory, ...data]);
+    const categories = selectedOptions.map((option) => option.value);
+    setSelectedCategories(categories);
   };
 
   const handleRestaurantChange = (selectedOptions) => {
-    setRestaurant([
-      ...restaurant,
-      ...selectedOptions.map((category) => category.value),
-    ]);
+    const categories = selectedOptions.map((option) => option.value);
+    setSelectedRestaurants(categories);
   };
 
   const productId = id;
+
+  const productOptions = () => {
+    const data = categories.map((category) => {
+      return { value: category, label: category };
+    });
+
+    const res = [...data];
+
+    console.log(res);
+
+    return res;
+  };
+
+  const options1 = productOptions();
+
+  const restaurantOptions = () => {
+    const data = restaurants.restaurants.map((category) => {
+      return { value: category.name, label: category.name };
+    });
+
+    const res = [...data];
+
+    console.log(res);
+
+    return res;
+  };
+
+  const options2 = restaurantOptions();
 
   useEffect(() => {
     const defaultImageHandler = async () => {
@@ -110,7 +129,7 @@ const UpdateProduct = () => {
       setName(product.name);
       setDescription(product.description);
       setPrice(product.price);
-      setCategory(product.category);
+      setCategory([...product.category]);
       setStock(product.stock);
       setImages(product.images);
     }
@@ -148,8 +167,8 @@ const UpdateProduct = () => {
     myForm.set("name", name);
     myForm.set("price", price);
     myForm.set("description", description);
-    myForm.set("category", productCategory);
-    myForm.set("restaurant", restaurant);
+    myForm.set("category", selectedCategories);
+    myForm.set("restaurant", selectedRestaurants);
     myForm.set("stock", stock);
     myForm.set("images", images);
 
@@ -225,11 +244,10 @@ const UpdateProduct = () => {
               {" "}
               <Select
                 isMulti
-                value={productCategory}
-                options={categoryOptions}
-                onChange={handleCategoryChange}
+                options={options1}
                 placeholder="Select Categories"
                 styles={customStyles}
+                onChange={handleCategoryChange}
               />
             </div>
 
@@ -237,11 +255,10 @@ const UpdateProduct = () => {
               {" "}
               <Select
                 isMulti
-                value={restaurant}
-                options={restaurantOptions}
-                onChange={handleRestaurantChange}
+                options={options2}
                 placeholder="Select Restaurants"
                 styles={customStyles}
+                onChange={handleRestaurantChange}
               />
             </div>
 

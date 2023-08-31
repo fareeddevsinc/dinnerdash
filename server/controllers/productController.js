@@ -14,19 +14,26 @@ const createProduct = async (req, res, next) => {
     });
 
     const { name, price, description, category, stock, restaurant } = req.body;
-    const findRestaurant = await Restaurant.findOne({ name: restaurant });
+    console.log(restaurant);
+    const tempRestaurant = restaurant.split(",");
+    const tempCategory = category.split(",");
+    console.log(tempRestaurant);
+    const findRestaurant = await Restaurant.findOne({
+      name: { $in: tempRestaurant },
+    });
+    console.log(findRestaurant);
     if (findRestaurant) {
       const user = await Product.create({
         name,
         price,
         description,
-        category,
+        category: tempCategory,
         stock,
         images: {
           public_id: myCloud.public_id,
           url: myCloud.secure_url,
         },
-        restaurant,
+        restaurant: tempRestaurant,
         user: req.user.id,
       });
     }

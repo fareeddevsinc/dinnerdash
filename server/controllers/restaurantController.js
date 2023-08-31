@@ -71,7 +71,10 @@ const viewRestaurant = async (req, res) => {
       return next(new ErrorHandler("Restaurant not found", 404));
     }
 
-    const products = await Product.find({ restaurant: restaurant.name });
+    const products = await Product.find({
+      restaurant: { $in: [restaurant.name] },
+    });
+    console.log(products);
 
     res.status(200).json({
       success: true,

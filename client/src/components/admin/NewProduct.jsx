@@ -28,6 +28,11 @@ const NewProduct = () => {
   const [description, setDescription] = useState("");
   const [categories, setCategories] = useState([]);
   const [restaurant, setRestaurant] = useState([]);
+  const [all_categories, setAllCategories] = useState([
+    "Desi",
+    "Dessert",
+    "Continental",
+  ]);
   const [stock, setStock] = useState(0);
   const [images, setImages] = useState(
     "https://st4.depositphotos.com/14953852/22772/v/450/depositphotos_227724992-stock-illustration-image-available-icon-flat-vector.jpg"
@@ -35,32 +40,53 @@ const NewProduct = () => {
   const [imagesPreview, setImagesPreview] = useState(
     "https://st4.depositphotos.com/14953852/22772/v/450/depositphotos_227724992-stock-illustration-image-available-icon-flat-vector.jpg"
   );
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [selectedRestaurants, setSelectedRestaurants] = useState([]);
 
-  const all_categories = ["Desi", "Dessert", "Continental"];
-
-  const categoryOptions = all_categories.map((cate) => ({
-    value: cate,
-    label: cate,
-  }));
-
-  const restaurantOptions = restaurants.restaurants.map((cate) => ({
-    value: cate.name,
-    label: cate.name,
-  }));
+  const customStyles = {
+    control: (base) => ({
+      ...base,
+      width: "300px",
+    }),
+  };
 
   const handleCategoryChange = (selectedOptions) => {
-    setCategories([
-      ...categories,
-      ...selectedOptions.map((category) => category.value),
-    ]);
+    const categories = selectedOptions.map((option) => option.value);
+    setSelectedCategories(categories);
   };
 
   const handleRestaurantChange = (selectedOptions) => {
-    setRestaurant([
-      ...restaurant,
-      ...selectedOptions.map((restaurant) => restaurant.value),
-    ]);
+    const categories = selectedOptions.map((option) => option.value);
+    setSelectedRestaurants(categories);
   };
+
+  const productOptions = () => {
+    const data = all_categories.map((category) => {
+      return { value: category, label: category };
+    });
+
+    const res = [...data];
+
+    console.log(res);
+
+    return res;
+  };
+
+  const options1 = productOptions();
+
+  const restaurantOptions = () => {
+    const data = restaurants.restaurants.map((category) => {
+      return { value: category.name, label: category.name };
+    });
+
+    const res = [...data];
+
+    console.log(res);
+
+    return res;
+  };
+
+  const options2 = restaurantOptions();
 
   useEffect(() => {
     if (error) {
@@ -85,14 +111,11 @@ const NewProduct = () => {
     myForm.set("name", name);
     myForm.set("price", price);
     myForm.set("description", description);
-    myForm.set("category", categories);
-    myForm.set("restaurant", restaurant);
+    myForm.set("category", selectedCategories);
+    myForm.set("restaurant", selectedRestaurants);
     myForm.set("stock", stock);
     myForm.set("images", images);
 
-    // images.forEach((image) => {
-    //   myForm.append("images", image);
-    // });
     dispatch(createProduct(myForm));
     alert.success("Product Added Successfully");
   };
@@ -161,25 +184,26 @@ const NewProduct = () => {
             </div>
 
             <div>
+              {" "}
               <Select
                 isMulti
-                value={categories}
-                options={categoryOptions}
-                onChange={handleCategoryChange}
+                options={options1}
                 placeholder="Select Categories"
+                styles={customStyles}
+                onChange={handleCategoryChange}
               />
             </div>
 
             <div>
+              {" "}
               <Select
                 isMulti
-                value={restaurant}
-                options={restaurantOptions}
-                onChange={handleRestaurantChange}
+                options={options2}
                 placeholder="Select Restaurants"
+                styles={customStyles}
+                onChange={handleRestaurantChange}
               />
             </div>
-
             <div>
               <input
                 type="number"
