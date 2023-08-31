@@ -77,6 +77,9 @@ const orderSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  finishedAt: {
+    type: Date,
+  },
 });
 
 module.exports = mongoose.model("Order", orderSchema);

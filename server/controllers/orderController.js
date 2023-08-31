@@ -22,6 +22,12 @@ const newOrder = async (req, res, next) => {
       totalPrice,
       user: req.user.id,
     });
+    await Promise.all(
+      orderItems.map((item) =>
+        Product.updateOne({ _id: item.product }, { $inc: { numOfOrders: 1 } })
+      )
+    );
+
     res.status(201).json({
       success: true,
       order,
@@ -99,13 +105,21 @@ const updateOrder = async (req, res, next) => {
       return next(new ErrorHandler("Order Already Completed", 200));
     }
 
-    order.orderItems.forEach(async (order) => {
-      await updateStock(order.product, order.quantity);
-    });
+    // order.orderItems.forEach(async (order) => {
+    //   await updateStock(order.product, order.quantity);
+    // });
 
     order.orderStatus = req.body.status;
 
-    await order.save({ ValidateBeforeSave: false });
+    if (order.orderStatus === "Cancelled") {
+      await Promise.all(
+        orderItems.map((item) =>
+          Product.updateOne({ _id: item.product }, { $dec: { numOfOrders: 1 } })
+        )
+      );
+    } else {
+      await order.save({ ValidateBeforeSave: false });
+    }
 
     res.status(200).json({
       success: true,
@@ -116,11 +130,11 @@ const updateOrder = async (req, res, next) => {
   }
 };
 
-async function updateStock(id, quantity) {
-  const product = await Product.findById(id);
-  product.stock = product.stock - quantity;
-  await product.save({ validateBeforeSave: false });
-}
+// async function updateStock(id, quantity) {
+//   const product = await Product.findById(id);
+//   product.stock = product.stock - quantity;
+//   await product.save({ validateBeforeSave: false });
+// }
 
 const deleteOrder = async (req, res, next) => {
   try {

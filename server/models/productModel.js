@@ -5,6 +5,7 @@ const product = new mongoose.Schema({
     type: String,
     required: [true, "Please Enter the Product Name"],
     trim: true,
+    unique: true,
   },
   description: {
     type: String,
@@ -40,6 +41,10 @@ const product = new mongoose.Schema({
     required: [true, "Please Enter Product Stock"],
     maxlength: [4, "Stock can't exceed 4 characters"],
     default: 1,
+  },
+  numOfOrders: {
+    type: Number,
+    default: 0,
   },
   numOfReviews: {
     type: Number,
