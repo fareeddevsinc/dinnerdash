@@ -63,7 +63,7 @@ const Cart = () => {
   const removeCart = () => {
     dispatch(deleteCart());
     alert.success("Cart Deleted Cart Deleted Successfully");
-    location.reload();
+    // location.reload();
   };
 
   const checkoutHandler = () => {

@@ -81,7 +81,8 @@ const updateProduct = async (req, res, next) => {
       name: req.body.name,
       price: req.body.price,
       description: req.body.description,
-      category: req.body.description,
+      category: req.body.category,
+      restaurant: req.body.restaurant,
       stock: req.body.stock,
       user: req.user.id,
     };

@@ -113,9 +113,7 @@ export const updateProduct = (id, productData) => async (dispatch) => {
   try {
     dispatch({ type: UPDATE_PRODUCT_REQUEST });
 
-    const config = requestHeader("multipart/form-data");
-
-    const { data } = await updateProductApi(id, productData, config);
+    const { data } = await updateProductApi(id, productData);
 
     console.log(data);
 

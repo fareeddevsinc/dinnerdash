@@ -69,11 +69,14 @@ const UpdateProduct = () => {
   const handleCategoryChange = (selectedOptions) => {
     const data = selectedOptions.map((category) => category.value);
     console.log(data[1]);
-    setCategory([...data]);
+    setCategory([...productCategory, ...data]);
   };
 
   const handleRestaurantChange = (selectedOptions) => {
-    setRestaurant([...selectedOptions.map((category) => category.value)]);
+    setRestaurant([
+      ...restaurant,
+      ...selectedOptions.map((category) => category.value),
+    ]);
   };
 
   const productId = id;
@@ -146,6 +149,7 @@ const UpdateProduct = () => {
     myForm.set("price", price);
     myForm.set("description", description);
     myForm.set("category", productCategory);
+    myForm.set("restaurant", restaurant);
     myForm.set("stock", stock);
     myForm.set("images", images);
 

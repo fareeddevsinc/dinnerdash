@@ -65,7 +65,10 @@ const removeItemFromCart = async (req, res) => {
       product.stock += cart.products[productIndex].quantity;
 
       // Save the changes to the product document
-      await product.save();
+      await Product.updateOne(
+        { _id: req.params.id },
+        { $set: { stock: product.stock } }
+      );
 
       // Remove the product from the cart
       cart.products.splice(productIndex, 1);
@@ -84,6 +87,7 @@ const removeItemFromCart = async (req, res) => {
       cart,
     });
   } catch (error) {
+    console.log(error.message);
     res.status(500).json({ success: false, message: error.message });
   }
 };
@@ -169,13 +173,16 @@ const clearCart = async (req, res) => {
     // Restore the stock value of all products in the cart
     for (const cartItem of cart.products) {
       // Find the product in the database
-      const product = await Product.findById(cartItem.product);
+      const product = await Product.findById(cartItem.product._id);
 
       // Restore the stock value of the product
       product.stock += cartItem.quantity;
 
       // Save the changes to the product document
-      await product.save();
+      await Product.updateOne(
+        { _id: cartItem.product._id },
+        { $set: { stock: product.stock } }
+      );
     }
 
     // If the cart exists, clear it
