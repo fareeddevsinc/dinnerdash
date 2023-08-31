@@ -99,7 +99,7 @@ const ProcessOrder = () => {
                     <div>
                       <p
                         className={
-                          order.orderStatus && order.orderStatus === "Delivered"
+                          order.orderStatus && order.orderStatus === "Completed"
                             ? "greenColor"
                             : "redColor"
                         }
@@ -132,7 +132,10 @@ const ProcessOrder = () => {
               <div
                 style={{
                   display:
-                    order?.orderStatus === "Delivered" ? "none" : "block",
+                    order?.orderStatus === "Completed" ||
+                    order?.orderStatus === "Cancelled"
+                      ? "none"
+                      : "block",
                 }}
               >
                 <form
@@ -149,7 +152,6 @@ const ProcessOrder = () => {
                         <>
                           <option value="Completed">Completed</option>
                           <option value="Cancelled">Cancelled</option>
-                          <option value="Processing">Processing</option>
                         </>
                       )}
 

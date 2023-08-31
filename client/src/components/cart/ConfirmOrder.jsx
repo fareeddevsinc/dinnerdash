@@ -23,10 +23,10 @@ const ConfirmOrder = () => {
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
   const [phoneNo, setPhoneNo] = useState("");
+  const [shippingInfo, setShippingInfo] = useState(null);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  let shippingInfo = null;
 
   useEffect(() => {
     if (error) {
@@ -38,17 +38,19 @@ const ConfirmOrder = () => {
 
   useEffect(() => {
     if (!orders?.order[0]) {
-      shippingInfo = JSON.parse(localStorage.getItem("shippingInfo"));
-      console.log(shippingInfo);
-      setAddress(shippingInfo?.address);
-      setCity(shippingInfo?.city);
-      setPhoneNo(shippingInfo?.phoneNo);
+      const shippingData = JSON.parse(localStorage.getItem("shippingInfo"));
+      console.log(shippingData);
+      setAddress(shippingData?.address);
+      setCity(shippingData?.city);
+      setPhoneNo(shippingData?.phoneNo);
+      setShippingInfo(shippingData);
     } else {
       setAddress(orders?.order[0]?.shippingInfo?.address);
       setCity(orders?.order[0]?.shippingInfo?.city);
       setPhoneNo(orders?.order[0]?.shippingInfo?.phoneNo);
+      setShippingInfo(orders?.order[0]?.shippingInfo);
     }
-    console.log(cartItems);
+    console.log(`address is ${orders?.order[0]?.shippingInfo?.address}`);
   }, [orders]);
   const subtotal = cartItems.cart[0]?.products.reduce(
     (acc, item) => acc + item.quantity * item.product.price,
@@ -76,7 +78,7 @@ const ConfirmOrder = () => {
       shippingPrice: shippingCharges,
       totalPrice: totalPrice,
     };
-
+    console.log(shippingInfo);
     dispatch(createOrder(order));
 
     navigate("/success", { replace: true });

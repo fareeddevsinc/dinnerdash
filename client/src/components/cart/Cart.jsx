@@ -68,7 +68,7 @@ const Cart = () => {
 
   const checkoutHandler = () => {
     if (user.role) {
-      navigate("/shipping");
+      navigate("/shipping", { replace: true });
     } else {
       navigate("/login");
       alert.error("Please Login to Check Out");

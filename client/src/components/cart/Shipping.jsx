@@ -43,7 +43,7 @@ const Shipping = () => {
       localStorage.setItem("shippingInfo", JSON.stringify(shippingInfo));
     }
     // dispatch(saveShippingInfo({ address, city, phoneNo }));
-    navigate("/order/confirm");
+    navigate("/order/confirm", { replace: true });
   };
 
   useEffect(() => {

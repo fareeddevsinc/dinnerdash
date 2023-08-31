@@ -84,9 +84,7 @@ export const updateOrder = (id, order) => async (dispatch) => {
   try {
     dispatch({ type: UPDATE_ORDER_REQUEST });
 
-    const config = requestHeader();
-
-    const { data } = await updateOrderApi(id, order, config);
+    const { data } = await updateOrderApi(id, order);
 
     dispatch({ type: UPDATE_ORDER_SUCCESS, payload: data.success });
   } catch (error) {

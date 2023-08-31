@@ -64,7 +64,7 @@ const OrderDetails = () => {
                 <div>
                   <p
                     className={
-                      order?.orderStatus && order?.orderStatus === "Delivered"
+                      order?.orderStatus && order?.orderStatus === "Completed"
                         ? "greenColor"
                         : "redColor"
                     }
@@ -72,6 +72,13 @@ const OrderDetails = () => {
                     <b>{order?.orderStatus && order?.orderStatus}</b>
                   </p>
                 </div>
+                {order?.orderStatus &&
+                  (order?.orderStatus === "Completed" ||
+                    order?.orderStatus === "Cancelled") && (
+                    <div>
+                      <b>Timestamp:</b> {order.finishedAt}
+                    </div>
+                  )}
               </div>
             </div>
 
