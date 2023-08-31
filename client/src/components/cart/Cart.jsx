@@ -63,7 +63,7 @@ const Cart = () => {
   const removeCart = () => {
     dispatch(deleteCart());
     alert.success("Cart Deleted Cart Deleted Successfully");
-    // location.reload();
+    location.reload();
   };
 
   const checkoutHandler = () => {
@@ -81,7 +81,7 @@ const Cart = () => {
         <Loader />
       ) : (
         <>
-          {cartItems.cart.length === 0 ? (
+          {cartItems.cart[0]?.products?.length === undefined ? (
             <div className="emptyCart">
               <RemoveShoppingCartIcon />
 
@@ -90,6 +90,7 @@ const Cart = () => {
             </div>
           ) : (
             <>
+              {/* {cartItems.cart[0]?.products?.length > 0 &&} */}
               <div className="cartPage">
                 <div className="cartHeader">
                   <p>Product</p>
@@ -132,23 +133,33 @@ const Cart = () => {
                     </div>
                   ))}
 
-                <div className="cartGrossProfit">
-                  <div></div>
-                  <div className="cartGrossProfitBox">
-                    <p>Gross Total</p>
-                    <p>{`Rs.${cartItems.cart[0]?.products.reduce(
-                      (acc, item) => acc + item?.quantity * item.product?.price,
-                      0
-                    )}`}</p>
+                {cartItems.cart[0]?.products?.length >= 1 ? (
+                  <div className="cartGrossProfit">
+                    <div></div>
+                    <div className="cartGrossProfitBox">
+                      <p>Gross Total</p>
+                      <p>{`Rs.${cartItems.cart[0]?.products.reduce(
+                        (acc, item) =>
+                          acc + item?.quantity * item.product?.price,
+                        0
+                      )}`}</p>
+                    </div>
+                    <div></div>
+                    <div className="checkOutBtn">
+                      <button onClick={checkoutHandler}>Check Out</button>
+                    </div>
+                    <div className="deleteBtn">
+                      <button onClick={removeCart}>Delete Cart</button>
+                    </div>
                   </div>
-                  <div></div>
-                  <div className="checkOutBtn">
-                    <button onClick={checkoutHandler}>Check Out</button>
+                ) : (
+                  <div className="emptyCart">
+                    <RemoveShoppingCartIcon />
+
+                    <Typography>No Products in Your Cart</Typography>
+                    <Link to="/products">View Products</Link>
                   </div>
-                  <div className="deleteBtn">
-                    <button onClick={removeCart}>Delete Cart</button>
-                  </div>
-                </div>
+                )}
               </div>
             </>
           )}

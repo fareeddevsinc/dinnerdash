@@ -8,7 +8,6 @@ const getAllCartItems = async (req, res) => {
       .populate("user")
       .populate("products.product");
     if (cart.length === 0) {
-      console.log(cart);
       res.status(200).json({ success: false, cart });
     }
     // Filter out products that are null
@@ -43,37 +42,26 @@ const getAllCartItems = async (req, res) => {
 const removeItemFromCart = async (req, res) => {
   try {
     const cart = await Cart.findOne({ user: req.user.id });
-
     if (!cart) {
-      // If the cart doesn't exist, return an error
+      console.log("cart not found");
       return res.status(404).json({
         success: false,
         message: "Cart not found",
       });
     }
-
-    // If the cart exists, update it
-    const productIndex = cart.products.findIndex(
-      (cartItem) => cartItem.product.toString() === req.params.id.toString()
-    );
-
+    const productsCopy = [...cart.products];
+    const productIndex = productsCopy.findIndex((cartItem) => {
+      return cartItem.product.toString() === req.params.id.toString();
+    });
     if (productIndex !== -1) {
-      // Find the product in the database
       const product = await Product.findById(req.params.id);
-
-      // Restore the stock value of the product
       product.stock += cart.products[productIndex].quantity;
-
-      // Save the changes to the product document
       await Product.updateOne(
         { _id: req.params.id },
         { $set: { stock: product.stock } }
       );
-
-      // Remove the product from the cart
       cart.products.splice(productIndex, 1);
     } else {
-      // If the product is not found in the cart, return an error
       return res.status(404).json({
         success: false,
         message: "Product not found in cart",
@@ -102,7 +90,10 @@ const createOrUpdateCart = async (req, res) => {
 
     product.stock -= req.body.quantity;
 
-    await product.save();
+    await Product.updateOne(
+      { _id: req.params.id },
+      { $set: { stock: product.stock } }
+    );
 
     if (!cart) {
       // If the cart doesn't exist, create a new one
@@ -117,32 +108,34 @@ const createOrUpdateCart = async (req, res) => {
       });
     } else {
       // If the cart exists, update it
-      const productIndex = cart.products.findIndex(
-        (cartItem) =>
-          cartItem.product._id.toString() === req.params.id.toString()
-      );
+      const productIndex = cart.products.findIndex((cartItem) => {
+        return cartItem.product._id.toString() === req.params.id.toString();
+      });
 
       if (productIndex !== -1) {
         cart.products[productIndex].quantity = req.body.quantity;
       } else {
         // Check if all products in the cart are from the same restaurant
-        console.log(cart.products);
-        const sameRestaurant = cart.products.every((cartItem) =>
-          product.restaurant.some((restaurant) =>
-            cartItem.product.restaurant.includes(restaurant)
-          )
-        );
+        if (cart.products.length > 0) {
+          const sameRestaurant = cart.products.every((cartItem) => {
+            const resData = product.restaurant.some((restaurant) => {
+              const data = cartItem.product.restaurant.includes(restaurant);
+              return data;
+            });
+            return resData;
+          });
 
-        if (sameRestaurant) {
-          cart.products.push({
-            product: req.params.id,
-            quantity: req.body.quantity,
-          });
-        } else {
-          return res.status(400).json({
-            success: false,
-            message: "All items in the cart must be from the same restaurant",
-          });
+          if (sameRestaurant) {
+            cart.products.push({
+              product: req.params.id,
+              quantity: req.body.quantity,
+            });
+          } else {
+            return res.status(400).json({
+              success: false,
+              message: "All items in the cart must be from the same restaurant",
+            });
+          }
         }
       }
 
@@ -154,6 +147,7 @@ const createOrUpdateCart = async (req, res) => {
       cart,
     });
   } catch (error) {
+    console.log(error.message);
     res.status(500).json({ success: false, message: error.message });
   }
 };
