@@ -88,8 +88,8 @@ const updateProduct = async (req, res, next) => {
       name: req.body.name,
       price: req.body.price,
       description: req.body.description,
-      category: req.body.category,
-      restaurant: req.body.restaurant,
+      category: req.body.category.split(","),
+      restaurant: req.body.restaurant.split(","),
       stock: req.body.stock,
       user: req.user.id,
     };
