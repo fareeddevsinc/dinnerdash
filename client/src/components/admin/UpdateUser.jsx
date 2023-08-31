@@ -40,6 +40,7 @@ const UpdateUser = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("");
+  const [fullname, setFullName] = useState("");
 
   const userId = id;
 
@@ -50,6 +51,7 @@ const UpdateUser = () => {
       setName(user?.name);
       setEmail(user?.email);
       setRole(user?.role);
+      setFullName(user?.fullname);
     }
     if (error) {
       alert.error(error);
@@ -82,6 +84,7 @@ const UpdateUser = () => {
               onSubmit={(e) =>
                 updateUserSubmitHandler(
                   e,
+                  fullname,
                   name,
                   email,
                   role,
@@ -94,6 +97,16 @@ const UpdateUser = () => {
             >
               <h1>Update User</h1>
 
+              <div>
+                <PersonIcon />
+                <input
+                  type="text"
+                  placeholder="Full Name"
+                  required
+                  value={fullname}
+                  onChange={(e) => setFullName(e.target.value)}
+                />
+              </div>
               <div>
                 <PersonIcon />
                 <input
@@ -117,7 +130,11 @@ const UpdateUser = () => {
 
               <div>
                 <VerifiedUserIcon />
-                <select value={role} onChange={(e) => setRole(e.target.value)}>
+                <select
+                  disabled
+                  value={role}
+                  onChange={(e) => setRole(e.target.value)}
+                >
                   <option value="">Choose Role</option>
                   <option value="admin">Admin</option>
                   <option value="user">User</option>

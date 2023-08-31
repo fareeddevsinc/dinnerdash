@@ -14,14 +14,11 @@ const createProduct = async (req, res, next) => {
     });
 
     const { name, price, description, category, stock, restaurant } = req.body;
-    console.log(restaurant);
     const tempRestaurant = restaurant.split(",");
     const tempCategory = category.split(",");
-    console.log(tempRestaurant);
     const findRestaurant = await Restaurant.findOne({
       name: { $in: tempRestaurant },
     });
-    console.log(findRestaurant);
     if (findRestaurant) {
       const user = await Product.create({
         name,
@@ -107,7 +104,6 @@ const updateProduct = async (req, res, next) => {
         useFindAndModify: false,
       }
     );
-    console.log("11");
 
     res.status(200).json({
       success: true,
@@ -139,7 +135,6 @@ const getProductDetails = async (req, res, next) => {
     if (!product) {
       return next(new ErrorHandler("Product Not Found", 404));
     }
-    console.log(`product details: ${product}`);
     res.status(200).json({ success: true, product });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
@@ -207,11 +202,9 @@ const deleteReview = async (req, res, next) => {
     if (!product) {
       return next(new ErrorHandler("Product Not Found", 404));
     }
-    console.log(product.reviews);
     const reviews = product.reviews.filter((rev) => {
       return rev._id.toString() !== req.query.id.toString();
     });
-    console.log(reviews);
     let avg = 0;
     reviews.forEach((rev) => {
       avg += Number(rev.rating);

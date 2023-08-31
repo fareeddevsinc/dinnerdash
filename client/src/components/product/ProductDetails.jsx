@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useAlert } from "react-alert";
 import {
   Button,
@@ -9,7 +9,6 @@ import {
   DialogContent,
   DialogTitle,
 } from "@material-ui/core";
-import Carousel from "react-material-ui-carousel";
 import { Rating } from "@material-ui/lab";
 
 import MetaData from "../layout/MetaData";
@@ -34,6 +33,7 @@ const ProductDetails = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const alert = useAlert();
+  const navigate = useNavigate();
 
   const { product, loading, error } = useSelector(
     (state) => state.productDetails
@@ -42,6 +42,8 @@ const ProductDetails = () => {
   const { success, error: reviewError } = useSelector(
     (state) => state.newReview
   );
+
+  const { user } = useSelector((state) => state.user);
 
   const [quantity, setQuantity] = useState(1);
   const [open, setOpen] = useState(false);
@@ -61,6 +63,17 @@ const ProductDetails = () => {
   const submitReviewToggle = useCallback(() => {
     open ? setOpen(false) : setOpen(true);
   }, [open]);
+
+  const userVerification = () => {
+    if (user?.role) {
+      addToCartHandler(id, quantity, dispatch, addItemsToCart, alert);
+    } else {
+      alert.info("Please Login To Continue");
+      const currentUrl = window.location.pathname;
+      localStorage.setItem("redirectUrl", currentUrl);
+      navigate("/login");
+    }
+  };
 
   const reviewSubmitHandler = useCallback(() => {
     const myForm = new FormData();
@@ -142,15 +155,7 @@ const ProductDetails = () => {
                   </div>
                   <button
                     disabled={product?.stock < 1 ? true : false}
-                    onClick={() =>
-                      addToCartHandler(
-                        id,
-                        quantity,
-                        dispatch,
-                        addItemsToCart,
-                        alert
-                      )
-                    }
+                    onClick={userVerification}
                   >
                     Add to Cart
                   </button>

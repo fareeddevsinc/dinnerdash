@@ -220,9 +220,7 @@ export const updateUser = (id, userData) => async (dispatch) => {
   try {
     dispatch({ type: UPDATE_USER_REQUEST });
 
-    const config = requestHeader();
-
-    const { data } = await updateUserApi(id, userData, config);
+    const { data } = await updateUserApi(id, userData);
 
     dispatch({ type: UPDATE_USER_SUCCESS, payload: data.success });
   } catch (error) {
@@ -238,9 +236,7 @@ export const deleteUser = (id) => async (dispatch) => {
   try {
     dispatch({ type: DELETE_USER_REQUEST });
 
-    const config = requestHeader();
-
-    const { data } = await deleteUserApi(id, config);
+    const { data } = await deleteUserApi(id);
 
     dispatch({ type: DELETE_USER_SUCCESS, payload: data });
   } catch (error) {

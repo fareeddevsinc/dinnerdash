@@ -27,6 +27,7 @@ const UpdateRestaurant = () => {
   const alert = useAlert();
 
   const { error, restaurant } = useSelector((state) => state.restaurant);
+  console.log(restaurant);
 
   const { error: updateError, isUpdated } = useSelector(
     (state) => state.restaurantOperations
@@ -38,22 +39,28 @@ const UpdateRestaurant = () => {
 
   const restaurantId = id;
 
-  useEffect(() => {
-    if (restaurant && restaurant._id !== restaurantId) {
+  const getDetails = () => {
+    if (restaurant && restaurant.restaurant._id !== restaurantId) {
       dispatch(getRestaurantDetails(restaurantId));
     } else {
-      setName(restaurant.name);
-      setLocation(restaurant.location);
-      setBranch(restaurant.branch);
+      setName(restaurant?.restaurant.name);
+      setLocation(restaurant?.restaurant.location);
+      setBranch(restaurant?.restaurant.branch);
     }
+  };
+
+  useEffect(() => {
+    getDetails();
     if (error) {
       alert.error(error);
       dispatch(clearErrors());
+      alert.error("Something went Wrong");
     }
 
     if (updateError) {
       alert.error(updateError);
       dispatch(clearErrors());
+      alert.error("Something went Wrong during Updation");
     }
 
     if (isUpdated) {
@@ -61,16 +68,7 @@ const UpdateRestaurant = () => {
       navigate("/admin/restaurants");
       dispatch({ type: UPDATE_RESTAURANT_RESET });
     }
-  }, [
-    dispatch,
-    alert,
-    error,
-    navigate,
-    isUpdated,
-    restaurantId,
-    restaurant,
-    updateError,
-  ]);
+  }, [dispatch, alert, error, navigate, isUpdated, updateError]);
 
   const updateRestaurantSubmitHandler = (e) => {
     e.preventDefault();

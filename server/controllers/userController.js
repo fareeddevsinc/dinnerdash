@@ -137,7 +137,7 @@ const updateUserRole = async (req, res, next) => {
     const newUserData = {
       name: req.body.name,
       email: req.body.email,
-      role: req.body.role,
+      fullName: req.body.fullname,
     };
 
     const user = await User.findOneAndUpdate(

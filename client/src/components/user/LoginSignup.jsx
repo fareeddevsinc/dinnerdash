@@ -76,18 +76,23 @@ const LoginSignUp = () => {
     }
   };
 
-  const redirect = location.search ? location.search.split("=")[1] : "/account";
+  // const redirect = location.search ? location.search.split("=")[1] : "/account";
 
   useEffect(() => {
     if (error) {
       alert.error(error);
       dispatch(clearErrors());
     }
-
     if (isAuthenticated) {
-      navigate(redirect);
+      const redirectUrl = localStorage.getItem("redirectUrl");
+      if (redirectUrl) {
+        localStorage.removeItem("redirectUrl");
+        navigate(redirectUrl);
+      } else {
+        navigate("/account");
+      }
     }
-  }, [dispatch, error, alert, navigate, isAuthenticated, redirect]);
+  }, [dispatch, error, alert, navigate, isAuthenticated]);
 
   const switchTabs = (e, tab) => {
     if (tab === "login") {
