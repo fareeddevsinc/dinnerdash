@@ -53,7 +53,11 @@ export const deleteOrderApi = async (id) => {
 };
 
 export const getOrderDetailsApi = async (id) => {
-  const { data } = await apiService.get(`/order/${id}`);
+  try {
+    const { data } = await apiService.get(`/order/${id}`);
 
-  return { data };
+    return { data };
+  } catch (error) {
+    console.log(error.message);
+  }
 };

@@ -51,9 +51,8 @@ export const createOrder = (order) => async (dispatch) => {
 export const myOrders = () => async (dispatch) => {
   try {
     dispatch({ type: MY_ORDERS_REQUEST });
-    const config = requestHeader();
 
-    const { data } = await myOrdersApi(config);
+    const { data } = await myOrdersApi();
 
     dispatch({ type: MY_ORDERS_SUCCESS, payload: data });
   } catch (error) {
@@ -103,9 +102,7 @@ export const deleteOrder = (id) => async (dispatch) => {
   try {
     dispatch({ type: DELETE_ORDER_REQUEST });
 
-    const config = requestHeader();
-
-    const { data } = await deleteOrderApi(id, config);
+    const { data } = await deleteOrderApi(id);
 
     dispatch({ type: DELETE_ORDER_SUCCESS, payload: data.success });
   } catch (error) {
@@ -121,9 +118,7 @@ export const getOrderDetails = (id) => async (dispatch) => {
   try {
     dispatch({ type: ORDER_DETAILS_REQUEST });
 
-    const config = requestHeader();
-
-    const { data } = await getOrderDetailsApi(id, config);
+    const { data } = await getOrderDetailsApi(id);
 
     dispatch({ type: ORDER_DETAILS_SUCCESS, payload: data.order });
   } catch (error) {

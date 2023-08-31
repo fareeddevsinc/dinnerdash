@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
@@ -6,19 +7,49 @@ import { Typography } from "@material-ui/core";
 import MetaData from "../layout/MetaData";
 import CheckoutSteps from "./CheckoutSteps";
 
-import { createOrder } from "../../redux/actions/orderAction";
+import {
+  createOrder,
+  clearErrors,
+  myOrders,
+} from "../../redux/actions/orderAction";
 
 import "../../styles/cart/ConfirmOrder.css";
 
 const ConfirmOrder = () => {
   const { cartItems } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.user);
+  const { loading, error, orders } = useSelector((state) => state.myOrders);
+
+  const [address, setAddress] = useState("");
+  const [city, setCity] = useState("");
+  const [phoneNo, setPhoneNo] = useState("");
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  let shippingInfo = null;
 
-  const shippingInfo = JSON.parse(localStorage.getItem("shippingInfo"));
-  console.log(shippingInfo);
+  useEffect(() => {
+    if (error) {
+      alert.error(error);
+      dispatch(clearErrors());
+    }
+    dispatch(myOrders());
+  }, [dispatch, alert, error]);
 
+  useEffect(() => {
+    if (!orders?.order[0]) {
+      shippingInfo = JSON.parse(localStorage.getItem("shippingInfo"));
+      console.log(shippingInfo);
+      setAddress(shippingInfo?.address);
+      setCity(shippingInfo?.city);
+      setPhoneNo(shippingInfo?.phoneNo);
+    } else {
+      setAddress(orders?.order[0]?.shippingInfo?.address);
+      setCity(orders?.order[0]?.shippingInfo?.city);
+      setPhoneNo(orders?.order[0]?.shippingInfo?.phoneNo);
+    }
+    console.log(cartItems);
+  }, [orders]);
   const subtotal = cartItems.cart[0]?.products.reduce(
     (acc, item) => acc + item.quantity * item.product.price,
     0
@@ -37,7 +68,7 @@ const ConfirmOrder = () => {
         name: item.product.name,
         quantity: item.quantity,
         price: item.product.price,
-        images: item.product.images,
+        images: item.product.images.url,
         product: item.product._id,
       })),
       itemsPrice: subtotal,
@@ -66,11 +97,11 @@ const ConfirmOrder = () => {
               </div>
               <div>
                 <p>Phone:</p>
-                <span>{shippingInfo?.phoneNo}</span>
+                <span>{phoneNo}</span>
               </div>
               <div>
                 <p>Address:</p>
-                <span>{`${shippingInfo?.address}, ${shippingInfo?.city}`}</span>
+                <span>{`${address}, ${city}`}</span>
               </div>
             </div>
           </div>
@@ -80,7 +111,7 @@ const ConfirmOrder = () => {
               {cartItems &&
                 cartItems.cart[0]?.products.map((item) => (
                   <div key={item.product._id}>
-                    <img src={item.product.images} alt="Product" />
+                    <img src={item.product.images.url} alt="Product" />
                     <Link to={`/product/${item.product._id}`}>
                       {item.product.name}
                     </Link>{" "}
