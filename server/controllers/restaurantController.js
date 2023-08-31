@@ -74,7 +74,6 @@ const viewRestaurant = async (req, res) => {
     const products = await Product.find({
       restaurant: { $in: [restaurant.name] },
     });
-    console.log(products);
 
     res.status(200).json({
       success: true,
