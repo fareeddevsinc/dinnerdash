@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { TreeView, TreeItem } from "@material-ui/lab";
+import { useSelector } from "react-redux";
 import {
   Add as AddIcon,
   Dashboard as DashboardIcon,
@@ -11,15 +12,15 @@ import {
   RateReview as RateReviewIcon,
 } from "@material-ui/icons";
 
-import logo from "../../images/noImage.jpg";
-
 import "../../styles/admin/sidebar.css";
 
 const Sidebar = () => {
+  const { user } = useSelector((state) => state.user);
+
   return (
     <div className="sidebar">
-      <Link to="/">
-        <img src={logo} alt="Dinner Dash" />
+      <Link to="/account">
+        <img src={user.avatar.url} alt="Dinner Dash" />
       </Link>
       <Link to="/admin/dashboard">
         <p>

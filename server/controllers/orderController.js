@@ -42,6 +42,7 @@ const getSingleOrder = async (req, res, next) => {
     if (!order) {
       return next(new ErrorHandler("Order Not Found", 404));
     }
+
     res.status(200).json({
       success: true,
       order,

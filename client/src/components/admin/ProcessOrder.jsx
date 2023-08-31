@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { useAlert } from "react-alert";
 import { Button, Typography } from "@material-ui/core";
 import AccountTreeIcon from "@material-ui/icons/AccountTree";
@@ -16,6 +16,7 @@ import {
 import { UPDATE_ORDER_RESET } from "../../redux/constants/orderConstants";
 
 import "../../styles/admin/processOrder.css";
+import LoadingScreen from "../layout/Loader/Loader";
 
 const ProcessOrder = () => {
   const { id } = useParams();
@@ -62,12 +63,12 @@ const ProcessOrder = () => {
         <SideBar />
         <div className="newProductContainer">
           {loading ? (
-            <div>Loading...</div>
+            <LoadingScreen />
           ) : (
             <div
               className="confirmOrderPage"
               style={{
-                display: order.orderStatus === "Delivered" ? "block" : "grid",
+                display: order?.orderStatus === "Delivered" ? "block" : "grid",
               }}
             >
               <div>
@@ -76,46 +77,22 @@ const ProcessOrder = () => {
                   <div className="orderDetailsContainerBox">
                     <div>
                       <p>Name:</p>
-                      <span>{order.user && order.user.name}</span>
+                      <span>{order?.user && order?.user?.name}</span>
                     </div>
                     <div>
                       <p>Phone:</p>
                       <span>
-                        {order.shippingInfo && order.shippingInfo.phoneNo}
+                        {order?.shippingInfo && order?.shippingInfo?.phoneNo}
                       </span>
                     </div>
                     <div>
                       <p>Address:</p>
                       <span>
-                        {order.shippingInfo &&
-                          `${order.shippingInfo.address}, ${order.shippingInfo.city}`}
+                        {order?.shippingInfo &&
+                          `${order?.shippingInfo?.address}, ${order?.shippingInfo?.city}`}
                       </span>
                     </div>
                   </div>
-
-                  {/* <Typography>Payment</Typography>
-                  <div className="orderDetailsContainerBox">
-                    <div>
-                      <p
-                        className={
-                          order.paymentInfo &&
-                          order.paymentInfo.status === "succeeded"
-                            ? "greenColor"
-                            : "redColor"
-                        }
-                      >
-                        {order.paymentInfo &&
-                        order.paymentInfo.status === "succeeded"
-                          ? "PAID"
-                          : "NOT PAID"}
-                      </p>
-                    </div>
-
-                    <div>
-                      <p>Amount:</p>
-                      <span>{order.totalPrice && order.totalPrice}</span>
-                    </div>
-                  </div> */}
 
                   <Typography>Order Status</Typography>
                   <div className="orderDetailsContainerBox">
@@ -127,7 +104,7 @@ const ProcessOrder = () => {
                             : "redColor"
                         }
                       >
-                        {order.orderStatus && order.orderStatus}
+                        {order?.orderStatus && order?.orderStatus}
                       </p>
                     </div>
                   </div>
@@ -135,16 +112,16 @@ const ProcessOrder = () => {
                 <div className="confirmCartItems">
                   <Typography>Your Cart Items:</Typography>
                   <div className="confirmCartItemsContainer">
-                    {order.orderItems &&
-                      order.orderItems.map((item) => (
-                        <div key={item.product}>
-                          <img src={item.image} alt="Product" />
-                          <Link to={`/product/${item.product}`}>
+                    {order?.orderItems &&
+                      order?.orderItems?.map((item) => (
+                        <div key={item?.product}>
+                          <img src={item.images} alt="Product" />
+                          <Link to={`/product/${item?.product}`}>
                             {item.name}
                           </Link>{" "}
                           <span>
-                            {item.quantity} X Rs.{item.price} ={" "}
-                            <b>Rs.{item.price * item.quantity}</b>
+                            {item?.quantity} X Rs.{item?.price} ={" "}
+                            <b>Rs.{item?.price * item?.quantity}</b>
                           </span>
                         </div>
                       ))}
@@ -154,7 +131,8 @@ const ProcessOrder = () => {
               {/*  */}
               <div
                 style={{
-                  display: order.orderStatus === "Delivered" ? "none" : "block",
+                  display:
+                    order?.orderStatus === "Delivered" ? "none" : "block",
                 }}
               >
                 <form
@@ -167,17 +145,16 @@ const ProcessOrder = () => {
                     <AccountTreeIcon />
                     <select onChange={(e) => setStatus(e.target.value)}>
                       <option value="">Choose Category</option>
-                      {order.orderStatus === "Processing" && (
+                      {order?.orderStatus === "Processing" && (
                         <>
                           <option value="Completed">Completed</option>
-                          <option value="Paid">Paid</option>
                           <option value="Cancelled">Cancelled</option>
                           <option value="Processing">Processing</option>
                         </>
                       )}
 
-                      {order.orderStatus === "Completed" && (
-                        <option value="Delivered">Delivered</option>
+                      {order?.orderStatus === "Completed" && (
+                        <option value="Paid">Paid</option>
                       )}
                     </select>
                   </div>
@@ -185,9 +162,9 @@ const ProcessOrder = () => {
                   <Button
                     id="createProductBtn"
                     type="submit"
-                    disabled={
-                      loading ? true : false || status === "" ? true : false
-                    }
+                    // disabled={
+                    //   loading ? true : false || status === "" ? true : false
+                    // }
                   >
                     Process
                   </Button>

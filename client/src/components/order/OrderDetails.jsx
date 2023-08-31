@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useAlert } from "react-alert";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { Typography } from "@material-ui/core";
 
 import MetaData from "../layout/MetaData";
@@ -9,6 +9,7 @@ import MetaData from "../layout/MetaData";
 import { clearErrors, getOrderDetails } from "../../redux/actions/orderAction";
 
 import "../../styles/order/orderDetails.css";
+import LoadingScreen from "../layout/Loader/Loader";
 
 const OrderDetails = () => {
   const { id } = useParams();
@@ -29,7 +30,7 @@ const OrderDetails = () => {
   return (
     <>
       {loading ? (
-        <p>Loading...</p>
+        <LoadingScreen />
       ) : (
         <>
           <MetaData title="Order Details" />
@@ -68,7 +69,7 @@ const OrderDetails = () => {
                         : "redColor"
                     }
                   >
-                    {order?.orderStatus && order?.orderStatus}
+                    <b>{order?.orderStatus && order?.orderStatus}</b>
                   </p>
                 </div>
               </div>

@@ -79,7 +79,7 @@ const ConfirmOrder = () => {
 
     dispatch(createOrder(order));
 
-    navigate("/success");
+    navigate("/success", { replace: true });
   };
 
   return (

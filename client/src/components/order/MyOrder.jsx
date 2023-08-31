@@ -80,8 +80,12 @@ const MyOrders = () => {
     orders?.order?.forEach((item) => {
       rows.push({
         id: item._id,
-        itemsQty: item.quantity,
-        name: item.name,
+        itemsQty: item.orderItems.reduce((acc, item) => {
+          return acc + item.quantity;
+        }, 0),
+        name: item.orderItems.map((item) => {
+          return item.name;
+        }),
         status: item.orderStatus,
         amount: item.totalPrice,
       });

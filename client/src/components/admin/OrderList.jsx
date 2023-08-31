@@ -117,7 +117,9 @@ const OrderList = () => {
     orders.order.forEach((item) => {
       rows.push({
         id: item._id,
-        itemsQty: item.quantity,
+        itemsQty: item.orderItems.reduce((acc, item) => {
+          return acc + item.quantity;
+        }, 0),
         amount: item.totalPrice,
         status: item.orderStatus,
       });

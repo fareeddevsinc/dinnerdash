@@ -19,7 +19,7 @@ const OrderSuccess = () => {
 
   return (
     <div className="orderSuccess">
-      <CheckCircleIcon />
+      <CheckCircleIcon style={{ color: "green" }} />
 
       <Typography>Your Order has been Placed successfully </Typography>
       <Link to="/orders">View Orders</Link>
