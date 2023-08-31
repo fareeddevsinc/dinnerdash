@@ -1,10 +1,13 @@
-#User_Interaction Branch
+**All functionalities related to orders are implemented**
 
-1. Open client and server individually and write `npm install`
-2. After that run both client and server using `npm start`
-3. Add .env file
+1. User can place an order
+2. User's shipping Info gets stored
+3. User can view the history of his orders
+4. User can view details of each individual order with their status
 
-NOTE:
--> You might face problem when updating the user profile (if you don't provide an image when updating) or you can face some bugs
--> reset Token is sent to the email, copy the url and paste in your browser. Reset Token sometimes shows abnormal behaviour
-if token is generated more than once on the same browser profile. Changing the browser or browser profile solves the issue.
+**Admin**
+
+1. Admin can update the status of the order
+2. Admin can delete the order
+3. Admin can view order details of every user
+4. Product quantity is affected with orders
