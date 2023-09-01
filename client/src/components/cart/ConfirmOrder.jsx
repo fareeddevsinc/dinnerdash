@@ -50,7 +50,6 @@ const ConfirmOrder = () => {
       setPhoneNo(orders?.order[0]?.shippingInfo?.phoneNo);
       setShippingInfo(orders?.order[0]?.shippingInfo);
     }
-    console.log(`address is ${orders?.order[0]?.shippingInfo?.address}`);
   }, [orders]);
   const subtotal = cartItems.cart[0]?.products.reduce(
     (acc, item) => acc + item.quantity * item.product.price,
