@@ -67,7 +67,7 @@ const UpdatePassword = () => {
 
   return (
     <>
-      {loading ? (
+      {!loading ? (
         <LoadingScreen />
       ) : (
         <>

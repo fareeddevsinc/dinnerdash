@@ -143,7 +143,7 @@ export const updatePassword = (passwords) => async (dispatch) => {
     const config = requestHeader();
 
     const { data } = await updatePasswordApi(passwords, config);
-
+    console.log(`data is : ${data}`);
     dispatch({ type: UPDATE_PASSWORD_SUCCESS, payload: data.success });
   } catch (error) {
     dispatch({
