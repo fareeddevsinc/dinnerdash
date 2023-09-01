@@ -45,7 +45,6 @@ const getAllProducts = async (req, res) => {
     const resultPerPage = 4;
     const productsCount = await Product.countDocuments();
 
-    //for query in url inadvanced way from apiFeature.js
     const apiFeature = new ApiFeatures(Product.find(), req.query)
       .search()
       .filter()
