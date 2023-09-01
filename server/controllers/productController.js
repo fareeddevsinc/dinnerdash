@@ -48,7 +48,8 @@ const getAllProducts = async (req, res) => {
     //for query in url inadvanced way from apiFeature.js
     const apiFeature = new ApiFeatures(Product.find(), req.query)
       .search()
-      .filter();
+      .filter()
+      .sort();
 
     let products = apiFeature.query;
     let filteredProductCount = products.length;
@@ -65,6 +66,7 @@ const getAllProducts = async (req, res) => {
       });
     }
   } catch (error) {
+    console.log(error);
     res.status(500).json({ success: false, message: error.message });
   }
 };

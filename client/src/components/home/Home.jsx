@@ -8,11 +8,13 @@ import ProductCard from "../product/ProductCard";
 import { clearErrors, getProduct } from "../../redux/actions/productAction";
 
 import "../../styles/home/home.css";
+import LoadingScreen from "../layout/Loader/Loader";
 
 const Home = () => {
   const alert = useAlert();
   const dispatch = useDispatch();
   const { loading, error, products } = useSelector((state) => state.products);
+  const { user } = useSelector((state) => state.user);
   useEffect(() => {
     if (error) {
       alert.error(error);
@@ -24,12 +26,12 @@ const Home = () => {
   return (
     <>
       {loading ? (
-        "Loading..."
+        <LoadingScreen />
       ) : (
         <>
           <MetaData title="Dinner Dash - Home" />
-          <h1>Welcome to Dinner Dash</h1>
-          <h3>Featured Products</h3>
+          <h1 className="welcome-heading">{`Welcome to Dinner Dash ${user?.name}`}</h1>
+          <h2 className="trending-heading">Trending Products</h2>
           <div className="container">
             {products &&
               products.map((product) => (

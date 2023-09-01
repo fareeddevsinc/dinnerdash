@@ -12,3 +12,23 @@
   flex-wrap: wrap;
   flex: 25%;
 }
+/* styles.css */
+
+/* Heading styles */
+.welcome-heading {
+  font-size: 2.5rem;
+  color: #333; /* You can choose your desired color */
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.trending-heading {
+  font-size: 1.8rem;
+  color: #ff5733; /* You can choose your desired color */
+  margin-top: 20px;
+}
+
+/* Style the user's name */
+.welcome-heading span {
+  color: #009688; /* Different color for the user's name */
+}
