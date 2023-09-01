@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please Enter Your Display Name"],
       maxLength: [32, "Display Name cannot be this much long"],
-      minLength: [2, "Display Name should be atleast 2 characters"],
+      minLength: [2, "Display Name should be Atleast 2 characters"],
     },
     email: {
       type: String,
