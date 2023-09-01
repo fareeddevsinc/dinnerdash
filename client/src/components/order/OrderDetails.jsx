@@ -72,12 +72,24 @@ const OrderDetails = () => {
                     <b>{order?.orderStatus && order?.orderStatus}</b>
                   </p>
                 </div>
+                {order?.orderStatus && order?.orderStatus === "Ordered" && (
+                  <div>
+                    <b>Timestamp:</b> {order.createdAt}
+                  </div>
+                )}
                 {order?.orderStatus &&
                   (order?.orderStatus === "Completed" ||
                     order?.orderStatus === "Cancelled") && (
-                    <div>
-                      <b>Timestamp:</b> {order.finishedAt}
-                    </div>
+                    <>
+                      <div style={{ color: "brown" }}>
+                        <b style={{ color: "black" }}> Created At:</b>{" "}
+                        {order.createdAt}
+                      </div>
+                      <div style={{ color: "blueviolet" }}>
+                        <b style={{ color: "black" }}> Finished At:</b>{" "}
+                        {order.finishedAt}
+                      </div>
+                    </>
                   )}
               </div>
             </div>

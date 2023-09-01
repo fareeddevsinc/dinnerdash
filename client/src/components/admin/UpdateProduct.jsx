@@ -223,6 +223,8 @@ const UpdateProduct = () => {
               <input
                 type="number"
                 placeholder="Price"
+                min="0"
+                onInput="validity.valid||(value='');"
                 required
                 onChange={(e) => setPrice(e.target.value)}
                 value={price}
@@ -267,6 +269,8 @@ const UpdateProduct = () => {
               <input
                 type="number"
                 placeholder="stock"
+                min="0"
+                onInput="validity.valid||(value='');"
                 required
                 onChange={(e) => setStock(e.target.value)}
                 value={stock}

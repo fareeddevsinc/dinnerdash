@@ -33,21 +33,23 @@ const UpdateRestaurant = () => {
     (state) => state.restaurantOperations
   );
 
-  const [name, setName] = useState("");
-  const [location, setLocation] = useState("");
-  const [branch, setBranch] = useState("");
+  const [name, setName] = useState(restaurant?.restaurant.name);
+  const [location, setLocation] = useState(restaurant?.restaurant?.location);
+  const [branch, setBranch] = useState(restaurant?.restaurant?.branch);
 
   const restaurantId = id;
 
   const getDetails = () => {
     if (restaurant && restaurant.restaurant._id !== restaurantId) {
       dispatch(getRestaurantDetails(restaurantId));
-    } else {
-      setName(restaurant?.restaurant.name);
-      setLocation(restaurant?.restaurant.location);
-      setBranch(restaurant?.restaurant.branch);
     }
   };
+
+  useEffect(() => {
+    setName(restaurant?.restaurant.name);
+    setLocation(restaurant?.restaurant.location);
+    setBranch(restaurant?.restaurant.branch);
+  }, [restaurant]);
 
   useEffect(() => {
     getDetails();

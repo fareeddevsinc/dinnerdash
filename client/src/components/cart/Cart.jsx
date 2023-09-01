@@ -23,7 +23,6 @@ const Cart = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { error, cartItems, loading } = useSelector((state) => state.cart);
-  const { user } = useSelector((state) => state.user);
   const alert = useAlert();
   const [numItems, setNumItems] = useState(cartItems?.cart[0]?.length);
 
@@ -67,12 +66,7 @@ const Cart = () => {
   };
 
   const checkoutHandler = () => {
-    if (user.role) {
-      navigate("/shipping", { replace: true });
-    } else {
-      navigate("/login");
-      alert.error("Please Login to Check Out");
-    }
+    navigate("/shipping", { replace: true });
   };
 
   return (

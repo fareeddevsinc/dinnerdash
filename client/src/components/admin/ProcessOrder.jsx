@@ -104,7 +104,15 @@ const ProcessOrder = () => {
                             : "redColor"
                         }
                       >
-                        {order?.orderStatus && order?.orderStatus}
+                        <b>{order?.orderStatus && order?.orderStatus}</b>
+                        <p style={{ color: "brown" }}>
+                          <b style={{ color: "black" }}>Created At:</b>{" "}
+                          {order?.createdAt}
+                        </p>
+                        <p style={{ color: "blueviolet" }}>
+                          <b style={{ color: "black" }}>Completed At:</b>{" "}
+                          {order?.finishedAt}
+                        </p>
                       </p>
                     </div>
                   </div>
@@ -128,7 +136,6 @@ const ProcessOrder = () => {
                   </div>
                 </div>
               </div>
-              {/*  */}
               <div
                 style={{
                   display:
@@ -148,15 +155,14 @@ const ProcessOrder = () => {
                     <AccountTreeIcon />
                     <select onChange={(e) => setStatus(e.target.value)}>
                       <option value="">Choose Category</option>
-                      {order?.orderStatus === "Processing" && (
+                      {order?.orderStatus === "Ordered" && (
+                        <option value="Paid">Paid</option>
+                      )}
+                      {order?.orderStatus === "Paid" && (
                         <>
                           <option value="Completed">Completed</option>
                           <option value="Cancelled">Cancelled</option>
                         </>
-                      )}
-
-                      {order?.orderStatus === "Completed" && (
-                        <option value="Paid">Paid</option>
                       )}
                     </select>
                   </div>

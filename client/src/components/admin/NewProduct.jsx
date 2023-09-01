@@ -55,9 +55,8 @@ const NewProduct = () => {
     setSelectedCategories(categories);
   };
 
-  const handleRestaurantChange = (selectedOptions) => {
-    const categories = selectedOptions.map((option) => option.value);
-    setSelectedRestaurants(categories);
+  const handleRestaurantChange = (selectedOption) => {
+    setSelectedRestaurants(selectedOption.value);
   };
 
   const productOptions = () => {
@@ -167,6 +166,8 @@ const NewProduct = () => {
             <div>
               <input
                 type="number"
+                min="0"
+                onInput="validity.valid||(value='');"
                 placeholder="Price"
                 required
                 onChange={(e) => setPrice(e.target.value)}
@@ -197,7 +198,6 @@ const NewProduct = () => {
             <div>
               {" "}
               <Select
-                isMulti
                 options={options2}
                 placeholder="Select Restaurants"
                 styles={customStyles}
@@ -208,6 +208,8 @@ const NewProduct = () => {
               <input
                 type="number"
                 placeholder="stock"
+                min="0"
+                onInput="validity.valid||(value='');"
                 required
                 onChange={(e) => setStock(e.target.value)}
               />

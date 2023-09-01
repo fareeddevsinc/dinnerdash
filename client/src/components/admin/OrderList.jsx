@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import { useAlert } from "react-alert";
@@ -26,13 +26,11 @@ const OrderList = () => {
 
   const alert = useAlert();
 
+  const [selectedStatus, setSelectedStatus] = useState("");
+
   const { error, orders } = useSelector((state) => state.allOrders);
 
   const { error: deleteError, isDeleted } = useSelector((state) => state.order);
-
-  const deleteOrderHandler = (id) => {
-    dispatch(deleteOrder(id));
-  };
 
   useEffect(() => {
     if (error) {
@@ -53,6 +51,10 @@ const OrderList = () => {
 
     dispatch(getAllOrders());
   }, [dispatch, alert, error, deleteError, navigate, isDeleted]);
+
+  const deleteOrderHandler = (id) => {
+    dispatch(deleteOrder(id));
+  };
 
   const columns = [
     { field: "id", headerName: "Order ID", minWidth: 300, flex: 1 },

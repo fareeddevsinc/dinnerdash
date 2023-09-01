@@ -28,6 +28,7 @@ const deleteRestaurant = async (req, res, next) => {
     if (!restaurant) {
       return next(new ErrorHandler("Restaurant not found", 404));
     }
+    await Product.deleteMany({ restaurant: restaurant.name });
 
     res.status(200).json({
       success: true,
