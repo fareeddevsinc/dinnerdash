@@ -104,13 +104,13 @@ const updateOrder = async (req, res, next) => {
     order.orderStatus = req.body.status;
 
     if (order.orderStatus === "Cancelled") {
-      order.orderItems.forEach(async (order) => {
-        await updateStock(order.product, order.quantity, "add");
-      });
-      order.itemPrice = 0;
-      order.shippingPrice = 0;
-      order.taxPrice = 0;
-      order.totalPrice = 0;
+      // order.orderItems.forEach(async (order) => {
+      //   await updateStock(order.product, order.quantity, "add");
+      // });
+      // order.itemPrice = 0;
+      // order.shippingPrice = 0;
+      // order.taxPrice = 0;
+      // order.totalPrice = 0;
       order.finishedAt = Date.now();
     } else {
       if (order.orderStatus === "Completed") {

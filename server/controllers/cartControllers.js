@@ -9,19 +9,14 @@ const getAllCartItems = async (req, res) => {
       .populate("products.product");
     if (cart.length === 0) {
       res.status(200).json({ success: false, cart });
-    }
-    // Filter out products that are null
-    else if (cart) {
+    } else if (cart) {
       const filteredProducts = cart[0].products.filter(
         (product) => product.product !== null
       );
 
-      // Check if the products array is empty
       if (filteredProducts.length === 0) {
-        // Remove the cart document from the database
         await Cart.deleteOne({ _id: cart[0]._id });
       } else {
-        // Update the products array in the cart document
         await Cart.updateOne(
           { _id: cart[0]._id },
           { $set: { products: filteredProducts } }
@@ -53,12 +48,12 @@ const removeItemFromCart = async (req, res) => {
       return cartItem.product.toString() === req.params.id.toString();
     });
     if (productIndex !== -1) {
-      const product = await Product.findById(req.params.id);
-      product.stock += cart.products[productIndex].quantity;
-      await Product.updateOne(
-        { _id: req.params.id },
-        { $set: { stock: product.stock } }
-      );
+      // const product = await Product.findById(req.params.id);
+      // product.stock += cart.products[productIndex].quantity;
+      // await Product.updateOne(
+      //   { _id: req.params.id },
+      //   { $set: { stock: product.stock } }
+      // );
       cart.products.splice(productIndex, 1);
     } else {
       return res.status(404).json({
@@ -87,15 +82,14 @@ const createOrUpdateCart = async (req, res) => {
 
     const product = await Product.findById(req.params.id);
 
-    product.stock -= req.body.quantity;
+    // product.stock -= req.body.quantity;
 
-    await Product.updateOne(
-      { _id: req.params.id },
-      { $set: { stock: product.stock } }
-    );
+    // await Product.updateOne(
+    //   { _id: req.params.id },
+    //   { $set: { stock: product.stock } }
+    // );
 
     if (!cart) {
-      // If the cart doesn't exist, create a new one
       cart = await Cart.create({
         user: req.user.id,
         products: [
@@ -106,7 +100,6 @@ const createOrUpdateCart = async (req, res) => {
         ],
       });
     } else {
-      // If the cart exists, update it
       const productIndex = cart.products.findIndex((cartItem) => {
         return cartItem.product._id.toString() === req.params.id.toString();
       });
@@ -164,19 +157,19 @@ const clearCart = async (req, res) => {
     }
 
     // Restore the stock value of all products in the cart
-    for (const cartItem of cart.products) {
-      // Find the product in the database
-      const product = await Product.findById(cartItem.product._id);
+    // for (const cartItem of cart.products) {
+    //   // Find the product in the database
+    //   const product = await Product.findById(cartItem.product._id);
 
-      // Restore the stock value of the product
-      product.stock += cartItem.quantity;
+    //   // Restore the stock value of the product
+    //   // product.stock += cartItem.quantity;
 
-      // Save the changes to the product document
-      await Product.updateOne(
-        { _id: cartItem.product._id },
-        { $set: { stock: product.stock } }
-      );
-    }
+    //   // Save the changes to the product document
+    //   await Product.updateOne(
+    //     { _id: cartItem.product._id },
+    //     { $set: { stock: product.stock } }
+    //   );
+    // }
 
     // If the cart exists, clear it
     cart.products = [];
