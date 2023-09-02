@@ -124,7 +124,7 @@ const UpdateProduct = () => {
 
   useEffect(() => {
     if (product && product._id !== productId) {
-      dispatch(getProductDetails(productId));
+      dispatch(getProductDetails(productId, alert));
     } else {
       setName(product.name);
       setDescription(product.description);
@@ -144,7 +144,6 @@ const UpdateProduct = () => {
     }
 
     if (isUpdated) {
-      alert.success("Product Updated Successfully");
       navigate("/admin/products");
       dispatch({ type: UPDATE_PRODUCT_RESET });
     }
@@ -172,7 +171,7 @@ const UpdateProduct = () => {
     myForm.set("stock", stock);
     myForm.set("images", images);
 
-    dispatch(updateProduct(productId, myForm));
+    dispatch(updateProduct(productId, myForm, alert));
   };
 
   const updateProductImagesChange = (e) => {

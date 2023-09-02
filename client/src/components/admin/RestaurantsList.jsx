@@ -41,16 +41,15 @@ const RestaurantsList = () => {
     }
 
     if (isDeleted) {
-      alert.success("Restaurant Deleted Successfully");
       navigate("/admin/dashboard");
       dispatch({ type: DELETE_RESTAURANT_RESET });
     }
 
-    dispatch(getAllRestaurants());
+    dispatch(getAllRestaurants(alert));
   }, [dispatch, alert, error, navigate, deleteError, isDeleted]);
 
   const deleteRestaurantHandler = (id) => {
-    dispatch(deleteRestaurant(id));
+    dispatch(deleteRestaurant(id, alert));
   };
 
   const columns = [

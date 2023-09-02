@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import { useAlert } from "react-alert";
@@ -26,8 +26,6 @@ const OrderList = () => {
 
   const alert = useAlert();
 
-  const [selectedStatus, setSelectedStatus] = useState("");
-
   const { error, orders } = useSelector((state) => state.allOrders);
 
   const { error: deleteError, isDeleted } = useSelector((state) => state.order);
@@ -44,16 +42,15 @@ const OrderList = () => {
     }
 
     if (isDeleted) {
-      alert.success("Order Deleted Successfully");
       navigate("/admin/orders");
       dispatch({ type: DELETE_ORDER_RESET });
     }
 
-    dispatch(getAllOrders());
+    dispatch(getAllOrders(alert));
   }, [dispatch, alert, error, deleteError, navigate, isDeleted]);
 
   const deleteOrderHandler = (id) => {
-    dispatch(deleteOrder(id));
+    dispatch(deleteOrder(id, alert));
   };
 
   const columns = [

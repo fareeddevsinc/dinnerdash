@@ -31,7 +31,7 @@ const Cart = () => {
       alert.error(error);
       dispatch(clearErrors());
     }
-    dispatch(getCart());
+    dispatch(getCart(alert));
   }, [dispatch, alert, error, numItems]);
 
   const increaseQuantity = (id, quantity, stock) => {
@@ -39,7 +39,7 @@ const Cart = () => {
     if (stock <= quantity) {
       return;
     }
-    dispatch(addItemsToCart(id, newQty));
+    dispatch(addItemsToCart(id, newQty, alert));
     location.reload();
   };
 
@@ -48,20 +48,18 @@ const Cart = () => {
     if (1 >= quantity) {
       return;
     }
-    dispatch(addItemsToCart(id, newQty));
+    dispatch(addItemsToCart(id, newQty, alert));
     location.reload();
   };
 
   const deleteCartItems = (id) => {
-    dispatch(removeItemsFromCart(id));
-    alert.success("Item Deleted Successfully");
+    dispatch(removeItemsFromCart(id, alert));
     setNumItems((prevNumItems) => prevNumItems - 1);
     location.reload();
   };
 
   const removeCart = () => {
     dispatch(deleteCart());
-    alert.success("Cart Deleted Cart Deleted Successfully");
     location.reload();
   };
 

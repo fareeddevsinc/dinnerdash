@@ -46,7 +46,7 @@ const UpdateUser = () => {
 
   useEffect(() => {
     if (user && user._id !== userId) {
-      dispatch(getUserDetails(userId));
+      dispatch(getUserDetails(userId, alert));
     } else {
       setName(user?.name);
       setEmail(user?.email);
@@ -64,7 +64,6 @@ const UpdateUser = () => {
     }
 
     if (isUpdated) {
-      alert.success("User Updated Successfully");
       navigate("/admin/users");
       dispatch({ type: UPDATE_USER_RESET });
     }

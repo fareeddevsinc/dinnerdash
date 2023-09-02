@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
+import { useAlert } from "react-alert";
 
 import { logout } from "../../../redux/actions/userAction";
 
@@ -37,11 +38,12 @@ const imageStyle = {
 };
 
 const Header = ({ user }) => {
+  const alert = useAlert();
   const { isAuthenticated } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   const handleLogout = () => {
-    dispatch(logout());
+    dispatch(logout(alert));
   };
 
   return (

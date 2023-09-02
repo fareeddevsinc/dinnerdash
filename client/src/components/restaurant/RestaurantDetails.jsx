@@ -28,7 +28,7 @@ const RestaurantDetails = () => {
       alert.error(error);
       dispatch(clearErrors());
     }
-    dispatch(getRestaurantDetails(id));
+    dispatch(getRestaurantDetails(id, alert));
   }, [dispatch, id, error, alert]);
 
   return (

@@ -33,7 +33,7 @@ const ConfirmOrder = () => {
       alert.error(error);
       dispatch(clearErrors());
     }
-    dispatch(myOrders());
+    dispatch(myOrders(alert));
   }, [dispatch, alert, error]);
 
   useEffect(() => {
@@ -78,7 +78,7 @@ const ConfirmOrder = () => {
       totalPrice: totalPrice,
     };
     console.log(shippingInfo);
-    dispatch(createOrder(order));
+    dispatch(createOrder(order, alert));
 
     navigate("/success", { replace: true });
   };

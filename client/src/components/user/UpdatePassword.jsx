@@ -40,7 +40,7 @@ const UpdatePassword = () => {
       myForm.set("newPassword", newPassword);
       myForm.set("confirmPassword", confirmPassword);
 
-      dispatch(updatePassword(myForm));
+      dispatch(updatePassword(myForm, alert));
     }
   };
 

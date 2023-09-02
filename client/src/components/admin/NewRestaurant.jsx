@@ -35,7 +35,6 @@ const NewRestaurant = () => {
     }
 
     if (success) {
-      alert.success("Restaurant Added Successfully");
       navigate("/admin/dashboard");
       dispatch({ type: ADD_RESTAURANT_RESET });
     }

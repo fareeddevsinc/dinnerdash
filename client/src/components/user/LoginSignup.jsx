@@ -45,7 +45,7 @@ const LoginSignUp = () => {
 
   const loginSubmit = (e) => {
     e.preventDefault();
-    dispatch(login(loginEmail, loginPassword));
+    dispatch(login(loginEmail, loginPassword, alert));
   };
 
   const registerSubmit = (e) => {
@@ -61,7 +61,7 @@ const LoginSignUp = () => {
       };
 
       const myForm = createFormData(userObj);
-      dispatch(register(myForm));
+      dispatch(register(myForm, alert));
     } else {
       alert.error("Please provide valid data for registration.");
     }

@@ -24,7 +24,7 @@ const OrderDetails = () => {
       dispatch(clearErrors());
     }
 
-    dispatch(getOrderDetails(id));
+    dispatch(getOrderDetails(id, alert));
     console.log(order);
   }, [dispatch, alert, error, id]);
   return (

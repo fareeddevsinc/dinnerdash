@@ -26,7 +26,7 @@ const ForgotPassword = () => {
     const myForm = new FormData();
 
     myForm.set("email", email);
-    dispatch(forgotPassword(myForm));
+    dispatch(forgotPassword(myForm, alert));
     if (message) {
       alert.success(message);
     }

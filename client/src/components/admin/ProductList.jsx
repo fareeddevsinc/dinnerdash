@@ -34,7 +34,7 @@ const ProductList = () => {
 
   const deleteProductHandler = useCallback(
     (id) => {
-      dispatch(deleteProduct(id));
+      dispatch(deleteProduct(id, alert));
     },
     [dispatch]
   );
@@ -51,12 +51,11 @@ const ProductList = () => {
     }
 
     if (isDeleted) {
-      alert.success("Product Deleted Successfully");
       navigate("/admin/dashboard");
       dispatch({ type: DELETE_PRODUCT_RESET });
     }
 
-    dispatch(getAdminProduct());
+    dispatch(getAdminProduct(alert));
   }, [dispatch, alert, error, deleteError, navigate, isDeleted]);
 
   const columns = [

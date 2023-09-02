@@ -41,7 +41,7 @@ const UpdateRestaurant = () => {
 
   const getDetails = () => {
     if (restaurant && restaurant.restaurant._id !== restaurantId) {
-      dispatch(getRestaurantDetails(restaurantId));
+      dispatch(getRestaurantDetails(restaurantId, alert));
     }
   };
 
@@ -66,7 +66,6 @@ const UpdateRestaurant = () => {
     }
 
     if (isUpdated) {
-      alert.success("Restaurant Updated Successfully");
       navigate("/admin/restaurants");
       dispatch({ type: UPDATE_RESTAURANT_RESET });
     }
@@ -81,8 +80,7 @@ const UpdateRestaurant = () => {
     myForm.set("location", location);
     myForm.set("branch", branch);
 
-    dispatch(updateRestaurant(restaurantId, myForm));
-    alert.success("Restaurant Updated Successfully");
+    dispatch(updateRestaurant(restaurantId, myForm, alert));
   };
 
   return (

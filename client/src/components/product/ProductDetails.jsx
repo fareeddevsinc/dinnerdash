@@ -82,7 +82,7 @@ const ProductDetails = () => {
     myForm.set("comment", comment);
     myForm.set("productId", id);
 
-    dispatch(newReview(myForm));
+    dispatch(newReview(myForm, alert));
 
     setOpen(false);
   }, [dispatch, rating, comment, id]);
@@ -102,7 +102,7 @@ const ProductDetails = () => {
       alert.success("Review Submitted Successfully");
       dispatch({ type: NEW_REVIEW_RESET });
     }
-    dispatch(getProductDetails(id));
+    dispatch(getProductDetails(id, alert));
   }, [dispatch, id, error, alert, reviewError, success]);
 
   return (

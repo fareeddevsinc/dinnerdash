@@ -36,7 +36,7 @@ const UsersList = () => {
 
   const deleteUserHandler = useCallback(
     (id) => {
-      dispatch(deleteUser(id));
+      dispatch(deleteUser(id, alert));
     },
     [dispatch]
   );
@@ -58,7 +58,7 @@ const UsersList = () => {
       dispatch({ type: DELETE_USER_RESET });
     }
 
-    dispatch(getAllUsers());
+    dispatch(getAllUsers(alert));
   }, [dispatch, alert, error, deleteError, navigate, isDeleted, message]);
 
   const columns = [

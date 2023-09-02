@@ -57,7 +57,7 @@ const UpdateProfile = () => {
       myForm.set("name", name);
       myForm.set("email", email);
       myForm.set("avatar", avatar);
-      dispatch(updateProfile(myForm));
+      dispatch(updateProfile(myForm, alert));
     }
   };
 
@@ -119,7 +119,7 @@ const UpdateProfile = () => {
     }
     if (isUpdated) {
       alert.success("Profile Updated Successfully");
-      dispatch(loadUser());
+      dispatch(loadUser(alert));
 
       navigate("/account");
 

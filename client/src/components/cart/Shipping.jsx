@@ -42,7 +42,6 @@ const Shipping = () => {
       };
       localStorage.setItem("shippingInfo", JSON.stringify(shippingInfo));
     }
-    // dispatch(saveShippingInfo({ address, city, phoneNo }));
     navigate("/order/confirm", { replace: true });
   };
 
@@ -52,7 +51,7 @@ const Shipping = () => {
       dispatch(clearErrors());
     }
 
-    dispatch(myOrders());
+    dispatch(myOrders(alert));
     setAddress(orders?.order[0]?.shippingInfo?.address);
     setCity(orders?.order[0]?.shippingInfo?.city);
     setPhoneNo(orders?.order[0]?.shippingInfo?.phoneNo);

@@ -97,7 +97,7 @@ const MyOrders = () => {
       dispatch(clearErrors());
     }
 
-    dispatch(myOrders());
+    dispatch(myOrders(alert));
   }, [dispatch, alert, error]);
 
   return (

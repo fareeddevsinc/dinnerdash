@@ -38,7 +38,7 @@ const ResetPassword = () => {
         myForm.set("password", password);
         myForm.set("confirmPassword", confirmPassword);
 
-        dispatch(resetPassword(token, myForm));
+        dispatch(resetPassword(token, myForm, alert));
       }
     } else {
       alert.error("Password Doesn't Match");

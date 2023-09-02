@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate, useParams, Link } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useAlert } from "react-alert";
 import { Button, Typography } from "@material-ui/core";
 import AccountTreeIcon from "@material-ui/icons/AccountTree";
@@ -20,7 +20,9 @@ import LoadingScreen from "../layout/Loader/Loader";
 
 const ProcessOrder = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const alert = useAlert();
+  const [status, setStatus] = useState("");
   const { order, error, loading } = useSelector((state) => state.orderDetails);
   const { error: updateError, isUpdated } = useSelector((state) => state.order);
 
@@ -31,13 +33,8 @@ const ProcessOrder = () => {
 
     myForm.set("status", status);
 
-    dispatch(updateOrder(id, myForm));
+    dispatch(updateOrder(id, myForm, alert));
   };
-
-  const dispatch = useDispatch();
-  const alert = useAlert();
-
-  const [status, setStatus] = useState("");
 
   useEffect(() => {
     if (error) {
@@ -49,11 +46,10 @@ const ProcessOrder = () => {
       dispatch(clearErrors());
     }
     if (isUpdated) {
-      alert.success("Order Updated Successfully");
       dispatch({ type: UPDATE_ORDER_RESET });
     }
 
-    dispatch(getOrderDetails(id));
+    dispatch(getOrderDetails(id, alert));
   }, [dispatch, alert, error, id, isUpdated, updateError]);
 
   return (

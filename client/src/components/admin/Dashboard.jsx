@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Typography } from "@material-ui/core";
+import { useAlert } from "react-alert";
 
 import {
   ArcElement,
@@ -33,6 +34,7 @@ Chart.register(
 
 const Dashboard = () => {
   const dispatch = useDispatch();
+  const alert = useAlert();
 
   const [totalAmount, setTotalAmount] = useState(0);
 
@@ -45,10 +47,10 @@ const Dashboard = () => {
   const { restaurants } = useSelector((state) => state.restaurants);
 
   useEffect(() => {
-    dispatch(getAdminProduct());
-    dispatch(getAllOrders());
-    dispatch(getAllUsers());
-    dispatch(getAllRestaurants());
+    dispatch(getAdminProduct(alert));
+    dispatch(getAllOrders(alert));
+    dispatch(getAllUsers(alert));
+    dispatch(getAllRestaurants(alert));
   }, [dispatch]);
 
   useEffect(() => {

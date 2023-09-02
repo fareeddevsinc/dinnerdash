@@ -37,17 +37,17 @@ const ProductReviews = () => {
   const [productId, setProductId] = useState("");
 
   const deleteReviewHandler = (reviewId) => {
-    dispatch(deleteReviews(reviewId, productId));
+    dispatch(deleteReviews(reviewId, productId, alert));
   };
 
   const productReviewsSubmitHandler = (e) => {
     e.preventDefault();
-    dispatch(getAllReviews(productId));
+    dispatch(getAllReviews(productId, alert));
   };
 
   useEffect(() => {
     if (productId.length === 24) {
-      dispatch(getAllReviews(productId));
+      dispatch(getAllReviews(productId, alert));
     }
     if (error) {
       alert.error(error);
@@ -60,7 +60,6 @@ const ProductReviews = () => {
     }
 
     if (isDeleted) {
-      alert.success("Review Deleted Successfully");
       navigate("/admin/reviews");
       dispatch({ type: DELETE_REVIEW_RESET });
     }
