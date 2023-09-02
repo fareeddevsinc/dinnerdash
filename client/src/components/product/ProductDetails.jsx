@@ -28,6 +28,7 @@ import { addItemsToCart } from "../../redux/actions/cartAction";
 import { NEW_REVIEW_RESET } from "../../redux/constants/productConstants";
 
 import "../../styles/product/ProductDetails.css";
+import LoadingScreen from "../layout/Loader/Loader";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -42,6 +43,8 @@ const ProductDetails = () => {
   const { success, error: reviewError } = useSelector(
     (state) => state.newReview
   );
+
+  const { orders } = useSelector((state) => state.myOrders);
 
   const { user } = useSelector((state) => state.user);
 
@@ -99,7 +102,6 @@ const ProductDetails = () => {
     }
 
     if (success) {
-      alert.success("Review Submitted Successfully");
       dispatch({ type: NEW_REVIEW_RESET });
     }
     dispatch(getProductDetails(id, alert));
@@ -108,7 +110,7 @@ const ProductDetails = () => {
   return (
     <>
       {loading ? (
-        <p>Loading...</p>
+        <LoadingScreen />
       ) : (
         <>
           <MetaData title={`${product?.name} -- DinnerDash`} />
@@ -173,9 +175,15 @@ const ProductDetails = () => {
                 Description : <p>{product?.description}</p>
               </div>
 
-              <button onClick={submitReviewToggle} className="submitReview">
-                Submit Review
-              </button>
+              {orders.order.some(
+                (order) =>
+                  order.user === user._id &&
+                  order.orderItems.some((item) => item.product === product._id)
+              ) && (
+                <button onClick={submitReviewToggle} className="submitReview">
+                  Submit Review
+                </button>
+              )}
             </div>
           </div>
 
@@ -216,7 +224,7 @@ const ProductDetails = () => {
             <div className="reviews">
               {product?.reviews &&
                 product?.reviews.map((review) => (
-                  <ReviewCard key={review._id} review={review} />
+                  <ReviewCard key={review._id} review={review} user={user} />
                 ))}
             </div>
           ) : (

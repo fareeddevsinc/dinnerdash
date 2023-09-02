@@ -5,7 +5,7 @@ import defaultUser from "../../images/defaultUser.jpg";
 
 import "../../styles/product/Reviews.css";
 
-const ReviewCard = ({ review }) => {
+const ReviewCard = ({ review, user }) => {
   const options = useMemo(
     () => ({
       edit: false,
@@ -17,14 +17,14 @@ const ReviewCard = ({ review }) => {
     }),
     [review?.rating]
   );
-  console.log(review);
   return (
     <div className="card-container">
-      <img className="card-image" src={defaultUser} alt="Default User" />
+      <img className="card-image" src={user.avatar.url} alt="Default User" />
       <div className="card-content">
+        <h3 className="comment">{user?.name}</h3>
         <ReactStars {...options} className="stars" />
         <h2 className="comment">
-          <b>Comment:</b> {review?.comment}
+          <b>Comment:</b> <i> {review?.comment}</i>
         </h2>
       </div>
     </div>
