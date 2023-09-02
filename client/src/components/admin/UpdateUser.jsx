@@ -102,6 +102,7 @@ const UpdateUser = () => {
                   type="text"
                   placeholder="Full Name"
                   required
+                  disabled={role === "admin"}
                   value={fullname}
                   onChange={(e) => setFullName(e.target.value)}
                 />
@@ -112,6 +113,7 @@ const UpdateUser = () => {
                   type="text"
                   placeholder="Name"
                   required
+                  disabled={role === "admin"}
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                 />
@@ -121,6 +123,7 @@ const UpdateUser = () => {
                 <input
                   type="email"
                   placeholder="Email"
+                  disabled={role === "admin"}
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -130,17 +133,20 @@ const UpdateUser = () => {
               <div>
                 <VerifiedUserIcon />
                 <select
-                  disabled
+                  disabled={role === "admin"}
                   value={role}
                   onChange={(e) => setRole(e.target.value)}
                 >
-                  <option value="">Choose Role</option>
                   <option value="admin">Admin</option>
                   <option value="user">User</option>
                 </select>
               </div>
 
-              <Button id="createProductBtn" type="submit">
+              <Button
+                id="createProductBtn"
+                type="submit"
+                disabled={role === "admin"}
+              >
                 Update
               </Button>
             </form>

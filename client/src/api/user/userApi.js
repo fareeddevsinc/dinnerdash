@@ -10,7 +10,7 @@ export const registerUserApi = async (userData, alert) => {
   }
 };
 
-export const loginUserApi = async (email, password) => {
+export const loginUserApi = async (email, password, alert) => {
   try {
     const data = await apiService.post(`/login`, { email, password });
     alert.success("Welcome To Dinner Dash");

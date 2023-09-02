@@ -27,6 +27,7 @@ const UsersList = () => {
   const alert = useAlert();
 
   const { error, users } = useSelector((state) => state.allUsers);
+  const { user } = useSelector((state) => state.user);
 
   const {
     error: deleteError,
@@ -98,6 +99,9 @@ const UsersList = () => {
       type: "number",
       sortable: false,
       renderCell: (params) => {
+        if (user._id === params.getValue(params.id, "id")) {
+          return null;
+        }
         return (
           <>
             <Link to={`/admin/user/${params.getValue(params.id, "id")}`}>
