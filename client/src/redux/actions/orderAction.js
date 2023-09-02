@@ -28,15 +28,13 @@ import {
   myOrdersApi,
   updateOrderApi,
 } from "../../api/order/orderApi";
-import requestHeader from "../../helpers/requestHeaders";
 
 // Create Order
-export const createOrder = (order) => async (dispatch) => {
+export const createOrder = (order, alert) => async (dispatch) => {
   try {
     dispatch({ type: CREATE_ORDER_REQUEST });
 
-    const config = requestHeader();
-    const { data } = await createOrderApi(order, config);
+    const { data } = await createOrderApi(order, alert);
 
     dispatch({ type: CREATE_ORDER_SUCCESS, payload: data });
   } catch (error) {
@@ -48,11 +46,11 @@ export const createOrder = (order) => async (dispatch) => {
 };
 
 // My Orders
-export const myOrders = () => async (dispatch) => {
+export const myOrders = (alert) => async (dispatch) => {
   try {
     dispatch({ type: MY_ORDERS_REQUEST });
 
-    const { data } = await myOrdersApi();
+    const { data } = await myOrdersApi(alert);
 
     dispatch({ type: MY_ORDERS_SUCCESS, payload: data });
   } catch (error) {
@@ -64,11 +62,11 @@ export const myOrders = () => async (dispatch) => {
 };
 
 // Get All Orders (admin)
-export const getAllOrders = () => async (dispatch) => {
+export const getAllOrders = (alert) => async (dispatch) => {
   try {
     dispatch({ type: ALL_ORDERS_REQUEST });
 
-    const { data } = await getAllOrdersApi();
+    const { data } = await getAllOrdersApi(alert);
 
     dispatch({ type: ALL_ORDERS_SUCCESS, payload: data });
   } catch (error) {
@@ -80,11 +78,11 @@ export const getAllOrders = () => async (dispatch) => {
 };
 
 // Update Order
-export const updateOrder = (id, order) => async (dispatch) => {
+export const updateOrder = (id, order, alert) => async (dispatch) => {
   try {
     dispatch({ type: UPDATE_ORDER_REQUEST });
 
-    const { data } = await updateOrderApi(id, order);
+    const { data } = await updateOrderApi(id, order, alert);
 
     dispatch({ type: UPDATE_ORDER_SUCCESS, payload: data.success });
   } catch (error) {
@@ -96,11 +94,11 @@ export const updateOrder = (id, order) => async (dispatch) => {
 };
 
 // Delete Order
-export const deleteOrder = (id) => async (dispatch) => {
+export const deleteOrder = (id, alert) => async (dispatch) => {
   try {
     dispatch({ type: DELETE_ORDER_REQUEST });
 
-    const { data } = await deleteOrderApi(id);
+    const { data } = await deleteOrderApi(id, alert);
 
     dispatch({ type: DELETE_ORDER_SUCCESS, payload: data.success });
   } catch (error) {
@@ -112,11 +110,11 @@ export const deleteOrder = (id) => async (dispatch) => {
 };
 
 // Get Order Details
-export const getOrderDetails = (id) => async (dispatch) => {
+export const getOrderDetails = (id, alert) => async (dispatch) => {
   try {
     dispatch({ type: ORDER_DETAILS_REQUEST });
 
-    const { data } = await getOrderDetailsApi(id);
+    const { data } = await getOrderDetailsApi(id, alert);
 
     dispatch({ type: ORDER_DETAILS_SUCCESS, payload: data.order });
   } catch (error) {

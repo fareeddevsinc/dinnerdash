@@ -1,4 +1,3 @@
-import requestHeader from "../../helpers/requestHeaders";
 import {
   ALL_RESTAURANT_REQUEST,
   ALL_RESTAURANT_SUCCESS,
@@ -48,11 +47,11 @@ export const getRestaurant =
     }
   };
 
-export const getAllRestaurants = () => async (dispatch) => {
+export const getAllRestaurants = (alert) => async (dispatch) => {
   try {
     dispatch({ type: ALL_RESTAURANT_REQUEST });
 
-    const { data } = await getAllRestaurantsApi();
+    const { data } = await getAllRestaurantsApi(alert);
 
     console.log(data);
 
@@ -68,11 +67,11 @@ export const getAllRestaurants = () => async (dispatch) => {
   }
 };
 
-export const getRestaurantDetails = (id) => async (dispatch) => {
+export const getRestaurantDetails = (id, alert) => async (dispatch) => {
   try {
     dispatch({ type: RESTAURANT_DETAILS_REQUEST });
 
-    const { data } = await getRestaurantDetailsApi(id);
+    const { data } = await getRestaurantDetailsApi(id, alert);
     console.log(data);
 
     dispatch({
@@ -108,34 +107,31 @@ export const addRestaurant = (restaurantData, alert) => async (dispatch) => {
 };
 
 // Update Restaurant
-export const updateRestaurant = (id, RestaurantData) => async (dispatch) => {
-  try {
-    dispatch({ type: UPDATE_RESTAURANT_REQUEST });
+export const updateRestaurant =
+  (id, RestaurantData, alert) => async (dispatch) => {
+    try {
+      dispatch({ type: UPDATE_RESTAURANT_REQUEST });
 
-    const config = requestHeader();
+      const { data } = await updateRestaurantApi(id, RestaurantData, alert);
 
-    const { data } = await updateRestaurantApi(id, RestaurantData, config);
-
-    dispatch({
-      type: UPDATE_RESTAURANT_SUCCESS,
-      payload: data.success,
-    });
-  } catch (error) {
-    dispatch({
-      type: UPDATE_RESTAURANT_FAIL,
-      payload: error.response.data.message,
-    });
-  }
-};
+      dispatch({
+        type: UPDATE_RESTAURANT_SUCCESS,
+        payload: data.success,
+      });
+    } catch (error) {
+      dispatch({
+        type: UPDATE_RESTAURANT_FAIL,
+        payload: error.response.data.message,
+      });
+    }
+  };
 
 // Delete Restaurant
-export const deleteRestaurant = (id) => async (dispatch) => {
+export const deleteRestaurant = (id, alert) => async (dispatch) => {
   try {
     dispatch({ type: DELETE_RESTAURANT_REQUEST });
 
-    const config = requestHeader();
-
-    const { data } = await deleteRestaurantApi(id, config);
+    const { data } = await deleteRestaurantApi(id, alert);
 
     dispatch({
       type: DELETE_RESTAURANT_SUCCESS,

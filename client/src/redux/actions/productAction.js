@@ -1,6 +1,4 @@
 import axios from "axios";
-import requestHeader from "../../helpers/requestHeaders";
-
 import {
   ALL_PRODUCT_FAIL,
   ALL_PRODUCT_REQUEST,
@@ -68,13 +66,11 @@ export const getProduct =
   };
 
 // Get All Products For Admin
-export const getAdminProduct = () => async (dispatch) => {
+export const getAdminProduct = (alert) => async (dispatch) => {
   try {
     dispatch({ type: ADMIN_PRODUCT_REQUEST });
 
-    const config = requestHeader();
-
-    const { data } = await getAdminProductApi(config);
+    const { data } = await getAdminProductApi(alert);
 
     dispatch({
       type: ADMIN_PRODUCT_SUCCESS,
@@ -89,13 +85,11 @@ export const getAdminProduct = () => async (dispatch) => {
 };
 
 // Create Product
-export const createProduct = (productData) => async (dispatch) => {
+export const createProduct = (productData, alert) => async (dispatch) => {
   try {
     dispatch({ type: NEW_PRODUCT_REQUEST });
 
-    const config = requestHeader("multipart/form-data");
-
-    const { data } = await createProductApi(productData, config);
+    const { data } = await createProductApi(productData, alert);
 
     dispatch({
       type: NEW_PRODUCT_SUCCESS,
@@ -110,11 +104,11 @@ export const createProduct = (productData) => async (dispatch) => {
 };
 
 // Update Product
-export const updateProduct = (id, productData) => async (dispatch) => {
+export const updateProduct = (id, productData, alert) => async (dispatch) => {
   try {
     dispatch({ type: UPDATE_PRODUCT_REQUEST });
 
-    const { data } = await updateProductApi(id, productData);
+    const { data } = await updateProductApi(id, productData, alert);
 
     console.log(data);
 
@@ -131,11 +125,11 @@ export const updateProduct = (id, productData) => async (dispatch) => {
 };
 
 // Delete Product
-export const deleteProduct = (id) => async (dispatch) => {
+export const deleteProduct = (id, alert) => async (dispatch) => {
   try {
     dispatch({ type: DELETE_PRODUCT_REQUEST });
 
-    const { data } = await deleteProductApi(id);
+    const { data } = await deleteProductApi(id, alert);
 
     dispatch({
       type: DELETE_PRODUCT_SUCCESS,
@@ -150,11 +144,11 @@ export const deleteProduct = (id) => async (dispatch) => {
 };
 
 // Get Products Details
-export const getProductDetails = (id) => async (dispatch) => {
+export const getProductDetails = (id, alert) => async (dispatch) => {
   try {
     dispatch({ type: PRODUCT_DETAILS_REQUEST });
 
-    const { data } = await getProductDetailsApi(id);
+    const { data } = await getProductDetailsApi(id, alert);
 
     dispatch({
       type: PRODUCT_DETAILS_SUCCESS,
@@ -169,13 +163,11 @@ export const getProductDetails = (id) => async (dispatch) => {
 };
 
 // NEW REVIEW
-export const newReview = (reviewData) => async (dispatch) => {
+export const newReview = (reviewData, alert) => async (dispatch) => {
   try {
     dispatch({ type: NEW_REVIEW_REQUEST });
 
-    const config = requestHeader();
-
-    const { data } = await newReviewApi(reviewData, config);
+    const { data } = await newReviewApi(reviewData, alert);
 
     dispatch({
       type: NEW_REVIEW_SUCCESS,
@@ -190,13 +182,11 @@ export const newReview = (reviewData) => async (dispatch) => {
 };
 
 // Get All Reviews of a Product
-export const getAllReviews = (id) => async (dispatch) => {
+export const getAllReviews = (id, alert) => async (dispatch) => {
   try {
     dispatch({ type: ALL_REVIEW_REQUEST });
 
-    const config = requestHeader();
-
-    const { data } = await getAllReviewsApi(id, config);
+    const { data } = await getAllReviewsApi(id, alert);
 
     dispatch({
       type: ALL_REVIEW_SUCCESS,
@@ -211,25 +201,24 @@ export const getAllReviews = (id) => async (dispatch) => {
 };
 
 // Delete Review of a Product
-export const deleteReviews = (reviewId, productId) => async (dispatch) => {
-  try {
-    dispatch({ type: DELETE_REVIEW_REQUEST });
+export const deleteReviews =
+  (reviewId, productId, alert) => async (dispatch) => {
+    try {
+      dispatch({ type: DELETE_REVIEW_REQUEST });
 
-    const config = requestHeader();
+      const { data } = await deleteReviewsApi(reviewId, productId, alert);
 
-    const { data } = await deleteReviewsApi(reviewId, productId, config);
-
-    dispatch({
-      type: DELETE_REVIEW_SUCCESS,
-      payload: data.success,
-    });
-  } catch (error) {
-    dispatch({
-      type: DELETE_REVIEW_FAIL,
-      payload: error.response.data.message,
-    });
-  }
-};
+      dispatch({
+        type: DELETE_REVIEW_SUCCESS,
+        payload: data.success,
+      });
+    } catch (error) {
+      dispatch({
+        type: DELETE_REVIEW_FAIL,
+        payload: error.response.data.message,
+      });
+    }
+  };
 
 // Clearing Errors
 export const clearErrors = () => async (dispatch) => {

@@ -19,13 +19,11 @@ import {
   DELETE_CART_FAIL,
 } from "../constants/cartConstants";
 
-import requestHeader from "../../helpers/requestHeaders";
-
-export const getCart = () => async (dispatch) => {
+export const getCart = (alert) => async (dispatch) => {
   try {
     dispatch({ type: GET_CART_REQUEST });
 
-    const { data } = await getAllCartItemsApi();
+    const { data } = await getAllCartItemsApi(alert);
 
     dispatch({
       type: GET_CART_SUCCESS,
@@ -56,13 +54,11 @@ export const addItemsToCart = (id, quantity, alert) => async (dispatch) => {
     });
   }
 };
-export const removeItemsFromCart = (id) => async (dispatch) => {
+export const removeItemsFromCart = (id, alert) => async (dispatch) => {
   try {
     dispatch({ type: DELETE_CART_ITEM_REQUEST });
 
-    const config = requestHeader();
-
-    const { data } = await removeItemsFromCartApi(id, config);
+    const { data } = await removeItemsFromCartApi(id, alert);
 
     dispatch({
       type: DELETE_CART_ITEM_SUCCESS,
@@ -76,13 +72,11 @@ export const removeItemsFromCart = (id) => async (dispatch) => {
   }
 };
 
-export const deleteCart = () => async (dispatch) => {
+export const deleteCart = (alert) => async (dispatch) => {
   try {
     dispatch({ type: DELETE_CART_REQUEST });
 
-    const config = requestHeader();
-
-    const { data } = await deleteCartApi(config);
+    const { data } = await deleteCartApi(alert);
 
     dispatch({
       type: DELETE_CART_SUCCESS,
@@ -95,21 +89,3 @@ export const deleteCart = () => async (dispatch) => {
     });
   }
 };
-
-// export const saveShippingInfo = (shippingData) => async (dispatch) => {
-//   try {
-//     dispatch({ type: SHIPPING_INFO_REQUEST });
-//     const config = requestHeader();
-//     const { data } = await saveShippingInfoApi(shippingData, config);
-
-//     dispatch({
-//       type: SHIPPING_INFO_SUCCESS,
-//       payload: data,
-//     });
-//   } catch (error) {
-//     dispatch({
-//       type: SHIPPING_INFO_FAIL,
-//       payload: error.response.data.message,
-//     });
-//   }
-// };

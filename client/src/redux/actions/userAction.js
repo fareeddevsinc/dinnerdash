@@ -1,4 +1,3 @@
-import requestHeader from "../../helpers/requestHeaders";
 import {
   registerUserApi,
   loginUserApi,
@@ -53,13 +52,11 @@ import {
   USER_DETAILS_FAIL,
 } from "../constants/userConstants";
 
-export const login = (email, password) => async (dispatch) => {
+export const login = (email, password, alert) => async (dispatch) => {
   try {
     dispatch({ type: LOGIN_REQUEST });
 
-    const config = { headers: { "Content-Type": "application/json" } };
-
-    const { data } = await loginUserApi(email, password, config);
+    const { data } = await loginUserApi(email, password, alert);
 
     document.cookie = `token=${data.token};max-age=31536000;path=/`;
 
@@ -72,12 +69,11 @@ export const login = (email, password) => async (dispatch) => {
   }
 };
 
-export const register = (userData) => async (dispatch) => {
+export const register = (userData, alert) => async (dispatch) => {
   try {
     dispatch({ type: REGISTER_USER_REQUEST });
-    const config = { headers: { "Content-Type": "multipart/form-data" } };
 
-    const { data } = await registerUserApi(userData, config);
+    const { data } = await registerUserApi(userData, alert);
 
     document.cookie = `token=${data.token};max-age=31536000;path=/`;
 
@@ -90,13 +86,11 @@ export const register = (userData) => async (dispatch) => {
   }
 };
 
-export const loadUser = () => async (dispatch) => {
+export const loadUser = (alert) => async (dispatch) => {
   try {
     dispatch({ type: LOAD_USER_REQUEST });
 
-    const config = requestHeader();
-
-    const { data } = await loadUserApi(config);
+    const { data } = await loadUserApi(alert);
 
     dispatch({ type: LOAD_USER_SUCCESS, payload: data.user });
   } catch (error) {
@@ -104,10 +98,9 @@ export const loadUser = () => async (dispatch) => {
   }
 };
 
-export const logout = () => async (dispatch) => {
+export const logout = (alert) => async (dispatch) => {
   try {
-    const config = requestHeader();
-    await logoutUserApi(config);
+    await logoutUserApi(alert);
     document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     localStorage.removeItem("shippingInfo");
 
@@ -118,13 +111,11 @@ export const logout = () => async (dispatch) => {
 };
 
 // Update Profile
-export const updateProfile = (userData) => async (dispatch) => {
+export const updateProfile = (userData, alert) => async (dispatch) => {
   try {
     dispatch({ type: UPDATE_PROFILE_REQUEST });
 
-    const config = requestHeader("multipart/form-data");
-
-    const { data } = await updateProfileApi(userData, config);
+    const { data } = await updateProfileApi(userData, alert);
 
     dispatch({ type: UPDATE_PROFILE_SUCCESS, payload: data?.success });
   } catch (error) {
@@ -136,14 +127,11 @@ export const updateProfile = (userData) => async (dispatch) => {
 };
 
 // Update Password
-export const updatePassword = (passwords) => async (dispatch) => {
+export const updatePassword = (passwords, alert) => async (dispatch) => {
   try {
     dispatch({ type: UPDATE_PASSWORD_REQUEST });
 
-    const config = requestHeader();
-
-    const { data } = await updatePasswordApi(passwords, config);
-    console.log(`data is : ${data}`);
+    const { data } = await updatePasswordApi(passwords, alert);
     dispatch({ type: UPDATE_PASSWORD_SUCCESS, payload: data.success });
   } catch (error) {
     dispatch({
@@ -154,13 +142,11 @@ export const updatePassword = (passwords) => async (dispatch) => {
 };
 
 // Forgot Password
-export const forgotPassword = (email) => async (dispatch) => {
+export const forgotPassword = (email, alert) => async (dispatch) => {
   try {
     dispatch({ type: FORGOT_PASSWORD_REQUEST });
 
-    const config = requestHeader();
-
-    const { data } = await forgotPasswordApi(email, config);
+    const { data } = await forgotPasswordApi(email, alert);
 
     dispatch({ type: FORGOT_PASSWORD_SUCCESS, payload: data.message });
   } catch (error) {
@@ -172,11 +158,11 @@ export const forgotPassword = (email) => async (dispatch) => {
 };
 
 // Reset Password
-export const resetPassword = (token, passwords) => async (dispatch) => {
+export const resetPassword = (token, passwords, alert) => async (dispatch) => {
   try {
     dispatch({ type: RESET_PASSWORD_REQUEST });
 
-    const { data } = await resetPasswordApi(token, passwords);
+    const { data } = await resetPasswordApi(token, passwords, alert);
 
     dispatch({ type: RESET_PASSWORD_SUCCESS, payload: data.success });
   } catch (error) {
@@ -188,13 +174,11 @@ export const resetPassword = (token, passwords) => async (dispatch) => {
 };
 
 // get All Users (Admin)
-export const getAllUsers = () => async (dispatch) => {
+export const getAllUsers = (alert) => async (dispatch) => {
   try {
     dispatch({ type: ALL_USERS_REQUEST });
 
-    const config = requestHeader();
-
-    const { data } = await getAllUsersApi(config);
+    const { data } = await getAllUsersApi(alert);
 
     dispatch({ type: ALL_USERS_SUCCESS, payload: data.users });
   } catch (error) {
@@ -203,11 +187,11 @@ export const getAllUsers = () => async (dispatch) => {
 };
 
 // get  User Details (Admin)
-export const getUserDetails = (id) => async (dispatch) => {
+export const getUserDetails = (id, alert) => async (dispatch) => {
   try {
     dispatch({ type: USER_DETAILS_REQUEST });
 
-    const { data } = await getUserDetailsApi(id);
+    const { data } = await getUserDetailsApi(id, alert);
 
     dispatch({ type: USER_DETAILS_SUCCESS, payload: data.user });
   } catch (error) {
@@ -216,11 +200,11 @@ export const getUserDetails = (id) => async (dispatch) => {
 };
 
 // Update User (Admin)
-export const updateUser = (id, userData) => async (dispatch) => {
+export const updateUser = (id, userData, alert) => async (dispatch) => {
   try {
     dispatch({ type: UPDATE_USER_REQUEST });
 
-    const { data } = await updateUserApi(id, userData);
+    const { data } = await updateUserApi(id, userData, alert);
 
     dispatch({ type: UPDATE_USER_SUCCESS, payload: data.success });
   } catch (error) {
@@ -232,11 +216,11 @@ export const updateUser = (id, userData) => async (dispatch) => {
 };
 
 // Delete User (Admin)
-export const deleteUser = (id) => async (dispatch) => {
+export const deleteUser = (id, alert) => async (dispatch) => {
   try {
     dispatch({ type: DELETE_USER_REQUEST });
 
-    const { data } = await deleteUserApi(id);
+    const { data } = await deleteUserApi(id, alert);
 
     dispatch({ type: DELETE_USER_SUCCESS, payload: data });
   } catch (error) {

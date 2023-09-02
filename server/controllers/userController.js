@@ -76,14 +76,18 @@ const loginUser = async (req, res, next) => {
 
 //logout
 const logout = async (req, res, next) => {
-  res.cookie("token", null, {
-    expires: new Date(Date.now()),
-    httpOnly: true,
-  });
-  res.status(200).json({
-    success: true,
-    message: "Logged Out",
-  });
+  try {
+    res.cookie("token", null, {
+      expires: new Date(Date.now()),
+      httpOnly: true,
+    });
+    res.status(200).json({
+      success: true,
+      message: "Logged Out",
+    });
+  } catch (error) {
+    return next(new ErrorHandler(error.message, 500));
+  }
 };
 
 //for oneself
@@ -307,8 +311,7 @@ const updateProfile = async (req, res, next) => {
       success: true,
     });
   } catch (error) {
-    console.log(error.message);
-    res.json({ error });
+    return next(new ErrorHandler(error.message, 500));
   }
 };
 
@@ -332,7 +335,7 @@ const updatePassword = async (req, res, next) => {
 
     sendToken(user, 200, res);
   } catch (error) {
-    console.log(error);
+    return next(new ErrorHandler(error.message, 500));
   }
 };
 
