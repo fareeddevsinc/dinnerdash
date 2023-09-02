@@ -25,6 +25,7 @@ const Cart = () => {
   const { error, cartItems, loading } = useSelector((state) => state.cart);
   const alert = useAlert();
   const [numItems, setNumItems] = useState(cartItems?.cart[0]?.length);
+  const [cartAction, setCartAction] = useState(0);
 
   useEffect(() => {
     if (error) {
@@ -32,7 +33,7 @@ const Cart = () => {
       dispatch(clearErrors());
     }
     dispatch(getCart(alert));
-  }, [dispatch, alert, error, numItems]);
+  }, [dispatch, alert, error, numItems, cartAction]);
 
   const increaseQuantity = (id, quantity, stock) => {
     const newQty = quantity + 1;
@@ -55,12 +56,12 @@ const Cart = () => {
   const deleteCartItems = (id) => {
     dispatch(removeItemsFromCart(id, alert));
     setNumItems((prevNumItems) => prevNumItems - 1);
-    location.reload();
+    setCartAction(cartAction + 1);
   };
 
   const removeCart = () => {
     dispatch(deleteCart());
-    location.reload();
+    setCartAction(cartAction + 1);
   };
 
   const checkoutHandler = () => {

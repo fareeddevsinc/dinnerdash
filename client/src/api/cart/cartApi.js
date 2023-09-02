@@ -13,7 +13,7 @@ export const addItemsToCartApi = async (id, quantity, alert) => {
   try {
     const { data } = await apiService.post(`/cart/${id}`, { quantity });
     if (data) {
-      alert.success("Data Added To Cart Successfully");
+      alert.success("Cart Updated");
     }
     return { data };
   } catch (error) {
@@ -25,7 +25,8 @@ export const addItemsToCartApi = async (id, quantity, alert) => {
 export const removeItemsFromCartApi = async (id, alert) => {
   try {
     const { data } = await apiService.delete(`/cart/${id}`);
-    alert.success("Item Removed Successfully");
+    console.log(data);
+    alert.success("Item Removed");
     return { data };
   } catch (error) {
     alert.error(error.message);
