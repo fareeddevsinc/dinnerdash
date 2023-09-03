@@ -34,9 +34,12 @@ const Home = () => {
           <h2 className="trending-heading">Trending Products</h2>
           <div className="container">
             {products &&
-              products.map((product) => (
-                <ProductCard product={product} key={product._id} />
-              ))}
+              products.map(
+                (product) =>
+                  product.display && (
+                    <ProductCard product={product} key={product._id} />
+                  )
+              )}
           </div>
         </>
       )}

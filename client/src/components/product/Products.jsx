@@ -71,9 +71,12 @@ const Products = () => {
           <div className="products">
             <Suspense fallback={<Loader />}>
               {products &&
-                products.map((product) => (
-                  <ProductCard key={product._id} product={product} />
-                ))}
+                products.map(
+                  (product) =>
+                    product.display && (
+                      <ProductCard product={product} key={product._id} />
+                    )
+                )}
             </Suspense>
           </div>
 
