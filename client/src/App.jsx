@@ -1,5 +1,4 @@
 import Home from "./components/home/Home.jsx";
-import Footer from "./components/layout/Footer/Footer.jsx";
 import Header from "./components/layout/Header/Header.jsx";
 import ProductDetails from "./components/product/ProductDetails.jsx";
 import Products from "./components/product/Products.jsx";
