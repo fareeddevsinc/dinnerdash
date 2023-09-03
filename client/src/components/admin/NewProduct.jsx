@@ -28,6 +28,7 @@ const NewProduct = () => {
   const [description, setDescription] = useState("");
   const [categories, setCategories] = useState([]);
   const [restaurant, setRestaurant] = useState([]);
+  const [display, setDisplay] = useState(false);
   const [all_categories, setAllCategories] = useState([
     "Desi",
     "Dessert",
@@ -59,6 +60,10 @@ const NewProduct = () => {
     setSelectedRestaurants(selectedOption.value);
   };
 
+  const handleDisplayChange = (selectedOption) => {
+    setDisplay(selectedOption.value);
+  };
+
   const productOptions = () => {
     const data = all_categories.map((category) => {
       return { value: category, label: category };
@@ -71,8 +76,6 @@ const NewProduct = () => {
     return res;
   };
 
-  const options1 = productOptions();
-
   const restaurantOptions = () => {
     const data = restaurants.restaurants.map((category) => {
       return { value: category.name, label: category.name };
@@ -80,10 +83,15 @@ const NewProduct = () => {
 
     const res = [...data];
 
-    console.log(res);
-
     return res;
   };
+
+  const options3 = [
+    { value: true, label: "Show Product" },
+    { value: false, label: "Hide Product" },
+  ];
+
+  const options1 = productOptions();
 
   const options2 = restaurantOptions();
 
@@ -113,6 +121,7 @@ const NewProduct = () => {
     myForm.set("restaurant", selectedRestaurants);
     myForm.set("stock", stock);
     myForm.set("images", images);
+    myForm.set("display", display);
 
     dispatch(createProduct(myForm, alert));
   };
@@ -182,8 +191,7 @@ const NewProduct = () => {
               ></textarea>
             </div>
 
-            <div>
-              {" "}
+            <div id="createProductDisplaySelection1">
               <Select
                 isMulti
                 options={options1}
@@ -193,8 +201,7 @@ const NewProduct = () => {
               />
             </div>
 
-            <div>
-              {" "}
+            <div id="createProductDisplaySelection2">
               <Select
                 options={options2}
                 placeholder="Select Restaurants"
@@ -210,6 +217,15 @@ const NewProduct = () => {
                 onInput="validity.valid||(value='');"
                 required
                 onChange={(e) => setStock(e.target.value)}
+              />
+            </div>
+
+            <div id="createProductDisplaySelection3">
+              <Select
+                options={options3}
+                placeholder="Display Product"
+                styles={customStyles}
+                onChange={handleDisplayChange}
               />
             </div>
 

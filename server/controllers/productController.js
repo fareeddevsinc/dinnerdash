@@ -13,7 +13,8 @@ const createProduct = async (req, res, next) => {
       crop: "scale",
     });
 
-    const { name, price, description, category, stock, restaurant } = req.body;
+    const { name, price, description, category, stock, restaurant, display } =
+      req.body;
     const tempRestaurant = restaurant.split(",");
     const tempCategory = category.split(",");
     const findRestaurant = await Restaurant.findOne({
@@ -32,6 +33,7 @@ const createProduct = async (req, res, next) => {
         },
         restaurant: tempRestaurant,
         user: req.user.id,
+        display,
       });
     }
   } catch (error) {

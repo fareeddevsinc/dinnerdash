@@ -74,6 +74,15 @@
 #createProductFormFile > input::file-selector-button:hover {
   background-color: rgb(235, 235, 235);
 }
+#createProductDisplaySelection1 {
+  z-index: 5;
+}
+#createProductDisplaySelection2 {
+  z-index: 4;
+}
+#createProductDisplaySelection3 {
+  z-index: 3;
+}
 
 #createProductFormImage {
   width: 100%;

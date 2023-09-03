@@ -81,7 +81,16 @@ const product = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
-    restaurant: [String],
+    restaurant: [
+      {
+        type: String,
+        required: [true, "Please Add A Restaurant"],
+      },
+    ],
+    display: {
+      type: Boolean,
+      required: [true, "Please Fill the Display Field"],
+    },
   },
   { timestamps: true }
 );

@@ -22,11 +22,9 @@ const newOrder = async (req, res, next) => {
       totalPrice,
       user: req.user.id,
     });
-    await Promise.all(
-      orderItems.map((item) =>
-        Product.updateOne({ _id: item.product }, { $inc: { numOfOrders: 1 } })
-      )
-    );
+    order.orderItems.forEach(async (order) => {
+      await updateStock(order.product, order.quantity, "minus");
+    });
 
     res.status(201).json({
       success: true,
@@ -104,22 +102,18 @@ const updateOrder = async (req, res, next) => {
     order.orderStatus = req.body.status;
 
     if (order.orderStatus === "Cancelled") {
-      // order.orderItems.forEach(async (order) => {
-      //   await updateStock(order.product, order.quantity, "add");
-      // });
-      // order.itemPrice = 0;
-      // order.shippingPrice = 0;
-      // order.taxPrice = 0;
-      // order.totalPrice = 0;
+      order.orderItems.forEach(async (order) => {
+        await updateStock(order.product, order.quantity, "add");
+      });
       order.finishedAt = Date.now();
     } else {
       if (order.orderStatus === "Completed") {
         order.finishedAt = Date.now();
       }
 
-      order.orderItems.forEach(async (order) => {
-        await updateStock(order.product, order.quantity, "minus");
-      });
+      // order.orderItems.forEach(async (order) => {
+      //   await updateStock(order.product, order.quantity, "minus");
+      // });
     }
     await order.save({ ValidateBeforeSave: false });
 

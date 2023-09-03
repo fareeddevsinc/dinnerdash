@@ -22,7 +22,7 @@ import {
 } from "../../redux/actions/productAction";
 import { UPDATE_PRODUCT_RESET } from "../../redux/constants/productConstants";
 
-import "../../styles/admin/productList.css";
+import "../../styles/admin/newProduct.css";
 
 const UpdateProduct = () => {
   const navigate = useNavigate();
@@ -42,6 +42,7 @@ const UpdateProduct = () => {
   const [price, setPrice] = useState(0);
   const [description, setDescription] = useState("");
   const [productCategory, setCategory] = useState([]);
+  const [display, setDisplay] = useState(false);
   const [categories, setCategories] = useState([
     "Desi",
     "Dessert",
@@ -69,6 +70,15 @@ const UpdateProduct = () => {
     const categories = selectedOptions.map((option) => option.value);
     setSelectedRestaurants(categories);
   };
+
+  const handleDisplayChange = (selectedOption) => {
+    setDisplay(selectedOption.value);
+  };
+
+  const options3 = [
+    { value: true, label: "Show Product" },
+    { value: false, label: "Hide Product" },
+  ];
 
   const productId = id;
 
@@ -132,6 +142,7 @@ const UpdateProduct = () => {
       setCategory([...product.category]);
       setStock(product.stock);
       setImages(product.images);
+      setDisplay(product?.display);
     }
     if (error) {
       alert.error(error);
@@ -170,6 +181,7 @@ const UpdateProduct = () => {
     myForm.set("restaurant", selectedRestaurants);
     myForm.set("stock", stock);
     myForm.set("images", images);
+    myForm.set("display", display);
 
     dispatch(updateProduct(productId, myForm, alert));
   };
@@ -241,8 +253,7 @@ const UpdateProduct = () => {
                 rows="1"
               ></textarea>
             </div>
-            <div>
-              {" "}
+            <div id="createProductDisplaySelection1">
               <Select
                 isMulti
                 options={options1}
@@ -252,14 +263,22 @@ const UpdateProduct = () => {
               />
             </div>
 
-            <div>
-              {" "}
+            <div id="createProductDisplaySelection2">
               <Select
                 isMulti
                 options={options2}
                 placeholder="Select Restaurants"
                 styles={customStyles}
                 onChange={handleRestaurantChange}
+              />
+            </div>
+
+            <div id="createProductDisplaySelection3">
+              <Select
+                options={options3}
+                placeholder="Display Product"
+                styles={customStyles}
+                onChange={handleDisplayChange}
               />
             </div>
 
