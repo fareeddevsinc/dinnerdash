@@ -62,7 +62,7 @@ export const newReviewApi = async (reviewData, alert) => {
     alert.success("Review Added Successfully");
     return { data };
   } catch (error) {
-    alert.error(error.message);
+    alert.error("You Can Give Review Only Once!");
   }
 };
 
