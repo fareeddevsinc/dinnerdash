@@ -177,7 +177,7 @@ const ProductDetails = () => {
 
               {orders.order.some(
                 (order) =>
-                  order.user === user._id &&
+                  order.user === user?._id &&
                   order.orderItems.some((item) => item.product === product._id)
               ) && (
                 <button onClick={submitReviewToggle} className="submitReview">

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useAlert } from "react-alert";
-import { useNavigate, useLocation, Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 import { clearErrors, login, register } from "../../redux/actions/userAction";
 
@@ -14,11 +14,8 @@ const LoginSignUp = () => {
   const dispatch = useDispatch();
   const alert = useAlert();
   const navigate = useNavigate();
-  const location = useLocation();
 
-  const { error, loading, isAuthenticated } = useSelector(
-    (state) => state.user
-  );
+  const { error, isAuthenticated } = useSelector((state) => state.user);
 
   const loginTab = useRef(null);
   const registerTab = useRef(null);
@@ -74,8 +71,6 @@ const LoginSignUp = () => {
       setUser({ ...user, [e.target.name]: e.target.value });
     }
   };
-
-  // const redirect = location.search ? location.search.split("=")[1] : "/account";
 
   useEffect(() => {
     if (error) {
@@ -137,6 +132,7 @@ const LoginSignUp = () => {
                   type="password"
                   placeholder="Password"
                   required
+                  maxLength="20"
                   value={loginPassword}
                   onChange={(e) => setLoginPassword(e.target.value)}
                 />
@@ -155,6 +151,8 @@ const LoginSignUp = () => {
                   type="text"
                   placeholder="Name"
                   required
+                  maxLength="32"
+                  minLength="2"
                   name="name"
                   value={name}
                   onChange={registerDataChange}
@@ -165,6 +163,8 @@ const LoginSignUp = () => {
                   type="text"
                   placeholder="Full Name"
                   required
+                  maxLength="32"
+                  minLength="2"
                   name="fullName"
                   value={fullName}
                   onChange={registerDataChange}
@@ -185,6 +185,8 @@ const LoginSignUp = () => {
                   type="password"
                   placeholder="Password"
                   required
+                  minLength="8"
+                  maxLength="20"
                   name="password"
                   value={password}
                   onChange={registerDataChange}

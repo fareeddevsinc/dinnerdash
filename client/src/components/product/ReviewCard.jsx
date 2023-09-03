@@ -19,7 +19,7 @@ const ReviewCard = ({ review, user }) => {
   );
   return (
     <div className="card-container">
-      <img className="card-image" src={user.avatar.url} alt="Default User" />
+      <img className="card-image" src={user?.avatar?.url} alt="Default User" />
       <div className="card-content">
         <h3 className="comment">{user?.name}</h3>
         <ReactStars {...options} className="stars" />

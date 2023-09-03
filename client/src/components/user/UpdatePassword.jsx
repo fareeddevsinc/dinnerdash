@@ -30,7 +30,7 @@ const UpdatePassword = () => {
     const isPassword = isPasswordValid(newPassword);
 
     if (!isPassword) {
-      alert.error("Password must be 8 characters Long");
+      alert.error("Password must be Atleast 8 characters Long");
     } else if (newPassword !== confirmPassword) {
       alert.error("Password doesn't match");
     } else {
@@ -67,7 +67,7 @@ const UpdatePassword = () => {
 
   return (
     <>
-      {!loading ? (
+      {loading ? (
         <LoadingScreen />
       ) : (
         <>
@@ -95,6 +95,8 @@ const UpdatePassword = () => {
                     type="password"
                     placeholder="New Password"
                     required
+                    minLength="8"
+                    maxLength="20"
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
                   />
@@ -104,6 +106,8 @@ const UpdatePassword = () => {
                     type="password"
                     placeholder="Confirm Password"
                     required
+                    minLength="8"
+                    maxLength="20"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                   />

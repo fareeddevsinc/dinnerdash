@@ -118,7 +118,6 @@ const UpdateProfile = () => {
       dispatch(clearErrors());
     }
     if (isUpdated) {
-      alert.success("Profile Updated Successfully");
       dispatch(loadUser(alert));
 
       navigate("/account");

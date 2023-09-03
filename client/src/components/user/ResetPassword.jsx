@@ -82,6 +82,8 @@ const ResetPassword = () => {
                     type="password"
                     placeholder="New Password"
                     required
+                    minLength="8"
+                    maxLength="20"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                   />
@@ -91,6 +93,8 @@ const ResetPassword = () => {
                     type="password"
                     placeholder="Confirm Password"
                     required
+                    minLength="8"
+                    maxLength="20"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                   />
