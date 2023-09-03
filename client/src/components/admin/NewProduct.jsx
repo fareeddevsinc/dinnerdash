@@ -164,6 +164,8 @@ const NewProduct = () => {
                   type="text"
                   placeholder="Product Name"
                   required
+                  maxLength="20"
+                  minLength="4"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                 />
@@ -187,6 +189,8 @@ const NewProduct = () => {
                   onChange={(e) => setDescription(e.target.value)}
                   cols="30"
                   rows="1"
+                  maxLength="100"
+                  minLength="4"
                 ></textarea>
               </div>
 
