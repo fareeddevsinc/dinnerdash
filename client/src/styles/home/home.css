@@ -21,6 +21,9 @@
 }
 
 .trending-heading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-size: 1.8rem;
   color: #ff5733;
   margin-top: 20px;

@@ -48,7 +48,7 @@ const NewRestaurant = () => {
     const isBranch = isNameValid(name, 2, 30);
 
     if (!isName) {
-      alert.error("Name must be Uniue and minimum 2 letters");
+      alert.error("Name must be Unique and minimum 2 letters");
     } else if (!isLocation) {
       alert.error("Location must be minimum 2 letters");
     } else if (!isBranch) {

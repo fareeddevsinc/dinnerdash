@@ -2,7 +2,9 @@ export const initialCalculations = (orders) => {
   let total = 0;
   orders &&
     orders?.order?.forEach((order) => {
-      total += order.totalPrice;
+      if (order.orderStatus === "Completed") {
+        total += order.totalPrice;
+      }
     });
   return total;
 };

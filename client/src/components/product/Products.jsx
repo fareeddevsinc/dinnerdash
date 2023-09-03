@@ -10,7 +10,7 @@ import MetaData from "../layout/MetaData";
 import Search from "../../helpers/Search";
 import Loader from "../layout/Loader/Loader";
 
-const ProductCard = lazy(() => import("./ProductCard"));
+import ProductCard from "./ProductCard";
 
 import { clearErrors, getProduct } from "../../redux/actions/productAction";
 
@@ -69,15 +69,13 @@ const Products = () => {
           <h2 className="productsHeading">Dishes</h2>
           <Search item="products" />
           <div className="products">
-            <Suspense fallback={<Loader />}>
-              {products &&
-                products.map(
-                  (product) =>
-                    product.display && (
-                      <ProductCard product={product} key={product._id} />
-                    )
-                )}
-            </Suspense>
+            {products &&
+              products.map(
+                (product) =>
+                  product.display && (
+                    <ProductCard product={product} key={product._id} />
+                  )
+              )}
           </div>
 
           <div className="filterBox">

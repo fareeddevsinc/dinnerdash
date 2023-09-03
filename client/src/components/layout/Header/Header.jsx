@@ -65,21 +65,27 @@ const Header = ({ user }) => {
             Dashboard
           </NavLink>
         )}
-        <NavLink style={linkStyle} to="/">
-          Home
-        </NavLink>
-        <NavLink style={linkStyle} to="/products">
-          Products
-        </NavLink>
-        <NavLink style={linkStyle} to="/restaurants">
-          Restaurants
-        </NavLink>
-        <NavLink style={linkStyle} to="/cart">
-          Cart
-        </NavLink>
-        <NavLink style={linkStyle} to="/orders">
-          Orders
-        </NavLink>
+        {user?.role !== "admin" && (
+          <>
+            {" "}
+            <NavLink style={linkStyle} to="/">
+              Home
+            </NavLink>
+            <NavLink style={linkStyle} to="/products">
+              Products
+            </NavLink>
+            <NavLink style={linkStyle} to="/restaurants">
+              Restaurants
+            </NavLink>
+            <NavLink style={linkStyle} to="/cart">
+              Cart
+            </NavLink>
+            <NavLink style={linkStyle} to="/orders">
+              Orders
+            </NavLink>
+          </>
+        )}
+
         {isAuthenticated ? (
           <NavLink style={linkStyle} to="/login">
             <button style={linkStyle} onClick={handleLogout}>

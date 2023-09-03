@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAlert } from "react-alert";
@@ -33,6 +33,7 @@ const UpdateProduct = () => {
   const { error, product } = useSelector((state) => state.productDetails);
 
   const { restaurants } = useSelector((state) => state.restaurants);
+  console.log(restaurants);
 
   const { error: updateError, isUpdated } = useSelector(
     (state) => state.product
@@ -50,7 +51,7 @@ const UpdateProduct = () => {
   ]);
   const [stock, setStock] = useState(0);
   const [images, setImages] = useState([]);
-  const [imagesPreview, setImagesPreview] = useState(product.images.url);
+  const [imagesPreview, setImagesPreview] = useState(product?.images?.url);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedRestaurants, setSelectedRestaurants] = useState([]);
 
@@ -61,19 +62,19 @@ const UpdateProduct = () => {
     }),
   };
 
-  const handleCategoryChange = (selectedOptions) => {
+  const handleCategoryChange = useCallback((selectedOptions) => {
     const categories = selectedOptions.map((option) => option.value);
     setSelectedCategories(categories);
-  };
+  }, []);
 
-  const handleRestaurantChange = (selectedOptions) => {
-    const categories = selectedOptions.map((option) => option.value);
-    setSelectedRestaurants(categories);
-  };
+  const handleRestaurantChange = useCallback((selectedOption) => {
+    console.log(selectedOption.value);
+    setSelectedRestaurants(selectedOption.value);
+  }, []);
 
-  const handleDisplayChange = (selectedOption) => {
+  const handleDisplayChange = useCallback((selectedOption) => {
     setDisplay(selectedOption.value);
-  };
+  }, []);
 
   const options3 = [
     { value: true, label: "Show Product" },
@@ -89,12 +90,8 @@ const UpdateProduct = () => {
 
     const res = [...data];
 
-    console.log(res);
-
     return res;
   };
-
-  const options1 = productOptions();
 
   const restaurantOptions = () => {
     const data = restaurants.restaurants.map((category) => {
@@ -103,12 +100,11 @@ const UpdateProduct = () => {
 
     const res = [...data];
 
-    console.log(res);
-
     return res;
   };
 
-  const options2 = restaurantOptions();
+  const options1 = useMemo(productOptions, [categories]);
+  const options2 = useMemo(restaurantOptions, [restaurants.restaurants]);
 
   useEffect(() => {
     const defaultImageHandler = async () => {
@@ -140,6 +136,7 @@ const UpdateProduct = () => {
       setDescription(product.description);
       setPrice(product.price);
       setCategory([...product.category]);
+      setSelectedRestaurants([...product.restaurant]);
       setStock(product.stock);
       setImages(product.images);
       setDisplay(product?.display);
@@ -235,6 +232,7 @@ const UpdateProduct = () => {
                 type="number"
                 placeholder="Price"
                 min="0"
+                max="25000"
                 onInput="validity.valid||(value='');"
                 required
                 onChange={(e) => setPrice(e.target.value)}
@@ -255,6 +253,7 @@ const UpdateProduct = () => {
             </div>
             <div id="createProductDisplaySelection1">
               <Select
+                required
                 isMulti
                 options={options1}
                 placeholder="Select Categories"
@@ -265,7 +264,7 @@ const UpdateProduct = () => {
 
             <div id="createProductDisplaySelection2">
               <Select
-                isMulti
+                required
                 options={options2}
                 placeholder="Select Restaurants"
                 styles={customStyles}
@@ -275,6 +274,7 @@ const UpdateProduct = () => {
 
             <div id="createProductDisplaySelection3">
               <Select
+                required
                 options={options3}
                 placeholder="Display Product"
                 styles={customStyles}
@@ -288,6 +288,7 @@ const UpdateProduct = () => {
                 type="number"
                 placeholder="stock"
                 min="0"
+                max="100"
                 onInput="validity.valid||(value='');"
                 required
                 onChange={(e) => setStock(e.target.value)}

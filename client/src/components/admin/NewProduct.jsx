@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useAlert } from "react-alert";
@@ -51,18 +51,18 @@ const NewProduct = () => {
     }),
   };
 
-  const handleCategoryChange = (selectedOptions) => {
+  const handleCategoryChange = useCallback((selectedOptions) => {
     const categories = selectedOptions.map((option) => option.value);
     setSelectedCategories(categories);
-  };
+  }, []);
 
-  const handleRestaurantChange = (selectedOption) => {
+  const handleRestaurantChange = useCallback((selectedOption) => {
     setSelectedRestaurants(selectedOption.value);
-  };
+  }, []);
 
-  const handleDisplayChange = (selectedOption) => {
+  const handleDisplayChange = useCallback((selectedOption) => {
     setDisplay(selectedOption.value);
-  };
+  }, []);
 
   const productOptions = () => {
     const data = all_categories.map((category) => {
@@ -70,8 +70,6 @@ const NewProduct = () => {
     });
 
     const res = [...data];
-
-    console.log(res);
 
     return res;
   };
@@ -91,9 +89,8 @@ const NewProduct = () => {
     { value: false, label: "Hide Product" },
   ];
 
-  const options1 = productOptions();
-
-  const options2 = restaurantOptions();
+  const options1 = useMemo(productOptions, [all_categories]);
+  const options2 = useMemo(restaurantOptions, [restaurants.restaurants]);
 
   useEffect(() => {
     if (error) {
@@ -112,8 +109,6 @@ const NewProduct = () => {
 
     const myForm = new FormData();
 
-    console.log(categories);
-
     myForm.set("name", name);
     myForm.set("price", price);
     myForm.set("description", description);
@@ -124,6 +119,8 @@ const NewProduct = () => {
     myForm.set("display", display);
 
     dispatch(createProduct(myForm, alert));
+    alert.success("Product Added");
+    navigate("/admin/dashboard");
   };
 
   const createProductImagesChange = (e) => {
@@ -152,106 +149,112 @@ const NewProduct = () => {
       <div className="dashboard">
         <SideBar />
 
-        <div className="newProductContainer">
-          <form
-            className="createProductForm"
-            encType="multipart/form-data"
-            onSubmit={createProductSubmitHandler}
-          >
-            <h1>Create Product</h1>
-            {restaurant}
-
-            <div>
-              <input
-                type="text"
-                placeholder="Product Name"
-                required
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-            </div>
-            <div>
-              <input
-                type="number"
-                min="0"
-                onInput="validity.valid||(value='');"
-                placeholder="Price"
-                required
-                onChange={(e) => setPrice(e.target.value)}
-              />
-            </div>
-
-            <div>
-              <textarea
-                placeholder="Product Description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                cols="30"
-                rows="1"
-              ></textarea>
-            </div>
-
-            <div id="createProductDisplaySelection1">
-              <Select
-                isMulti
-                options={options1}
-                placeholder="Select Categories"
-                styles={customStyles}
-                onChange={handleCategoryChange}
-              />
-            </div>
-
-            <div id="createProductDisplaySelection2">
-              <Select
-                options={options2}
-                placeholder="Select Restaurants"
-                styles={customStyles}
-                onChange={handleRestaurantChange}
-              />
-            </div>
-            <div>
-              <input
-                type="number"
-                placeholder="stock"
-                min="0"
-                onInput="validity.valid||(value='');"
-                required
-                onChange={(e) => setStock(e.target.value)}
-              />
-            </div>
-
-            <div id="createProductDisplaySelection3">
-              <Select
-                options={options3}
-                placeholder="Display Product"
-                styles={customStyles}
-                onChange={handleDisplayChange}
-              />
-            </div>
-
-            <div id="createProductFormFile">
-              <input
-                type="file"
-                name="avatar"
-                accept="image/*"
-                onChange={createProductImagesChange}
-                multiple
-              />
-            </div>
-
-            <div id="createProductFormImage">
-              <img src={imagesPreview} alt="Product Preview" />
-            </div>
-
-            <Button
-              id="createProductBtn"
-              type="submit"
-              // disabled={loading ? true : false}
+        <>
+          <div className="newProductContainer">
+            <form
+              className="createProductForm"
+              encType="multipart/form-data"
+              onSubmit={createProductSubmitHandler}
             >
-              Create
-            </Button>
-          </form>
-        </div>
+              <h1>Create Product</h1>
+              {restaurant}
+
+              <div>
+                <input
+                  type="text"
+                  placeholder="Product Name"
+                  required
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </div>
+              <div>
+                <input
+                  type="number"
+                  min="0"
+                  max="25000"
+                  onInput="validity.valid||(value='');"
+                  placeholder="Price"
+                  required
+                  onChange={(e) => setPrice(e.target.value)}
+                />
+              </div>
+
+              <div>
+                <textarea
+                  placeholder="Product Description"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  cols="30"
+                  rows="1"
+                ></textarea>
+              </div>
+
+              <div id="createProductDisplaySelection1">
+                <Select
+                  required
+                  isMulti
+                  options={options1}
+                  placeholder="Select Categories"
+                  styles={customStyles}
+                  onChange={handleCategoryChange}
+                />
+              </div>
+
+              <div id="createProductDisplaySelection2">
+                <Select
+                  required
+                  options={options2}
+                  placeholder="Select Restaurants"
+                  styles={customStyles}
+                  onChange={handleRestaurantChange}
+                />
+              </div>
+              <div id="createProductDisplaySelection3">
+                <Select
+                  required
+                  options={options3}
+                  placeholder="Display Product"
+                  styles={customStyles}
+                  onChange={handleDisplayChange}
+                />
+              </div>
+              <div>
+                <input
+                  type="number"
+                  placeholder="stock"
+                  min="0"
+                  max="100"
+                  onInput="validity.valid||(value='');"
+                  required
+                  onChange={(e) => setStock(e.target.value)}
+                />
+              </div>
+
+              <div id="createProductFormFile">
+                <input
+                  type="file"
+                  name="avatar"
+                  accept="image/*"
+                  onChange={createProductImagesChange}
+                  multiple
+                />
+              </div>
+
+              <div id="createProductFormImage">
+                <img src={imagesPreview} alt="Product Preview" />
+              </div>
+
+              <Button
+                id="createProductBtn"
+                type="submit"
+                // disabled={loading ? true : false}
+              >
+                Create
+              </Button>
+            </form>
+          </div>
+        </>
       </div>
     </>
   );

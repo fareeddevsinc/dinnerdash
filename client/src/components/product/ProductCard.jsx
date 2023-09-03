@@ -20,12 +20,15 @@ const ProductCard = ({ product }) => {
           <NavLink to={`/product/${product._id}`}>
             <Card.Img variant="top" src={product?.images?.url} />
             <Card.Body>
-              <Card.Title>{product.name}</Card.Title>
+              <Card.Title className="card-title">{product.name}</Card.Title>
               <div>
                 <ReactStars {...options} />{" "}
-                <span> ({product.numOfReviews} Reviews)</span>
+                <span className="card-text">
+                  {" "}
+                  ({product.numOfReviews} Reviews)
+                </span>
               </div>
-              <Card.Text>{`Rs. ${product.price}`}</Card.Text>
+              <Card.Text className="card-text">{`Rs. ${product.price}`}</Card.Text>
             </Card.Body>
           </NavLink>
         </Card>

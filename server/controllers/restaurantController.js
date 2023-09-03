@@ -5,9 +5,12 @@ const ApiFeatures = require("../utils/apiFeatures");
 
 const createRestaurant = async (req, res, next) => {
   try {
+    console.log(req.body.name);
     const restaurantPresent = await Restaurant.findOne({ name: req.body.name });
-    if (restaurantPresent) {
-      return next(new ErrorHandler("Restaurant Name Already present", 409));
+    if (restaurantPresent?.name === req.body?.name) {
+      return next(
+        new ErrorHandler("Restaurant Name And Location Must be Unique", 409)
+      );
     }
 
     const restaurant = await Restaurant.create(req.body);

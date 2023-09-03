@@ -27,7 +27,8 @@ export const addRestaurantApi = async (restaurantData, alert) => {
     alert.success("Restaurant Added Successfully");
     return { data };
   } catch (error) {
-    alert.error("restaurant Name Must Be Unique");
+    console.log(error.message);
+    alert.error("restaurant Name And Location Must Be Unique");
   }
 };
 

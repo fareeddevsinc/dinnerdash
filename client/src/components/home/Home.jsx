@@ -30,7 +30,13 @@ const Home = () => {
       ) : (
         <>
           <MetaData title="Dinner Dash - Home" />
-          <h1 className="welcome-heading">{`Welcome to Dinner Dash ${user?.name}`}</h1>
+          <h1 className="welcome-heading">
+            {user ? (
+              <> {`Welcome to Dinner Dash ${user?.name}`}</>
+            ) : (
+              `Welcome to Dinner Dash`
+            )}
+          </h1>
           <h2 className="trending-heading">Trending Products</h2>
           <div className="container">
             {products &&

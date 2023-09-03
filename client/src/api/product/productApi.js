@@ -18,7 +18,8 @@ export const createProductApi = async (productData, alert) => {
     alert.success("Product Added Successfully");
     return { data };
   } catch (error) {
-    alert.error(error.message);
+    console.log(error.message);
+    alert.error("Validation Error");
   }
 };
 

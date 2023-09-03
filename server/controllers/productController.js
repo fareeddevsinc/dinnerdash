@@ -92,6 +92,7 @@ const updateProduct = async (req, res, next) => {
       restaurant: req.body.restaurant.split(","),
       stock: req.body.stock,
       user: req.user.id,
+      display: req.body.display,
     };
     newProductData.images = {
       public_id: myCloud.public_id,
