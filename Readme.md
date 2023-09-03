@@ -1,8 +1,8 @@
-# [Dinner Dash]
+# Dinner Dash
 
 ### Description
 
-- A Food Delivery e-commerce app that facilitates its users to buy food online with its user friendly interface
+- An online ordering system for a restaurant which offers the complete functionality for restaurant customers to order food and restaurant administrators to process and complete those orders.
 
 ### Technologies used:
 
