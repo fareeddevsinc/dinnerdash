@@ -42,7 +42,7 @@ const createProduct = async (req, res, next) => {
   }
 };
 
-const getAllProducts = async (req, res) => {
+const getAllProducts = async (req, res, next) => {
   try {
     const resultPerPage = 4;
     const productsCount = await Product.countDocuments();
@@ -119,7 +119,7 @@ const updateProduct = async (req, res, next) => {
   }
 };
 
-const deleteProduct = async (req, res) => {
+const deleteProduct = async (req, res, next) => {
   try {
     const product = await Product.findByIdAndDelete(req.params.id);
     if (!product) {
@@ -146,7 +146,7 @@ const getProductDetails = async (req, res, next) => {
 };
 
 //create/update review
-const createProductReview = async (req, res) => {
+const createProductReview = async (req, res, next) => {
   try {
     const { rating, comment, productId } = req.body;
     const review = {
@@ -206,21 +206,29 @@ const deleteReview = async (req, res, next) => {
     if (!product) {
       return next(new ErrorHandler("Product Not Found", 404));
     }
-    const reviews = product.reviews.filter((rev) => {
-      return rev._id.toString() !== req.query.id.toString();
-    });
+
+    const reviewIndex = product.reviews.findIndex(
+      (rev) => rev._id.toString() === req.query.id.toString()
+    );
+    console.log(reviewIndex);
+    if (reviewIndex === -1) {
+      return next(new ErrorHandler("Review Not Found", 404));
+    }
+
+    product.reviews.splice(reviewIndex, 1);
+
     let avg = 0;
-    reviews.forEach((rev) => {
+    product.reviews.forEach((rev) => {
       avg += Number(rev.rating);
     });
-    const ratings = avg / reviews.length;
-
-    const numOfReviews = reviews.length;
+    console.log(product);
+    const ratings = avg / product.reviews?.length;
+    const numOfReviews = product.reviews?.length;
 
     await Product.findByIdAndUpdate(
       req.query.productId,
       {
-        reviews,
+        reviews: product.reviews,
         ratings,
         numOfReviews,
       },
@@ -233,6 +241,7 @@ const deleteReview = async (req, res, next) => {
 
     res.status(200).json({ success: true });
   } catch (error) {
+    console.log(error.message);
     return next(new ErrorHandler(error.message, 404));
   }
 };
