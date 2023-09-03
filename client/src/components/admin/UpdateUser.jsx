@@ -102,6 +102,8 @@ const UpdateUser = () => {
                   type="text"
                   placeholder="Full Name"
                   required
+                  minLength="4"
+                  maxLength="20"
                   disabled={role === "admin"}
                   value={fullname}
                   onChange={(e) => setFullName(e.target.value)}
@@ -113,6 +115,8 @@ const UpdateUser = () => {
                   type="text"
                   placeholder="Name"
                   required
+                  minLength="4"
+                  maxLength="20"
                   disabled={role === "admin"}
                   value={name}
                   onChange={(e) => setName(e.target.value)}

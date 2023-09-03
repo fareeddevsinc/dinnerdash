@@ -82,6 +82,8 @@ const NewRestaurant = () => {
                 type="text"
                 placeholder="Restaurant Name"
                 required
+                minLength="4"
+                maxLength="20"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
@@ -93,6 +95,8 @@ const NewRestaurant = () => {
                 onChange={(e) => setLocation(e.target.value)}
                 cols="30"
                 rows="1"
+                minLength="4"
+                maxLength="100"
               ></textarea>
             </div>
 
@@ -103,6 +107,8 @@ const NewRestaurant = () => {
                 onChange={(e) => setBranch(e.target.value)}
                 cols="30"
                 rows="1"
+                minLength="4"
+                maxLength="100"
               ></textarea>
             </div>
 
