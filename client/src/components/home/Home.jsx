@@ -13,8 +13,9 @@ import LoadingScreen from "../layout/Loader/Loader";
 const Home = () => {
   const alert = useAlert();
   const dispatch = useDispatch();
-  const { loading, error, products } = useSelector((state) => state.products);
+  const { products, error, loading } = useSelector((state) => state.products);
   const { user } = useSelector((state) => state.user);
+
   useEffect(() => {
     if (error) {
       alert.error(error);

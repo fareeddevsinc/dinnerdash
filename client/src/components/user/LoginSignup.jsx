@@ -24,11 +24,9 @@ const LoginSignUp = () => {
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
 
-  const [avatar, setAvatar] = useState(
-    "https://t4.ftcdn.net/jpg/00/97/00/09/360_F_97000908_wwH2goIihwrMoeV9QF3BW6HtpsVFaNVM.jpg"
-  );
+  const [avatar, setAvatar] = useState(import.meta.env.VITE_DEFAULT_DP);
   const [avatarPreview, setAvatarPreview] = useState(
-    "https://t4.ftcdn.net/jpg/00/97/00/09/360_F_97000908_wwH2goIihwrMoeV9QF3BW6HtpsVFaNVM.jpg"
+    import.meta.env.VITE_DEFAULT_DP
   );
 
   const [user, setUser] = useState({
@@ -149,7 +147,7 @@ const LoginSignUp = () => {
               <div className="signUpName">
                 <input
                   type="text"
-                  placeholder="Name"
+                  placeholder="User Name"
                   required
                   maxLength="32"
                   minLength="2"

@@ -81,6 +81,8 @@ const Shipping = () => {
                   type="text"
                   placeholder="Address"
                   required
+                  minLength="5"
+                  maxLength="100"
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
                 />
@@ -92,6 +94,8 @@ const Shipping = () => {
                   type="text"
                   placeholder="City"
                   required
+                  minLength="3"
+                  maxLength="20"
                   value={city}
                   onChange={(e) => setCity(e.target.value)}
                 />
@@ -105,7 +109,7 @@ const Shipping = () => {
                   required
                   value={phoneNo}
                   onChange={(e) => setPhoneNo(e.target.value)}
-                  size="10"
+                  size="11"
                 />
               </div>
 

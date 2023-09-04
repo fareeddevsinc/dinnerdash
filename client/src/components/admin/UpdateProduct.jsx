@@ -45,9 +45,11 @@ const UpdateProduct = () => {
   const [productCategory, setCategory] = useState([]);
   const [display, setDisplay] = useState(false);
   const [categories, setCategories] = useState([
+    "Desserts",
+    "Beverages",
     "Desi",
-    "Dessert",
     "Continental",
+    "Fast Food",
   ]);
   const [stock, setStock] = useState(0);
   const [images, setImages] = useState([]);

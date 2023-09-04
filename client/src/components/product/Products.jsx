@@ -1,4 +1,4 @@
-import { useEffect, useState, Suspense, lazy } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useAlert } from "react-alert";
@@ -8,7 +8,6 @@ import Pagination from "react-js-pagination";
 
 import MetaData from "../layout/MetaData";
 import Search from "../../helpers/Search";
-import Loader from "../layout/Loader/Loader";
 
 import ProductCard from "./ProductCard";
 
@@ -34,7 +33,13 @@ const Products = () => {
     loading,
   } = useSelector((state) => state.products);
 
-  const categories = ["Desserts", "Beverages", "Desi", "Continental"];
+  const categories = [
+    "Desserts",
+    "Beverages",
+    "Desi",
+    "Continental",
+    "Fast Food",
+  ];
 
   const keyword = key;
 

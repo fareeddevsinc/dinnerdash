@@ -95,28 +95,6 @@ const ProductReviews = () => {
           : "redColor";
       },
     },
-
-    {
-      field: "actions",
-      flex: 0.3,
-      headerName: "Actions",
-      minWidth: 150,
-      type: "number",
-      sortable: false,
-      renderCell: (params) => {
-        return (
-          <>
-            <Button
-              onClick={() =>
-                deleteReviewHandler(params.getValue(params.id, "id"))
-              }
-            >
-              <DeleteIcon />
-            </Button>
-          </>
-        );
-      },
-    },
   ];
 
   const rows = useMemo(() => {

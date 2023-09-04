@@ -54,7 +54,6 @@ const UsersList = () => {
     }
 
     if (isDeleted) {
-      alert.success(message);
       navigate("/admin/users");
       dispatch({ type: DELETE_USER_RESET });
     }

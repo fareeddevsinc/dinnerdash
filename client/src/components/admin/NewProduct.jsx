@@ -30,16 +30,16 @@ const NewProduct = () => {
   const [restaurant, setRestaurant] = useState([]);
   const [display, setDisplay] = useState(false);
   const [all_categories, setAllCategories] = useState([
+    "Desserts",
+    "Beverages",
     "Desi",
-    "Dessert",
     "Continental",
+    "Fast Food",
   ]);
   const [stock, setStock] = useState(0);
-  const [images, setImages] = useState(
-    "https://st4.depositphotos.com/14953852/22772/v/450/depositphotos_227724992-stock-illustration-image-available-icon-flat-vector.jpg"
-  );
+  const [images, setImages] = useState(import.meta.env.VITE_DEFAULT_PRODUCT);
   const [imagesPreview, setImagesPreview] = useState(
-    "https://st4.depositphotos.com/14953852/22772/v/450/depositphotos_227724992-stock-illustration-image-available-icon-flat-vector.jpg"
+    import.meta.env.VITE_DEFAULT_PRODUCT
   );
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedRestaurants, setSelectedRestaurants] = useState([]);
