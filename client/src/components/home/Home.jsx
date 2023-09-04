@@ -45,7 +45,8 @@ const Home = () => {
             {products &&
               products.map(
                 (product) =>
-                  product.display && (
+                  product.display &&
+                  product.stock > 0 && (
                     <ProductCard product={product} key={product._id} />
                   )
               )}

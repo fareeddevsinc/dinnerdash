@@ -155,12 +155,14 @@ const ProductDetails = () => {
                       +
                     </button>
                   </div>
-                  <button
-                    disabled={product?.stock < 1 ? true : false}
-                    onClick={userVerification}
-                  >
-                    Add to Cart
-                  </button>
+                  {user.role !== "admin" && (
+                    <button
+                      disabled={product?.stock < 1 ? true : false}
+                      onClick={userVerification}
+                    >
+                      Add to Cart
+                    </button>
+                  )}
                 </div>
 
                 <p>

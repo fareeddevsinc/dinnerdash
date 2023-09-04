@@ -74,7 +74,7 @@ const OrderDetails = () => {
                 </div>
                 {order?.orderStatus && order?.orderStatus === "Ordered" && (
                   <div>
-                    <b>Timestamp:</b> {order.createdAt}
+                    <b>Created At:</b> {order.createdAt}
                   </div>
                 )}
                 {order?.orderStatus &&

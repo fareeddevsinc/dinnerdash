@@ -27,9 +27,6 @@ const ForgotPassword = () => {
 
     myForm.set("email", email);
     dispatch(forgotPassword(myForm, alert));
-    if (message) {
-      alert.success(message);
-    }
   };
 
   useEffect(() => {

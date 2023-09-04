@@ -236,7 +236,6 @@ const forgotPassword = async (req, res, next) => {
 
 const resetPassword = async (req, res, next) => {
   try {
-    //creating token hash
     const resetPasswordToken = crypto
       .createHash("sha256")
       .update(req.params.token)
@@ -256,16 +255,8 @@ const resetPassword = async (req, res, next) => {
     user.password = req.body.password;
     user.resetPasswordToken = undefined;
     user.resetPasswordExpire = undefined;
-    await User.updateOne(
-      { _id: user._id },
-      {
-        $set: {
-          password: req.body.password,
-          resetPasswordToken: undefined,
-          resetPasswordExpire: undefined,
-        },
-      }
-    );
+
+    await user.save();
     sendToken(user, 200, res);
   } catch (error) {
     console.log(error.message);
@@ -273,7 +264,6 @@ const resetPassword = async (req, res, next) => {
   }
 };
 
-// update User Profile
 const updateProfile = async (req, res, next) => {
   try {
     const newUserData = {

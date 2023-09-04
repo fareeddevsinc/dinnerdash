@@ -188,7 +188,10 @@ const createProductReview = async (req, res, next) => {
 //get all reviews of a product
 const getProductReviews = async (req, res, next) => {
   try {
-    const product = await Product.findById(req.query.id);
+    const product = await Product.findById(req.query.id).populate({
+      path: "reviews.user",
+      select: "name avatar",
+    });
 
     if (!product) {
       return next(new ErrorHandler("Product Not Found", 404));

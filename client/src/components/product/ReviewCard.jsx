@@ -17,11 +17,12 @@ const ReviewCard = ({ review, user }) => {
     }),
     [review?.rating]
   );
+  console.log(review);
   return (
     <div className="card-container">
-      <img className="card-image" src={user?.avatar?.url} alt="Default User" />
+      <img className="card-image" src={defaultUser} alt="Default User" />
       <div className="card-content">
-        <h3 className="comment">{user?.name}</h3>
+        <h3 className="comment">Anonymous</h3>
         <ReactStars {...options} className="stars" />
         <h2 className="comment">
           <b>Comment:</b> <i> {review?.comment}</i>

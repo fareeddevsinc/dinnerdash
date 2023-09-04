@@ -8,7 +8,6 @@ import MetaData from "../layout/MetaData";
 import { clearErrors, resetPassword } from "../../redux/actions/userAction";
 
 import "../../styles/user/ResetPassword.css";
-import LoadingScreen from "../layout/Loader/Loader";
 import { isPasswordValid } from "../../helpers/admin/users/formValidation";
 
 const ResetPassword = () => {
@@ -64,51 +63,44 @@ const ResetPassword = () => {
 
   return (
     <>
-      {loading ? (
-        <LoadingScreen />
-      ) : (
-        <>
-          <MetaData title="Change Password" />
-          <div className="resetPasswordContainer">
-            <div className="resetPasswordBox">
-              <h2 className="resetPasswordHeading">Reset Password</h2>
+      <>
+        <MetaData title="Change Password" />
+        <div className="resetPasswordContainer">
+          <div className="resetPasswordBox">
+            <h2 className="resetPasswordHeading">Reset Password</h2>
 
-              <form
-                className="resetPasswordForm"
-                onSubmit={resetPasswordSubmit}
-              >
-                <div>
-                  <input
-                    type="password"
-                    placeholder="New Password"
-                    required
-                    minLength="8"
-                    maxLength="20"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                </div>
-                <div className="loginPassword">
-                  <input
-                    type="password"
-                    placeholder="Confirm Password"
-                    required
-                    minLength="8"
-                    maxLength="20"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                  />
-                </div>
+            <form className="resetPasswordForm" onSubmit={resetPasswordSubmit}>
+              <div>
                 <input
-                  type="submit"
-                  value="Update"
-                  className="resetPasswordBtn"
+                  type="password"
+                  placeholder="New Password"
+                  required
+                  minLength="8"
+                  maxLength="20"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
-              </form>
-            </div>
+              </div>
+              <div className="loginPassword">
+                <input
+                  type="password"
+                  placeholder="Confirm Password"
+                  required
+                  minLength="8"
+                  maxLength="20"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                />
+              </div>
+              <input
+                type="submit"
+                value="Update"
+                className="resetPasswordBtn"
+              />
+            </form>
           </div>
-        </>
-      )}
+        </div>
+      </>
     </>
   );
 };
