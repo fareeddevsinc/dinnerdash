@@ -29,13 +29,7 @@ const NewProduct = () => {
   const [categories, setCategories] = useState([]);
   const [restaurant, setRestaurant] = useState([]);
   const [display, setDisplay] = useState(false);
-  const [all_categories, setAllCategories] = useState([
-    "Desserts",
-    "Beverages",
-    "Desi",
-    "Continental",
-    "Fast Food",
-  ]);
+  const [all_categories, setAllCategories] = useState([]);
   const [stock, setStock] = useState(0);
   const [images, setImages] = useState(import.meta.env.VITE_DEFAULT_PRODUCT);
   const [imagesPreview, setImagesPreview] = useState(
@@ -43,6 +37,13 @@ const NewProduct = () => {
   );
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedRestaurants, setSelectedRestaurants] = useState([]);
+
+  useEffect(() => {
+    const storedCategories = localStorage.getItem("categories");
+    if (storedCategories) {
+      setAllCategories(JSON.parse(storedCategories));
+    }
+  }, []);
 
   const customStyles = {
     control: (base) => ({

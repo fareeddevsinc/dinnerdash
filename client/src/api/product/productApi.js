@@ -46,13 +46,14 @@ export const deleteProductApi = async (id, alert) => {
   }
 };
 
-export const getProductDetailsApi = async (id, alert) => {
+export const getProductDetailsApi = async (id, alert, navigate) => {
   try {
     const { data } = await apiService.get(`/product/${id}`);
 
     return { data };
   } catch (error) {
-    alert.error(error.message);
+    alert.error("Product Not Found");
+    navigate("/");
   }
 };
 

@@ -208,6 +208,7 @@ export const updateUser = (id, userData, alert) => async (dispatch) => {
 
     dispatch({ type: UPDATE_USER_SUCCESS, payload: data.success });
   } catch (error) {
+    console.log(error.message);
     dispatch({
       type: UPDATE_USER_FAIL,
       payload: error.response.data.message,

@@ -45,13 +45,7 @@ const UpdateProduct = () => {
   const [description, setDescription] = useState("");
   const [productCategory, setCategory] = useState([]);
   const [display, setDisplay] = useState(false);
-  const [categories, setCategories] = useState([
-    "Desserts",
-    "Beverages",
-    "Desi",
-    "Continental",
-    "Fast Food",
-  ]);
+  const [categories, setCategories] = useState([]);
   const [stock, setStock] = useState(0);
   const [images, setImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState(product?.images?.url);
@@ -66,9 +60,17 @@ const UpdateProduct = () => {
     }),
   };
 
+  useEffect(() => {
+    const storedCategories = localStorage.getItem("categories");
+    if (storedCategories) {
+      setCategories(JSON.parse(storedCategories));
+    }
+  }, []);
+
   const handleCategoryChange = useCallback((selectedOptions) => {
     const categories = selectedOptions.map((option) => option.value);
-    setSelectedCategories(categories);
+    console.log(categories);
+    setSelectedCategories([...selectedCategories, categories]);
   }, []);
 
   const handleRestaurantChange = useCallback((selectedOption) => {
@@ -173,13 +175,13 @@ const UpdateProduct = () => {
     updateError,
   ]);
 
-  const categoryDefaultValue = useMemo(
-    () => productCategory.map((item) => ({ value: item, label: item })),
-    [productCategory]
-  );
+  const categoryDefaultValue = productCategory.map((item) => ({
+    value: item,
+    label: item,
+  }));
 
   const restaurantDefaultValue = useMemo(
-    () => selectedRestaurants.map((item) => ({ value: item, label: item })),
+    () => selectedRestaurants?.map((item) => ({ value: item, label: item })),
     [selectedRestaurants]
   );
 
@@ -200,6 +202,7 @@ const UpdateProduct = () => {
 
     const myForm = new FormData();
 
+    console.log(`category is ${selectedCategories}`);
     myForm.set("name", name);
     myForm.set("price", price);
     myForm.set("description", description);

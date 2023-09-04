@@ -33,6 +33,7 @@ import AdminProtectedRoute from "./components/route/AdminProtectedRoute.jsx";
 import NotFound from "./components/error/NotFound.jsx";
 import Restaurants from "./components/restaurant/Restaurants.jsx";
 import RestaurantDetails from "./components/restaurant/RestaurantDetails.jsx";
+import { Categories } from "./components/categories/Categories.jsx";
 
 const App = () => {
   const { user, isAuthenticated } = useSelector((state) => state.user);
@@ -89,6 +90,15 @@ const App = () => {
           element={
             <AdminProtectedRoute role={user?.role}>
               <ProductList />
+            </AdminProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/categories"
+          element={
+            <AdminProtectedRoute role={user?.role}>
+              <Categories />
             </AdminProtectedRoute>
           }
         />

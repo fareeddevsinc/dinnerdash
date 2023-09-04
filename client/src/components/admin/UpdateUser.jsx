@@ -83,8 +83,6 @@ const UpdateUser = () => {
               onSubmit={(e) =>
                 updateUserSubmitHandler(
                   e,
-                  fullname,
-                  name,
                   email,
                   role,
                   alert,
@@ -97,60 +95,14 @@ const UpdateUser = () => {
               <h1>Update User</h1>
 
               <div>
-                <PersonIcon />
-                <input
-                  type="text"
-                  placeholder="Full Name"
-                  required
-                  minLength="4"
-                  maxLength="20"
-                  disabled={role === "admin"}
-                  value={fullname}
-                  onChange={(e) => setFullName(e.target.value)}
-                />
-              </div>
-              <div>
-                <PersonIcon />
-                <input
-                  type="text"
-                  placeholder="Name"
-                  required
-                  minLength="4"
-                  maxLength="20"
-                  disabled={role === "admin"}
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                />
-              </div>
-              <div>
-                <MailOutlineIcon />
-                <input
-                  type="email"
-                  placeholder="Email"
-                  disabled={role === "admin"}
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
-
-              <div>
                 <VerifiedUserIcon />
-                <select
-                  disabled={role === "admin"}
-                  value={role}
-                  onChange={(e) => setRole(e.target.value)}
-                >
+                <select value={role} onChange={(e) => setRole(e.target.value)}>
                   <option value="admin">Admin</option>
                   <option value="user">User</option>
                 </select>
               </div>
 
-              <Button
-                id="createProductBtn"
-                type="submit"
-                disabled={role === "admin"}
-              >
+              <Button id="createProductBtn" type="submit">
                 Update
               </Button>
             </form>

@@ -106,9 +106,12 @@ export const updateUserApi = async (id, userData, alert) => {
       `/admin/user/${id}?role=admin`,
       userData
     );
-    alert.success("User Updated Successfully");
+    if (data.success) {
+      alert.success("User Updated Successfully");
+    }
     return { data };
   } catch (error) {
+    console.log(error.message);
     alert.error(error);
   }
 };

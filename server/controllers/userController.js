@@ -139,19 +139,15 @@ const getSingleUser = async (req, res, next) => {
 const updateUserRole = async (req, res, next) => {
   try {
     const newUserData = {
-      name: req.body.name,
-      email: req.body.email,
-      fullName: req.body.fullname,
+      role: req.body.role,
     };
 
-    const user = await User.findOneAndUpdate(
-      { email: req.body.email },
-      newUserData,
-      {
-        new: true,
-        runValidators: true,
-      }
-    );
+    const user = await User.findByIdAndUpdate(req.params.id, newUserData, {
+      new: true,
+      runValidators: true,
+    });
+
+    console.log(user);
 
     if (!user) {
       return next(new ErrorHandler("User Does not Exist with this id ", 404));

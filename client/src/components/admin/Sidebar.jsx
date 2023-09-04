@@ -70,6 +70,11 @@ const Sidebar = () => {
           <PeopleIcon /> Users
         </p>
       </Link>
+      <Link to="/admin/categories">
+        <p>
+          <ListAltIcon /> Categories
+        </p>
+      </Link>
       <Link to="/admin/reviews">
         <p>
           <RateReviewIcon />

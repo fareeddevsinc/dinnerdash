@@ -104,7 +104,7 @@ const ProductDetails = () => {
     if (success) {
       dispatch({ type: NEW_REVIEW_RESET });
     }
-    dispatch(getProductDetails(id, alert));
+    dispatch(getProductDetails(id, alert, navigate));
   }, [dispatch, id, error, alert, reviewError, success]);
 
   return (
@@ -155,7 +155,7 @@ const ProductDetails = () => {
                       +
                     </button>
                   </div>
-                  {user.role !== "admin" && (
+                  {user?.role !== "admin" && (
                     <button
                       disabled={product?.stock < 1 ? true : false}
                       onClick={userVerification}

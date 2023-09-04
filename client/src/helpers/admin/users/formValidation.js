@@ -1,7 +1,7 @@
 export const isNameValid = (name, min, max) => {
   return (
-    name.trim().length >= min &&
-    name.trim().length <= max &&
+    name?.length >= min &&
+    name?.length <= max &&
     /\S/.test(name) &&
     !/\s{2,}/.test(name)
   );
@@ -11,7 +11,6 @@ export const isEmailValid = (email) => {
   const pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   const parts = email.split("@");
 
-  // Check if there are exactly two parts and the domain has only one period
   return (
     parts.length === 2 &&
     pattern.test(email) &&

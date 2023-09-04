@@ -152,11 +152,11 @@ export const deleteProduct = (id, alert) => async (dispatch) => {
 };
 
 // Get Products Details
-export const getProductDetails = (id, alert) => async (dispatch) => {
+export const getProductDetails = (id, alert, navigate) => async (dispatch) => {
   try {
     dispatch({ type: PRODUCT_DETAILS_REQUEST });
 
-    const { data } = await getProductDetailsApi(id, alert);
+    const { data } = await getProductDetailsApi(id, alert, navigate);
 
     dispatch({
       type: PRODUCT_DETAILS_SUCCESS,

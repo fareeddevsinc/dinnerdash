@@ -84,6 +84,8 @@ const updateProduct = async (req, res, next) => {
       crop: "scale",
     });
 
+    console.log(req.body.category);
+
     const newProductData = {
       name: req.body.name,
       price: req.body.price,
