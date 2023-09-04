@@ -37,6 +37,7 @@ const Products = () => {
     "Desserts",
     "Beverages",
     "Desi",
+    "Arabic",
     "Continental",
     "Fast Food",
   ];
