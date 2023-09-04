@@ -23,6 +23,8 @@ const Cart = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { error, cartItems, loading } = useSelector((state) => state.cart);
+  const { user } = useSelector((state) => state.user);
+
   const alert = useAlert();
   const [numItems, setNumItems] = useState(cartItems?.cart[0]?.length);
   const [cartAction, setCartAction] = useState(0);
@@ -64,8 +66,15 @@ const Cart = () => {
     setCartAction(cartAction + 1);
   };
 
-  const checkoutHandler = () => {
-    navigate("/shipping", { replace: true });
+  const userVerification = () => {
+    if (user?.role) {
+      navigate("/shipping", { replace: true });
+    } else {
+      alert.info("Please Login To Continue");
+      const currentUrl = window.location.pathname;
+      localStorage.setItem("redirectUrl", currentUrl);
+      navigate("/login");
+    }
   };
 
   return (
@@ -139,7 +148,7 @@ const Cart = () => {
                     </div>
                     <div></div>
                     <div className="checkOutBtn">
-                      <button onClick={checkoutHandler}>Check Out</button>
+                      <button onClick={userVerification}>Check Out</button>
                     </div>
                     <div className="deleteBtn">
                       <button onClick={removeCart}>Delete Cart</button>
