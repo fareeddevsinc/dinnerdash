@@ -71,10 +71,37 @@ const ProductDetails = () => {
     if (user?.role) {
       addToCartHandler(id, quantity, dispatch, addItemsToCart, alert);
     } else {
-      alert.info("Please Login To Continue");
-      const currentUrl = window.location.pathname;
-      localStorage.setItem("redirectUrl", currentUrl);
-      navigate("/login");
+      let existingCart = JSON.parse(localStorage.getItem("cartItems"));
+
+      if (existingCart == null) {
+        existingCart = { products: [] };
+      }
+
+      let existingProductIndex = existingCart.products.findIndex(
+        (product) => product.product === id
+      );
+
+      if (existingProductIndex !== -1) {
+        existingCart.products[existingProductIndex] = {
+          product: id,
+          name: product.name,
+          price: product.price,
+          image: product.images.url,
+          quantity: quantity,
+          stock: product.stock,
+        };
+      } else {
+        existingCart.products.push({
+          product: id,
+          name: product.name,
+          price: product.price,
+          image: product.images.url,
+          quantity: quantity,
+          stock: product.stock,
+        });
+      }
+
+      localStorage.setItem("cartItems", JSON.stringify(existingCart));
     }
   };
 

@@ -38,32 +38,40 @@ const Cart = () => {
   }, [dispatch, alert, error, numItems, cartAction]);
 
   const increaseQuantity = (id, quantity, stock) => {
-    const newQty = quantity + 1;
-    if (stock <= quantity) {
-      return;
+    if (user) {
+      const newQty = quantity + 1;
+      if (stock <= quantity) {
+        return;
+      }
+      dispatch(addItemsToCart(id, newQty, alert));
+      location.reload();
     }
-    dispatch(addItemsToCart(id, newQty, alert));
-    location.reload();
   };
 
   const decreaseQuantity = (id, quantity) => {
-    const newQty = quantity - 1;
-    if (1 >= quantity) {
-      return;
+    if (user) {
+      const newQty = quantity - 1;
+      if (1 >= quantity) {
+        return;
+      }
+      dispatch(addItemsToCart(id, newQty, alert));
+      location.reload();
     }
-    dispatch(addItemsToCart(id, newQty, alert));
-    location.reload();
   };
 
   const deleteCartItems = (id) => {
-    dispatch(removeItemsFromCart(id, alert));
-    setNumItems((prevNumItems) => prevNumItems - 1);
-    setCartAction(cartAction + 1);
+    if (user) {
+      dispatch(removeItemsFromCart(id, alert));
+      setNumItems((prevNumItems) => prevNumItems - 1);
+      setCartAction(cartAction + 1);
+    }
   };
 
   const removeCart = () => {
-    dispatch(deleteCart());
-    setCartAction(cartAction + 1);
+    if (user) {
+      dispatch(deleteCart());
+      setCartAction(cartAction + 1);
+    }
   };
 
   const userVerification = () => {

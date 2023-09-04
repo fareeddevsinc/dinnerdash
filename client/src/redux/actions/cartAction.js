@@ -18,6 +18,9 @@ import {
   DELETE_CART_SUCCESS,
   DELETE_CART_FAIL,
 } from "../constants/cartConstants";
+import axios from "axios";
+
+import { BASE_URL } from "../../api/baseUrl";
 
 export const getCart = (alert) => async (dispatch) => {
   try {
@@ -88,4 +91,37 @@ export const deleteCart = (alert) => async (dispatch) => {
       payload: error.response.data.message,
     });
   }
+};
+
+// Add to Cart
+export const addItemsToTempCart =
+  (id, quantity) => async (dispatch, getState) => {
+    const { data } = await axios.get(`${BASE_URL}/api/v1/product/${id}`);
+
+    dispatch({
+      type: ADD_CART_ITEM_SUCCESS,
+      payload: {
+        product: data.product._id,
+        name: data.product.name,
+        price: data.product.price,
+        image: data.product.images.url,
+        stock: data.product.stock,
+        quantity,
+      },
+    });
+
+    localStorage.setItem(
+      "cartItems",
+      JSON.stringify(getState().cart.cartItems)
+    );
+  };
+
+// REMOVE FROM CART
+export const removeItemsFromTempCart = (id) => async (dispatch, getState) => {
+  dispatch({
+    type: DELETE_CART_ITEM_SUCCESS,
+    payload: id,
+  });
+
+  localStorage.setItem("cartItems", JSON.stringify(getState().cart.cartItems));
 };

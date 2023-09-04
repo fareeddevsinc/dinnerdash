@@ -109,13 +109,16 @@ const updateOrder = async (req, res, next) => {
     } else {
       if (order.orderStatus === "Completed") {
         order.finishedAt = Date.now();
+        order.orderItems.forEach(async (order) => {
+          const product = await Product.findById(order.product);
+          if (product) {
+            product.numOfOrders += 1;
+            await product.save({ validateBeforeSave: false });
+          }
+        });
       }
-
-      // order.orderItems.forEach(async (order) => {
-      //   await updateStock(order.product, order.quantity, "minus");
-      // });
     }
-    await order.save({ ValidateBeforeSave: false });
+    await order.save({ validateBeforeSave: false });
 
     res.status(200).json({
       success: true,

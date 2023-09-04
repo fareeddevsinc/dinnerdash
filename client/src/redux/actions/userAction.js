@@ -103,6 +103,7 @@ export const logout = (alert) => async (dispatch) => {
     await logoutUserApi(alert);
     document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     localStorage.removeItem("shippingInfo");
+    localStorage.removeItem("cartItems");
 
     dispatch({ type: LOGOUT_SUCCESS });
   } catch (error) {

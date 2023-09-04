@@ -24,6 +24,7 @@ import RestaurantsList from "./components/admin/RestaurantsList.jsx";
 import NewRestaurant from "./components/admin/NewRestaurant.jsx";
 import UpdateRestaurant from "./components/admin/UpdateRestaurant.jsx";
 import Cart from "./components/cart/Cart.jsx";
+import AnonymousCart from "./components/cart/AnonymousCart.jsx";
 import Shipping from "./components/cart/Shipping.jsx";
 import MyOrder from "./components/order/MyOrder.jsx";
 import ConfirmOrder from "./components/cart/ConfirmOrder.jsx";
@@ -193,14 +194,19 @@ const App = () => {
           }
         />
 
-        <Route
-          path="/cart"
-          element={
-            <ProtectedRoute isAuthenticated={isAuthenticated}>
-              <Cart />
-            </ProtectedRoute>
-          }
-        />
+        {user ? (
+          <Route
+            path="/cart"
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated}>
+                <Cart />
+              </ProtectedRoute>
+            }
+          />
+        ) : (
+          <Route path="/cart" element={<AnonymousCart />} />
+        )}
+
         <Route
           path="/shipping"
           element={

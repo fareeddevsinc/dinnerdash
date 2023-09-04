@@ -4,6 +4,8 @@ import { useAlert } from "react-alert";
 import { useNavigate, Link } from "react-router-dom";
 
 import { clearErrors, login, register } from "../../redux/actions/userAction";
+import { addItemsToCart } from "../../redux/actions/cartAction";
+import { addToCartHandler } from "../../helpers/products/productDetailsHelper";
 
 import "../../styles/user/loginSignup.css";
 import { createFormData } from "../../helpers/admin/users/formValidation";
@@ -77,6 +79,24 @@ const LoginSignUp = () => {
     }
     if (isAuthenticated) {
       const redirectUrl = localStorage.getItem("redirectUrl");
+      let data = localStorage.getItem("cartItems");
+      if (data) {
+        data = JSON.parse(data);
+        let delay = 0;
+        const delayIncrement = 1000;
+        data.products.forEach((item) => {
+          setTimeout(() => {
+            addToCartHandler(
+              item.product,
+              item.quantity,
+              dispatch,
+              addItemsToCart,
+              alert
+            );
+          }, delay);
+          delay += delayIncrement;
+        });
+      }
       if (redirectUrl) {
         localStorage.removeItem("redirectUrl");
         navigate(redirectUrl);
