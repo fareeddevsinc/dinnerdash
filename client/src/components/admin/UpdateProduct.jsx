@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useAlert } from "react-alert";
 import Select from "react-select";
 import { Button } from "@material-ui/core";
+import Loader from "../layout/Loader/Loader";
 import {
   AccountTree as AccountTreeIcon,
   AttachMoney as AttachMoneyIcon,
@@ -56,6 +57,7 @@ const UpdateProduct = () => {
   const [imagesPreview, setImagesPreview] = useState(product?.images?.url);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedRestaurants, setSelectedRestaurants] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const customStyles = {
     control: (base) => ({
@@ -137,11 +139,14 @@ const UpdateProduct = () => {
       setName(product.name);
       setDescription(product.description);
       setPrice(product.price);
-      setCategory([...product.category]);
-      setSelectedRestaurants([...product.restaurant]);
       setStock(product.stock);
       setImages(product.images);
-      setDisplay(product?.display);
+      setTimeout(() => {
+        setCategory([...product.category]);
+        setSelectedRestaurants([...product.restaurant]);
+        setDisplay(product?.display);
+        setIsLoading(false);
+      }, 100);
     }
     if (error) {
       alert.error(error);
@@ -167,6 +172,28 @@ const UpdateProduct = () => {
     product,
     updateError,
   ]);
+
+  const categoryDefaultValue = useMemo(
+    () => productCategory.map((item) => ({ value: item, label: item })),
+    [productCategory]
+  );
+
+  const restaurantDefaultValue = useMemo(
+    () => selectedRestaurants.map((item) => ({ value: item, label: item })),
+    [selectedRestaurants]
+  );
+
+  const displayDefaultValue = useMemo(
+    () => ({
+      value: display,
+      label: display ? "Show Product" : "Hide Product",
+    }),
+    [display]
+  );
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   const updateProductSubmitHandler = (e) => {
     e.preventDefault();
@@ -265,6 +292,7 @@ const UpdateProduct = () => {
                 placeholder="Select Categories"
                 styles={customStyles}
                 onChange={handleCategoryChange}
+                defaultValue={categoryDefaultValue}
               />
             </div>
 
@@ -275,6 +303,7 @@ const UpdateProduct = () => {
                 placeholder="Select Restaurants"
                 styles={customStyles}
                 onChange={handleRestaurantChange}
+                defaultValue={restaurantDefaultValue}
               />
             </div>
 
@@ -285,6 +314,7 @@ const UpdateProduct = () => {
                 placeholder="Display Product"
                 styles={customStyles}
                 onChange={handleDisplayChange}
+                defaultValue={displayDefaultValue}
               />
             </div>
 
