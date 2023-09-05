@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useAlert } from "react-alert";
@@ -17,7 +17,7 @@ import {
 
 import "../../styles/cart/Cart.css";
 
-const Cart = () => {
+const Cart = React.memo(() => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { cartItems } = useSelector((state) => state.cart);
@@ -29,37 +29,46 @@ const Cart = () => {
     dispatch(getCart(alert));
   }, [dispatch, cartItems]);
 
-  const increaseQuantity = (id, quantity, stock) => {
-    if (user) {
-      const newQty = quantity + 1;
-      if (stock <= quantity) {
-        return;
+  const increaseQuantity = useCallback(
+    (id, quantity, stock) => {
+      if (user) {
+        const newQty = quantity + 1;
+        if (stock <= quantity) {
+          return;
+        }
+        dispatch(addItemsToCart(id, newQty, alert));
       }
-      dispatch(addItemsToCart(id, newQty, alert));
-    }
-  };
+    },
+    [user, dispatch, alert]
+  );
 
-  const decreaseQuantity = (id, quantity) => {
-    if (user) {
-      const newQty = quantity - 1;
-      if (1 >= quantity) {
-        return;
+  const deleteCartItems = useCallback(
+    (id) => {
+      if (user) {
+        dispatch(removeItemsFromCart(id, alert));
       }
-      dispatch(addItemsToCart(id, newQty, alert));
-    }
-  };
+    },
+    [user, dispatch, alert]
+  );
 
-  const deleteCartItems = (id) => {
-    if (user) {
-      dispatch(removeItemsFromCart(id, alert));
-    }
-  };
+  const decreaseQuantity = useCallback(
+    (id, quantity) => {
+      if (user) {
+        const newQty = quantity - 1;
+        if (1 >= quantity) {
+          return;
+        }
+        dispatch(addItemsToCart(id, newQty, alert));
+      }
+    },
+    [user, dispatch, alert]
+  );
 
-  const removeCart = () => {
+  const removeCart = useCallback(() => {
     if (user) {
       dispatch(deleteCart());
     }
-  };
+  }, [user, dispatch]);
 
   const userVerification = () => {
     if (user?.role) {
@@ -159,6 +168,6 @@ const Cart = () => {
       </>
     </>
   );
-};
+});
 
 export default Cart;
