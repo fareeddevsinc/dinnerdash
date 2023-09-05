@@ -24,6 +24,10 @@ import {
 import { UPDATE_PRODUCT_RESET } from "../../redux/constants/productConstants";
 
 import "../../styles/admin/newProduct.css";
+import {
+  getProductDetailsApi,
+  updateProductApi,
+} from "../../api/product/productApi";
 
 const UpdateProduct = () => {
   const navigate = useNavigate();
@@ -136,6 +140,15 @@ const UpdateProduct = () => {
   }, []);
 
   useEffect(() => {
+    setTimeout(() => {
+      setCategory([...product.category]);
+      setSelectedRestaurants([...product.restaurant]);
+      setDisplay(product?.display);
+      setIsLoading(false);
+    }, 100);
+  }, []);
+
+  useEffect(() => {
     if (product && product._id !== productId) {
       dispatch(getProductDetails(productId, alert));
     } else {
@@ -144,12 +157,10 @@ const UpdateProduct = () => {
       setPrice(product.price);
       setStock(product.stock);
       setImages(product.images);
-      setTimeout(() => {
-        setCategory([...product.category]);
-        setSelectedRestaurants([...product.restaurant]);
-        setDisplay(product?.display);
-        setIsLoading(false);
-      }, 100);
+      setCategory([...product.category]);
+      setSelectedRestaurants([...product.restaurant]);
+      setDisplay(product?.display);
+      setIsLoading(false);
     }
     if (error) {
       alert.error(error);
@@ -198,7 +209,7 @@ const UpdateProduct = () => {
     return <Loader />;
   }
 
-  const updateProductSubmitHandler = (e) => {
+  const updateProductSubmitHandler = async (e) => {
     e.preventDefault();
 
     const myForm = new FormData();
@@ -213,7 +224,8 @@ const UpdateProduct = () => {
     myForm.set("images", images);
     myForm.set("display", display);
 
-    dispatch(updateProduct(productId, myForm, alert));
+    await updateProductApi(productId, myForm, alert);
+    // dispatch(updateProduct(productId, myForm, alert));
   };
 
   const updateProductImagesChange = (e) => {

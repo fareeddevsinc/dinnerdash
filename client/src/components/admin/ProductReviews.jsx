@@ -66,14 +66,7 @@ const ProductReviews = () => {
   }, [dispatch, alert, error, deleteError, navigate, isDeleted, productId]);
 
   const columns = [
-    { field: "id", headerName: "Review ID", minWidth: 200, flex: 0.5 },
-
-    {
-      field: "user",
-      headerName: "User",
-      minWidth: 200,
-      flex: 0.6,
-    },
+    { field: "id", headerName: "Product ID", minWidth: 200, flex: 0.5 },
 
     {
       field: "comment",
@@ -105,7 +98,6 @@ const ProductReviews = () => {
           id: item._id,
           rating: item.rating,
           comment: item.comment,
-          user: item.name,
         });
       });
     return result;

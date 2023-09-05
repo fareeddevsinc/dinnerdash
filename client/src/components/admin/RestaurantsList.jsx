@@ -104,7 +104,7 @@ const RestaurantsList = () => {
 
   restaurants &&
     restaurants.restaurants.forEach((item) => {
-      rows.push({
+      rows.unshift({
         id: item._id,
         name: item.name,
         branch: item.branch,

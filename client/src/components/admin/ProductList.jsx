@@ -128,7 +128,7 @@ const ProductList = () => {
     products &&
       products.forEach((item) => {
         console.log([...item.category]);
-        result.push({
+        result.unshift({
           id: item._id,
           stock: item.stock,
           category: [...item.category],

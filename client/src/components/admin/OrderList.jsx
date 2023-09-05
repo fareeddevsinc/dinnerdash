@@ -114,7 +114,7 @@ const OrderList = () => {
 
   orders &&
     orders.order.forEach((item) => {
-      rows.push({
+      rows.unshift({
         id: item._id,
         itemsQty: item.orderItems.reduce((acc, item) => {
           return acc + item.quantity;

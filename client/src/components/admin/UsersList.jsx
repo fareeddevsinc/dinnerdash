@@ -125,7 +125,7 @@ const UsersList = () => {
 
     users &&
       users.forEach((item) => {
-        rows.push({
+        rows.unshift({
           id: item._id,
           role: item.role,
           email: item.email,
