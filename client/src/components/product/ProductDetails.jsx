@@ -29,6 +29,7 @@ import { NEW_REVIEW_RESET } from "../../redux/constants/productConstants";
 
 import "../../styles/product/ProductDetails.css";
 import LoadingScreen from "../layout/Loader/Loader";
+import { addItemsToCartApi } from "../../api/cart/cartApi";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -69,6 +70,7 @@ const ProductDetails = () => {
 
   const userVerification = () => {
     if (user?.role) {
+      // await addItemsToCartApi(id, quantity, alert);
       addToCartHandler(id, quantity, dispatch, addItemsToCart, alert);
       alert.success("Cart Updated");
     } else {

@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect, useCallback, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useAlert } from "react-alert";
@@ -16,59 +16,82 @@ import {
 } from "../../redux/actions/cartAction";
 
 import "../../styles/cart/Cart.css";
+import LoadingScreen from "../layout/Loader/Loader";
+import {
+  addItemsToCartApi,
+  deleteCartApi,
+  getAllCartItemsApi,
+  removeItemsFromCartApi,
+} from "../../api/cart/cartApi";
 
-const Cart = React.memo(() => {
+const Cart = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { cartItems } = useSelector((state) => state.cart);
+  const { cartItems, loading } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.user);
+  const [cartData, setCartData] = useState([]);
 
   const alert = useAlert();
 
   useEffect(() => {
     dispatch(getCart(alert));
-  }, [dispatch, cartItems]);
+    getData();
+  }, []);
 
-  const increaseQuantity = useCallback(
-    (id, quantity, stock) => {
-      if (user) {
-        const newQty = quantity + 1;
-        if (stock <= quantity) {
-          return;
-        }
-        dispatch(addItemsToCart(id, newQty, alert));
-      }
-    },
-    [user, dispatch, alert]
-  );
+  const getData = async () => {
+    const { data } = await getAllCartItemsApi(alert);
+    setCartData(data?.cart[0]?.products);
+  };
 
-  const deleteCartItems = useCallback(
-    (id) => {
-      if (user) {
-        dispatch(removeItemsFromCart(id, alert));
-      }
-    },
-    [user, dispatch, alert]
-  );
+  console.log(cartData);
 
-  const decreaseQuantity = useCallback(
-    (id, quantity) => {
-      if (user) {
-        const newQty = quantity - 1;
-        if (1 >= quantity) {
-          return;
-        }
-        dispatch(addItemsToCart(id, newQty, alert));
-      }
-    },
-    [user, dispatch, alert]
-  );
-
-  const removeCart = useCallback(() => {
-    if (user) {
-      dispatch(deleteCart());
+  const increaseQuantity = async (id, quantity, stock) => {
+    const newQty = quantity + 1;
+    if (stock <= quantity) {
+      return;
     }
-  }, [user, dispatch]);
+    const index = cartData.findIndex((item) => item.product._id === id);
+    if (index !== -1) {
+      const newCartData = [...cartData];
+      newCartData[index].quantity += 1;
+      setCartData(newCartData);
+    }
+    await addItemsToCartApi(id, newQty, alert);
+  };
+
+  const deleteCartItems = async (id) => {
+    const data = cartData.filter((item) => item.product._id !== id);
+    setCartData(data);
+    await removeItemsFromCartApi(id, alert);
+    // dispatch(removeItemsFromCart(id, alert));
+  };
+
+  const decreaseQuantity = async (id, quantity) => {
+    if (user) {
+      const newQty = quantity - 1;
+      if (1 >= quantity) {
+        return;
+      } else {
+        const index = cartData.findIndex((item) => item.product._id === id);
+        if (index !== -1) {
+          const newCartData = [...cartData];
+          newCartData[index].quantity -= 1;
+          setCartData(newCartData);
+        }
+        await addItemsToCart(id, newQty, alert);
+      }
+
+      // dispatch(addItemsToCart(id, newQty, alert));
+    }
+  };
+
+  const removeCart = async () => {
+    if (user) {
+      setCartData([]);
+      await deleteCartApi(alert);
+      // dispatch(deleteCart());
+    }
+  };
 
   const userVerification = () => {
     if (user?.role) {
@@ -83,91 +106,96 @@ const Cart = React.memo(() => {
 
   return (
     <>
-      <>
-        {cartItems.cart[0]?.products?.length === undefined ? (
-          <div className="emptyCart">
-            <RemoveShoppingCartIcon />
+      {loading ? (
+        <LoadingScreen />
+      ) : (
+        <>
+          {cartData?.length === undefined ? (
+            <div className="emptyCart">
+              <RemoveShoppingCartIcon />
 
-            <Typography>No Products in Your Cart</Typography>
-            <Link to="/products">View Products</Link>
-          </div>
-        ) : (
-          <>
-            {/* {cartItems.cart[0]?.products?.length > 0 &&} */}
-            <div className="cartPage">
-              <div className="cartHeader">
-                <p>Product</p>
-                <p>Quantity</p>
-                <p>Subtotal</p>
-              </div>
-
-              {cartItems &&
-                cartItems.cart[0]?.products.map((item) => (
-                  <div className="cartContainer" key={item?.product?._id}>
-                    <CartItemCard
-                      item={item}
-                      deleteCartItems={deleteCartItems}
-                    />
-                    <div className="cartInput">
-                      <button
-                        onClick={() =>
-                          decreaseQuantity(item.product._id, item.quantity)
-                        }
-                      >
-                        -
-                      </button>
-                      {item.quantity}
-                      <input type="text" value={item.quantity} readOnly />
-                      <button
-                        onClick={() =>
-                          increaseQuantity(
-                            item.product._id,
-                            item.quantity,
-                            item.product.stock
-                          )
-                        }
-                      >
-                        +
-                      </button>
-                    </div>
-                    <p className="cartSubtotal">{`Rs.${
-                      item.product?.price * item.quantity
-                    }`}</p>
-                  </div>
-                ))}
-
-              {cartItems.cart[0]?.products?.length >= 1 ? (
-                <div className="cartGrossProfit">
-                  <div></div>
-                  <div className="cartGrossProfitBox">
-                    <p>Gross Total</p>
-                    <p>{`Rs.${cartItems.cart[0]?.products.reduce(
-                      (acc, item) => acc + item?.quantity * item.product?.price,
-                      0
-                    )}`}</p>
-                  </div>
-                  <div></div>
-                  <div className="checkOutBtn">
-                    <button onClick={userVerification}>Check Out</button>
-                  </div>
-                  <div className="deleteBtn">
-                    <button onClick={removeCart}>Delete Cart</button>
-                  </div>
-                </div>
-              ) : (
-                <div className="emptyCart">
-                  <RemoveShoppingCartIcon />
-
-                  <Typography>No Products in Your Cart</Typography>
-                  <Link to="/products">View Products</Link>
-                </div>
-              )}
+              <Typography>No Products in Your Cart</Typography>
+              <Link to="/products">View Products</Link>
             </div>
-          </>
-        )}
-      </>
+          ) : (
+            <>
+              {/* {cartItems.cart[0]?.products?.length > 0 &&} */}
+              <div className="cartPage">
+                <div className="cartHeader">
+                  <p>Product</p>
+                  <p>Quantity</p>
+                  <p>Subtotal</p>
+                </div>
+
+                {cartData &&
+                  cartData?.map((item) => (
+                    <div className="cartContainer" key={item?.product?._id}>
+                      <CartItemCard
+                        item={item}
+                        deleteCartItems={deleteCartItems}
+                      />
+                      <div className="cartInput">
+                        <button
+                          onClick={() =>
+                            decreaseQuantity(item.product._id, item.quantity)
+                          }
+                        >
+                          -
+                        </button>
+                        {item.quantity}
+                        <input type="text" value={item.quantity} readOnly />
+                        <button
+                          onClick={() =>
+                            increaseQuantity(
+                              item.product._id,
+                              item.quantity,
+                              item.product.stock
+                            )
+                          }
+                        >
+                          +
+                        </button>
+                      </div>
+                      <p className="cartSubtotal">{`Rs.${
+                        item.product?.price * item.quantity
+                      }`}</p>
+                    </div>
+                  ))}
+
+                {cartData?.length >= 1 ? (
+                  <div className="cartGrossProfit">
+                    <div></div>
+                    <div className="cartGrossProfitBox">
+                      <p>Gross Total</p>
+                      <p>{`Rs.${cartData.reduce(
+                        (acc, item) =>
+                          acc + item?.quantity * item.product?.price,
+                        0
+                      )}`}</p>
+                    </div>
+                    <div></div>
+                    <div className="checkOutBtn">
+                      <button onClick={userVerification}>Check Out</button>
+                    </div>
+                    <div className="deleteBtn">
+                      <button onClick={removeCart}>Delete Cart</button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="emptyCart">
+                    <RemoveShoppingCartIcon />
+
+                    <Typography>No Products in Your Cart</Typography>
+                    <Link to="/products">View Products</Link>
+                  </div>
+                )}
+              </div>
+            </>
+          )}
+        </>
+      )}
     </>
   );
-});
+};
 
 export default Cart;

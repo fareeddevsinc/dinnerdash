@@ -12,20 +12,25 @@ const {
 
 const router = express.Router();
 
-router.route("/restaurants").get(getAllRestaurants);
-
-router.route("/restaurant/:id").get(viewRestaurant);
-
-router
-  .route("/restaurant/:id")
-  .delete(isAuthenticatedUser, authorizeRoles("admin"), deleteRestaurant);
-
-router
-  .route("/restaurant/new")
-  .post(isAuthenticatedUser, authorizeRoles("admin"), createRestaurant);
-
-router
-  .route("/restaurant/:id")
-  .put(isAuthenticatedUser, authorizeRoles("admin"), updateRestaurant);
+router.get("/restaurants", getAllRestaurants);
+router.get("/restaurant/:id", viewRestaurant);
+router.delete(
+  "/restaurant/:id",
+  isAuthenticatedUser,
+  authorizeRoles("admin"),
+  deleteRestaurant
+);
+router.post(
+  "/restaurant/new",
+  isAuthenticatedUser,
+  authorizeRoles("admin"),
+  createRestaurant
+);
+router.put(
+  "/restaurant/:id",
+  isAuthenticatedUser,
+  authorizeRoles("admin"),
+  updateRestaurant
+);
 
 module.exports = router;

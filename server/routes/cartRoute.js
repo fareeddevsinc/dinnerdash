@@ -11,12 +11,12 @@ const {
 
 const router = express.Router();
 
-router.route("/cart").get(isAuthenticatedUser, getAllCartItems);
+router.get("/cart", isAuthenticatedUser, getAllCartItems);
 
-router.route("/cart/:id").delete(isAuthenticatedUser, removeItemFromCart);
+router.delete("/cart/:id", isAuthenticatedUser, removeItemFromCart);
 
-router.route("/cart").delete(isAuthenticatedUser, clearCart);
+router.delete("/cart", isAuthenticatedUser, clearCart);
 
-router.route("/cart/:id").post(isAuthenticatedUser, createOrUpdateCart);
+router.post("/cart/:id", isAuthenticatedUser, createOrUpdateCart);
 
 module.exports = router;
