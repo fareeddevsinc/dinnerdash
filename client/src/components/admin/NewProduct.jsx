@@ -40,6 +40,7 @@ const NewProduct = () => {
 
   useEffect(() => {
     const storedCategories = localStorage.getItem("categories");
+    console.log(storedCategories);
     if (storedCategories) {
       setAllCategories(JSON.parse(storedCategories));
     }

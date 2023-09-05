@@ -23,10 +23,7 @@ const ForgotPassword = () => {
   const forgotPasswordSubmit = (e) => {
     e.preventDefault();
 
-    const myForm = new FormData();
-
-    myForm.set("email", email);
-    dispatch(forgotPassword(myForm, alert));
+    dispatch(forgotPassword(email, alert));
   };
 
   useEffect(() => {
@@ -45,7 +42,7 @@ const ForgotPassword = () => {
 
   return (
     <>
-      {loading ? (
+      {!loading ? (
         <LoadingScreen />
       ) : (
         <>

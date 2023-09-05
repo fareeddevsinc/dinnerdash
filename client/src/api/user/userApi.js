@@ -55,16 +55,18 @@ export const updatePasswordApi = async (passwords, alert) => {
     alert.success("Password Updated Successfully");
     return { data };
   } catch (error) {
-    alert.error(error.message);
+    alert.error("User Not Found");
   }
 };
 
 export const forgotPasswordApi = async (email, alert) => {
   try {
+    console.log(email);
     const { data } = await apiService.post(`/password/forgot`, email);
     alert.info(`Please Check Your Email`);
     return { data };
   } catch (error) {
+    console.log(error.message);
     alert.error(error);
   }
 };

@@ -23,6 +23,7 @@ const Products = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [price, setPrice] = useState([0, 3000]);
   const [category, setCategory] = useState("");
+  const [categories, setCategories] = useState([]);
   const [ratings, setRatings] = useState(0);
   const {
     products,
@@ -32,15 +33,6 @@ const Products = () => {
     filteredProductCount,
     loading,
   } = useSelector((state) => state.products);
-
-  const categories = [
-    "Desserts",
-    "Beverages",
-    "Desi",
-    "Arabic",
-    "Continental",
-    "Fast Food",
-  ];
 
   const keyword = key;
 
@@ -62,6 +54,13 @@ const Products = () => {
       dispatch(clearErrors());
     }
     dispatch(getProduct(keyword, currentPage, price, category, ratings));
+    setCategories([
+      ...new Set(
+        products.flatMap((item) => {
+          return item.category;
+        })
+      ),
+    ]);
   }, [dispatch, keyword, currentPage, price, category, ratings, error]);
 
   let count = filteredProductCount;
@@ -97,7 +96,7 @@ const Products = () => {
 
             <Typography>Categories</Typography>
             <ul className="categories-list">
-              {categories.map((category) => (
+              {categories?.map((category) => (
                 <li
                   key={category}
                   onClick={() => setCategory(category)}

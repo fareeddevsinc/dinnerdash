@@ -13,7 +13,7 @@ import {
   getRestaurant,
 } from "../../redux/actions/restaurantAction";
 
-import "../../styles/product/Product.css";
+import "../../styles/restaurant/Restaurant.css";
 
 const Restaurants = () => {
   const dispatch = useDispatch();
@@ -44,7 +44,7 @@ const Restaurants = () => {
 
   let count = filteredRestaurantCount;
   return (
-    <div className="products-container">
+    <div className="restaurant-container">
       <MetaData title="All Dishes --DinnerDash" />
 
       <Search item="restaurants" />

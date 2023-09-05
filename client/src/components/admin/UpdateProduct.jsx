@@ -62,10 +62,11 @@ const UpdateProduct = () => {
 
   useEffect(() => {
     const storedCategories = localStorage.getItem("categories");
+    console.log(storedCategories);
     if (storedCategories) {
       setCategories(JSON.parse(storedCategories));
     }
-  }, []);
+  }, [categories]);
 
   const handleCategoryChange = useCallback((selectedOptions) => {
     const categories = selectedOptions.map((option) => option.value);

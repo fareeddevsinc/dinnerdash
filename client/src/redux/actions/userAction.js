@@ -151,6 +151,7 @@ export const forgotPassword = (email, alert) => async (dispatch) => {
 
     dispatch({ type: FORGOT_PASSWORD_SUCCESS, payload: data.message });
   } catch (error) {
+    alert.error("User Not Found");
     dispatch({
       type: FORGOT_PASSWORD_FAIL,
       payload: error.response.data.message,

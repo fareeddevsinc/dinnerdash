@@ -64,6 +64,7 @@ const Cart = () => {
       dispatch(removeItemsFromCart(id, alert));
       setNumItems((prevNumItems) => prevNumItems - 1);
       setCartAction(cartAction + 1);
+      location.reload();
     }
   };
 
@@ -71,6 +72,7 @@ const Cart = () => {
     if (user) {
       dispatch(deleteCart());
       setCartAction(cartAction + 1);
+      location.reload();
     }
   };
 

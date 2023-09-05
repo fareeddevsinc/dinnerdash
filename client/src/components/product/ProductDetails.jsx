@@ -71,6 +71,7 @@ const ProductDetails = () => {
     if (user?.role) {
       addToCartHandler(id, quantity, dispatch, addItemsToCart, alert);
     } else {
+      alert.success("Cart Updated");
       let existingCart = JSON.parse(localStorage.getItem("cartItems"));
 
       if (existingCart == null) {

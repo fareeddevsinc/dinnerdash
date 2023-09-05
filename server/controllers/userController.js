@@ -183,6 +183,7 @@ const deleteUser = async (req, res, next) => {
 
 const forgotPassword = async (req, res, next) => {
   try {
+    console.log(req.body.email);
     const user = await User.findOne({ email: req.body.email });
     if (!user) {
       return next(new ErrorHandler("User Not Found", 404));
