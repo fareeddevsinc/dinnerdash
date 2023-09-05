@@ -70,6 +70,7 @@ const ProductDetails = () => {
   const userVerification = () => {
     if (user?.role) {
       addToCartHandler(id, quantity, dispatch, addItemsToCart, alert);
+      alert.success("Cart Updated");
     } else {
       alert.success("Cart Updated");
       let existingCart = JSON.parse(localStorage.getItem("cartItems"));
@@ -205,10 +206,10 @@ const ProductDetails = () => {
                 Description : <p>{product?.description}</p>
               </div>
 
-              {orders.order.some(
+              {orders?.order.some(
                 (order) =>
-                  order.user === user?._id &&
-                  order.orderItems.some((item) => item.product === product._id)
+                  order?.user === user?._id &&
+                  order?.orderItems.some((item) => item.product === product._id)
               ) && (
                 <button onClick={submitReviewToggle} className="submitReview">
                   Submit Review
